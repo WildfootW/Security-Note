@@ -1,6 +1,6 @@
 # My Cybersecurity Note
 
-https://wildfootw.github.io/security-note
+* [GitHub Pages](https://wildfootw.github.io/security-note)
 
 ## Build GitHub Pages
 ### GitBook

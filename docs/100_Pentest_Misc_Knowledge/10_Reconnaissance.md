@@ -1,5 +1,5 @@
 # Penetration Testing Reconnaissance
-###### tags: `security` `recon`
+###### tags: `Security` `Recon`
 
 ## Workflow
 [Recon workflow cheatsheets](https://pentester.land/cheatsheets/2019/03/25/compilation-of-recon-workflows.html#osint-domain-name-by-thegelios)

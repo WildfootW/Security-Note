@@ -1,0 +1,28 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+    - name: Setup PHP
+      uses: shivammathur/setup-php@2.9.0
+      with:
+        php-version: 7.4
+        extensions: mbstring, dom, intl
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+    - name: Generate documentation
+      run: bin/daux generate --value html.plausible_domain=daux.io
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        FOLDER: "static"
+        BRANCH: gh-pages
+        GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}

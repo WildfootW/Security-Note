@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Crypto/Misc.html">Crypto</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Crypto/Hash.html">Hash</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 12:06 AM        </span>
+            February 16, 2021 at 12:07 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/130_Crypto/500_Hash.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,57 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Hash">Hash</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Hash">Hash</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Crypto</code></a></p>
+</li>
+<li>
+<p><a href="#page_Rainbow_Table">Rainbow Table</a></p>
+</li>
+<li>
+<p><a href="#page_SHA1_collision">SHA1 collision</a></p>
+</li>
+<li>
+<p><a href="#page_MD5_Collision">MD5 Collision</a></p>
+</li>
+<li>
+<p><a href="#page_Length_Extension_Attack">Length Extension Attack</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Crypto</code></h6>
+<h3 id="page_Rainbow_Table">Rainbow Table</h3>
+<h3 id="page_SHA1_collision">SHA1 collision</h3>
+<h3 id="page_MD5_Collision">MD5 Collision</h3>
+<h3 id="page_Length_Extension_Attack">Length Extension Attack</h3>
+<p>https://www.youtube.com/watch?v=sawkPgsQPwg</p>
+<p>using tool : HashPump
+https://github.com/bwall/HashPump</p>
+<pre><code>#your token: user=someone
+#your authentication code: 9863bb3cecccfdb82f689e2ddbdcd9c7ea3c069eb73a730d149c3aae2d60b7c0
+#input your token:
+</code></pre>
+<pre><code>hashpump -s &quot;9863bb3cecccfdb82f689e2ddbdcd9c7ea3c069eb73a730d149c3aae2d60b7c0&quot; --data &quot;user=someone&quot; -a &quot;user=admin&quot; -k 44
+
+#-k key長度通常由原始碼得到
+#-a 想要append的字串
+
+e43ae12ce0024abef5a376eebfc2ac7fc5a73d6be3a4b871f203f53e12191b5c
+user=someone\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xc0user=admin
+</code></pre>
+<p>不用pwntools 簡單送 payload</p>
+<pre><code>(python3 -c &quot;import sys; sys.stdout.buffer.write(b'user=someone\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xc0user=admin\ne43ae12ce0024abef5a376eebfc2ac7fc5a73d6be3a4b871f203f53e12191b5c\n')&quot;; cat) | nc oalieno.com.tw 9999
+</code></pre>
+    </div>
 
         <nav>
         <ul class="Pager">

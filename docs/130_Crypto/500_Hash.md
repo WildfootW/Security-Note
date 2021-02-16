@@ -1,0 +1,32 @@
+# Hash
+[TOC]
+###### tags: `Security` `Crypto`
+
+### Rainbow Table
+### SHA1 collision
+### MD5 Collision
+### Length Extension Attack
+https://www.youtube.com/watch?v=sawkPgsQPwg
+
+using tool : HashPump
+https://github.com/bwall/HashPump
+
+```
+#your token: user=someone
+#your authentication code: 9863bb3cecccfdb82f689e2ddbdcd9c7ea3c069eb73a730d149c3aae2d60b7c0
+#input your token:
+```
+
+```
+hashpump -s "9863bb3cecccfdb82f689e2ddbdcd9c7ea3c069eb73a730d149c3aae2d60b7c0" --data "user=someone" -a "user=admin" -k 44
+
+#-k key長度通常由原始碼得到
+#-a 想要append的字串
+
+e43ae12ce0024abef5a376eebfc2ac7fc5a73d6be3a4b871f203f53e12191b5c
+user=someone\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xc0user=admin
+```
+不用pwntools 簡單送 payload
+```
+(python3 -c "import sys; sys.stdout.buffer.write(b'user=someone\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xc0user=admin\ne43ae12ce0024abef5a376eebfc2ac7fc5a73d6be3a4b871f203f53e12191b5c\n')"; cat) | nc oalieno.com.tw 9999
+```

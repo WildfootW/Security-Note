@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Web_Application_Attack/Misc.html">Web Application Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Web_Application_Attack/CSRF_(Cross_site_Request_Forgery).html">CSRF (Cross-site Request Forgery)</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 1:05 AM        </span>
+            February 16, 2021 at 1:21 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/120_Web_Application_Attack/090_CSRF_(Cross-site_Request_Forgery).md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,42 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_CSRF_(Cross_site_Request_Forgery)">CSRF (Cross-site Request Forgery)</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_CSRF_(Cross_site_Request_Forgery)">CSRF (Cross-site Request Forgery)</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Web</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Preventive_measures">Preventive measures</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Server_Side">Server Side</a></p>
+</li>
+<li>
+<p><a href="#page_Client_Side">Client Side</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Web</code></h6>
+<p>當 Request 帶上 Cookie，Server 就沒辦法分辨是不是使用者自主發起的</p>
+<pre><code>&lt;img src=&quot;http://wildfoo.tw/logout&quot;&gt;
+</code></pre>
+<h1 id="page_Preventive_measures">Preventive measures</h1>
+<h2 id="page_Server_Side">Server Side</h2>
+<p>CSRF Token</p>
+<h2 id="page_Client_Side">Client Side</h2>
+<p>SameSite cookie - 跨域請求帶不帶 cookie</p>
+    </div>
 
         <nav>
         <ul class="Pager">

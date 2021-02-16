@@ -1,8 +1,6 @@
 # Metasploit
-###### tags: `Security` `Tools`
 [TOC]
-
----
+###### tags: `Security` `Tools`
 
 # Reference
 [Using exploits](https://www.offensive-security.com/metasploit-unleashed/using-exploits/)

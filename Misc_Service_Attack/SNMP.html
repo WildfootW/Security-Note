@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Misc_Service_Attack/Misc_Services.html">Misc Service Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Misc_Service_Attack/SNMP.html">SNMP</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 12:33 AM        </span>
+            February 16, 2021 at 12:34 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/040_Misc_Service_Attack/030_SNMP.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,106 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_SNMP_Enumeration">SNMP Enumeration</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_SNMP_Enumeration">SNMP Enumeration</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Recon</code> <code>SNMP</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Tools">Tools</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_nmap">nmap</a></p>
+</li>
+<li>
+<p><a href="#page_onesixtyone_(Fast_SNMP_Scanner)">onesixtyone (Fast SNMP Scanner)</a></p>
+</li>
+<li>
+<p><a href="#page_snmpwalk">snmpwalk</a></p>
+</li>
+<li>
+<p><a href="#page_Enyx">Enyx</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Recon</code> <code>SNMP</code></h6>
+<h1 id="page_Tools">Tools</h1>
+<h2 id="page_nmap">nmap</h2>
+<pre><code>nmap -sU --open -p 161 10.11.1.1-254 -oG mega-snmp.txt
+</code></pre>
+<ul>
+<li>find SNMP on UDP port
+<ul>
+<li>
+<code>nmap -sU -sC -oA nmap.udp.log 10.10.10.20</code>
+</li>
+<li>
+<code>nmap -sU -sC -n -p 161 -oA udp 10.10.10.20</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_onesixtyone_(Fast_SNMP_Scanner)">onesixtyone (Fast SNMP Scanner)</h2>
+<ul>
+<li>
+<code>onesixtyone 10.10.10.0/24 public</code>
+</li>
+</ul>
+<h2 id="page_snmpwalk">snmpwalk</h2>
+<ul>
+<li>Tool - <code>snmpwalk -v2c -c public 10.10.10.20</code>
+<ul>
+<li>
+<code>iso.3.6.1.2.1.4.34.1.3.1.4</code>
+</li>
+<li>
+<code>iso.3.6.1.2.1.4.34.1.3.2.16</code>
+</li>
+</ul>
+</li>
+<li>Getting SNMP MIBs Installed and Configured
+<ul>
+<li>
+<code>apt install snmp-mibs-downloader</code>
+</li>
+<li>
+<code>vim /etc/snmp/snmp.conf</code>
+</li>
+<li>
+<img src="https://i.imgur.com/8mX6E5W.png" alt="" />
+</li>
+</ul>
+</li>
+</ul>
+<pre><code># Enumerating the Entire MIB Tree
+snmpwalk -c public -v1 10.11.1.219
+# Enumerating Windows Users
+snmpwalk -c public -v1 10.11.1.204 1.3.6.1.4.1.77.1.2.25
+# Enumerating Running Windows Processes
+snmpwalk -c public -v1 10.11.1.204 1.3.6.1.2.1.25.4.2.1.2
+# Enumerating Open TCP Ports
+snmpwalk -c public -v1 10.11.1.204 1.3.6.1.2.1.6.13.1.3
+# Enumerating Installed Software
+snmpwalk -c public -v1 10.11.1.204 1.3.6.1.2.1.25.6.3.1.2
+</code></pre>
+<pre><code>cat snmpwalk.log | grep IP-FORWARD-MIB::inetCidrRouteIfIndex.ipv6    
+IP-FORWARD-MIB::inetCidrRouteIfIndex.ipv6.&quot;de:ad:be:ef:00:00:00:00:02:50:56:ff:fe:b9:c9:36&quot;.128.3.0.0.7.ipv6.&quot;00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00&quot; = INTEGER: 1
+</code></pre>
+<h2 id="page_Enyx">Enyx</h2>
+<ul>
+<li>Tool - Enyx - SNMPv6 Enumeration via Python</li>
+</ul>
+    </div>
 
         <nav>
         <ul class="Pager">

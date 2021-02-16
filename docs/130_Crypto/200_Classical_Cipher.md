@@ -1,11 +1,8 @@
 # Classical Cipher
+[TOC]
 ###### tags: `Security` `Crypto`
 
-[TOC]
-
----
-
-### Caesar cipher
+## Caesar cipher
 * command : tr
     ```
     echo 'Funny{MyfirstCTF}' | tr xyza-w a-z 
@@ -13,14 +10,14 @@
     ```
 * brute force : https://planetcalc.com/1434/
     
-### Substitution cipher
+## Substitution cipher
     online tool : quip quip
     
-### Transposition cipher
+## Transposition cipher
 * Rail fence cipher
     online tool : http://web.archive.org/web/20071104114600/http://www.simonsingh.net/The_Black_Chamber/railfence.html
 
-### Scytale cipher
+## Scytale cipher
 * online tool : https://www.dcode.fr/scytale-cipher
 
 * command : fold

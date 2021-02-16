@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Web_Application_Attack/Misc.html">Web Application Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Web_Application_Attack/Information_Gathering.html">Information Gathering</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 12:55 AM        </span>
+            February 16, 2021 at 12:56 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/120_Web_Application_Attack/020_Information_Gathering.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,168 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Web_Information_Gathering">Web Information Gathering</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Web_Information_Gathering">Web Information Gathering</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Web</code> <code>Recon</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Certificate">Certificate</a></p>
+</li>
+<li>
+<p><a href="#page_information_leak">information leak</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_What_targets">What targets?</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_config">config</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_methods">methods</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_use_specific_domain">use specific domain</a></p>
+</li>
+<li>
+<p><a href="#page_Web_path_scanner">Web path scanner</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_gobuster">gobuster</a></p>
+</li>
+<li>
+<p><a href="#page_dirsearch"><a href="https://github.com/maurosoria/dirsearch" class="Link--external" rel="noopener noreferrer">dirsearch</a></a></p>
+</li>
+<li>
+<p><a href="#page_DirBuster"><a href="https://www.owasp.org/index.php/Category:OWASP_DirBuster_Project" class="Link--external" rel="noopener noreferrer">DirBuster</a></a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Fingerprint_Scanning">Fingerprint Scanning</a></p>
+</li>
+<li>
+<p><a href="#page_Vulnerability_Scanning">Vulnerability Scanning</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Nikto">Nikto</a></p>
+</li>
+<li>
+<p><a href="#page_WPScan">WPScan</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_firefox_addons">firefox addons</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_flagfox">flagfox</a></p>
+</li>
+<li>
+<p><a href="#page_wappalyzer">wappalyzer</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Web</code> <code>Recon</code></h6>
+<h1 id="page_Certificate">Certificate</h1>
+<ul>
+<li>Domain Enumeration (憑證綁定域名)</li>
+<li>
+<a href="https://crt.sh" class="Link--external" rel="noopener noreferrer">crt.sh</a>
+</li>
+</ul>
+<h1 id="page_information_leak">information leak</h1>
+<ul>
+<li>Username / Password</li>
+<li>Source Code</li>
+<li>Url Route / File Path</li>
+<li>Config</li>
+</ul>
+<h2 id="page_What_targets">What targets?</h2>
+<p>Backup / Version Control / Temporary files</p>
+<ul>
+<li>.git <a href="https://github.com/denny0223/scrabble" class="Link--external" rel="noopener noreferrer">scrabble</a>, <a href="https://github.com/lijiejie/GitHack" class="Link--external" rel="noopener noreferrer">GitHack</a>
+</li>
+<li>.svn</li>
+<li>xxx.php.bak / www.tar.gz / .xxx.php.swp / xxx.php~ / xxx.phps</li>
+<li>.pyc</li>
+<li>robots.txt</li>
+<li>/.xxx</li>
+<li>.DS_Store <a href="https://github.com/lijiejie/ds_store_exp" class="Link--external" rel="noopener noreferrer">DS_Store_exp</a>
+</li>
+<li>.htaccess</li>
+<li>package.json</li>
+<li>server-status</li>
+<li>crossdomain.xml</li>
+<li>admin/ manager/ login/ backup/ wp-login/ phpMyAdmin/</li>
+<li>/WEB-INF/web.xml</li>
+</ul>
+<h3 id="page_config">config</h3>
+<ul>
+<li>apache2 configuration
+identify the path of the webroot.
+<code>/etc/apache2/sites-enabled/000-default.conf</code>
+</li>
+</ul>
+<h2 id="page_methods">methods</h2>
+<h3 id="page_use_specific_domain">use specific domain</h3>
+<p>edit <code>/etc/hosts</code></p>
+<h3 id="page_Web_path_scanner">Web path scanner</h3>
+<h4 id="page_gobuster">gobuster</h4>
+<pre><code>gobuster dir               \
+-w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt \
+-x php,html                \
+-u http://x.x.x.x/         \
+-o dirbust-root.log
+</code></pre>
+<ul>
+<li>
+<code>-x string</code> File extension(s) to search</li>
+</ul>
+<h4 id="page_dirsearch"><a href="https://github.com/maurosoria/dirsearch" class="Link--external" rel="noopener noreferrer">dirsearch</a></h4>
+<h4 id="page_DirBuster"><a href="https://www.owasp.org/index.php/Category:OWASP_DirBuster_Project" class="Link--external" rel="noopener noreferrer">DirBuster</a></h4>
+<h1 id="page_Fingerprint_Scanning">Fingerprint Scanning</h1>
+<ul>
+<li>wafw00f - web application firewall detector</li>
+</ul>
+<h1 id="page_Vulnerability_Scanning">Vulnerability Scanning</h1>
+<h4 id="page_Nikto">Nikto</h4>
+<p>Web server scanner</p>
+<pre><code>perl nikto.pl -h {{192.168.0.1}} -p {{80,88,443}}
+perl nikto.pl -update
+</code></pre>
+<h4 id="page_WPScan">WPScan</h4>
+<p>Wordpress scanner</p>
+<h1 id="page_firefox_addons">firefox addons</h1>
+<ul>
+<li>
+<h3 id="page_flagfox">flagfox</h3>
+</li>
+</ul>
+<p>displays a flag depicting the location of the current server</p>
+<ul>
+<li>
+<h3 id="page_wappalyzer">wappalyzer</h3>
+</li>
+</ul>
+<p>identifies software on the web</p>
+    </div>
 
         <nav>
         <ul class="Pager">

@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Misc_Service_Attack/Misc_Services.html">Misc Service Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Misc_Service_Attack/SMB_SAMBA.html">SMB & SAMBA</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 12:32 AM        </span>
+            February 16, 2021 at 12:33 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/040_Misc_Service_Attack/020_SMB_&_SAMBA.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,117 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_SMBSAMBA_Enumeration_Attacks">SMB/SAMBA Enumeration &amp; Attacks</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_SMBSAMBA_Enumeration_Attacks">SMB/SAMBA Enumeration &amp; Attacks</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Recon</code> <code>SMB</code> <code>SAMBA</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Reference">Reference</a></p>
+</li>
+<li>
+<p><a href="#page_General">General</a></p>
+</li>
+<li>
+<p><a href="#page_Tools">Tools</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_nbtscan">nbtscan</a></p>
+</li>
+<li>
+<p><a href="#page_nmap_NSE_scripts">nmap NSE scripts</a></p>
+</li>
+<li>
+<p><a href="#page_enum4linux">enum4linux</a></p>
+</li>
+<li>
+<p><a href="#page_nmblookup">nmblookup</a></p>
+</li>
+<li>
+<p><a href="#page_smbclient_(null_session)">smbclient (null session)</a></p>
+</li>
+<li>
+<p><a href="#page_rpcclient_(111135)">rpcclient (111/135)</a></p>
+</li>
+<li>
+<p><a href="#page_Metasploit_SMB_auxiliary_scanners">Metasploit SMB auxiliary scanners</a></p>
+</li>
+<li>
+<p><a href="#page_mount">mount</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Recon</code> <code>SMB</code> <code>SAMBA</code></h6>
+<h1 id="page_Reference">Reference</h1>
+<ul>
+<li>
+<a href="http://www.madirish.net/59" class="Link--external" rel="noopener noreferrer">Mad Irish - Hacking Windows shares from Linux with Samba</a>
+</li>
+<li>
+<a href="https://pen-testing.sans.org/blog/2013/07/24/plundering-windows-account-info-via-authenticated-smb-sessions" class="Link--external" rel="noopener noreferrer">SANS - Plundering Windows Account Info via <strong>Authenticated</strong> SMB Sessions</a>
+</li>
+</ul>
+<h1 id="page_General">General</h1>
+<ul>
+<li>
+<code>smbclient -U '' -L //10.10.10.184</code>
+</li>
+<li>
+<code>smbclient -U 'guest' -L //10.10.10.184</code>
+</li>
+<li>
+<code>smbclient -U 'anonymous' -L //10.10.10.184</code>
+</li>
+</ul>
+<h1 id="page_Tools">Tools</h1>
+<h2 id="page_nbtscan">nbtscan</h2>
+<pre><code>nbtscan -r 10.11.1.0/24
+</code></pre>
+<p><img src="https://i.imgur.com/1gvGLPg.png" alt="" /></p>
+<h2 id="page_nmap_NSE_scripts">nmap NSE scripts</h2>
+<pre><code>ls -l /usr/share/nmap/scripts/smb*
+nmap -p 139, 445 --script=smb-os-discovery {{target ip}}
+nmap -p 139, 445 --script=smb-vuln-ms08-067 --script-args=unsafe=1 {{target ip}}
+</code></pre>
+<h2 id="page_enum4linux">enum4linux</h2>
+<p>It is written in Perl and is basically a wrapper around the Samba tools <strong>smbclient</strong>, <strong>rpcclient</strong>, <strong>net</strong> and <strong>nmblookup</strong></p>
+<pre><code>enum4linux -a 10.11.1.227
+</code></pre>
+<p><img src="https://i.imgur.com/LyOwe2f.png" alt="" /></p>
+<h2 id="page_nmblookup">nmblookup</h2>
+<pre><code>nmblookup -A {{target ip}}
+</code></pre>
+<p><a href="http://ubiqx.org/cifs/Appendix-C.html" class="Link--external" rel="noopener noreferrer">Appendix C: Known NetBIOS <strong>Suffix</strong> Values</a></p>
+<pre><code>[name]      [suffix] - [group] [node type] [ACTIVE] [PERMANENT]
+HPB4B52F0559C2  &lt;00&gt; -         B &lt;ACTIVE&gt; &lt;PERMANENT&gt; 
+MSHOME          &lt;00&gt; - &lt;GROUP&gt; B &lt;ACTIVE&gt; &lt;PERMANENT&gt; 
+HPB4B52F0559C2  &lt;20&gt; -         B &lt;ACTIVE&gt; &lt;PERMANENT&gt; 
+HP0559C2        &lt;00&gt; -         B &lt;ACTIVE&gt; &lt;PERMANENT&gt; 
+HP0559C2        &lt;20&gt; -         B &lt;ACTIVE&gt; &lt;PERMANENT&gt; 
+</code></pre>
+<p><img src="https://i.imgur.com/2fnKk0i.png" alt="" /></p>
+<h2 id="page_smbclient_(null_session)">smbclient (null session)</h2>
+<pre><code>smbclient -L {{netbios name}} -I {{target ip}} -U {{username}}
+smbclient //{{server}}/{{service}} -I {{target ip}} -U {{username}}
+</code></pre>
+<h2 id="page_rpcclient_(111135)">rpcclient (111/135)</h2>
+<h2 id="page_Metasploit_SMB_auxiliary_scanners">Metasploit SMB auxiliary scanners</h2>
+<p><a href="https://www.offensive-security.com/metasploit-unleashed/scanner-smb-auxiliary-modules/" class="Link--external" rel="noopener noreferrer">SCANNER SMB AUXILIARY MODULES</a></p>
+<h2 id="page_mount">mount</h2>
+<pre><code>mkdir /mnt/smb
+mount -t cifs -o username=guest //10.10.10.134/Backups /mnt/smb
+</code></pre>
+    </div>
 
         <nav>
         <ul class="Pager">

@@ -1,8 +1,6 @@
 # File Analyze Tools
-###### tags: `Security` `Tools`
 [TOC]
-
----
+###### tags: `Security` `Tools`
 
 # Reference
 [GitHub - zardus](https://github.com/zardus/ctf-tools)

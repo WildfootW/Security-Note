@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Misc_Tools/Misc_Pentesting_Tools.html">Misc Tools</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Misc_Tools/Tools_Google_Hacking.html">Tools-Google Hacking</a></h1>
                 <span class="ModifiedDate">
-            February 15, 2021 at 11:51 PM        </span>
+            February 15, 2021 at 11:52 PM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/900_Misc_Tools/520_Tools-Google_Hacking.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,283 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Google_Hacking">Google Hacking</h1>
+<h6 id="page_tags">tags: <code>Security</code> <code>Tools</code></h6>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Google_Hacking">Google Hacking</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Tools</code></a></p>
+</li>
+<li>
+<p><a href="#page_Alternate_query_types_bei_fen_cha_xun_lei_xing">Alternate query types 備份查詢類型</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_cache">cache</a></p>
+</li>
+<li>
+<p><a href="#page_link">link</a></p>
+</li>
+<li>
+<p><a href="#page_related">related</a></p>
+</li>
+<li>
+<p><a href="#page_info">info</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Other">Other</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_define">define</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Query_modifiers_cha_xun_xiu_shi_fu">Query modifiers 查詢修飾符</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_site">site</a></p>
+</li>
+<li>
+<p><a href="#page_intext">intext</a></p>
+</li>
+<li>
+<p><a href="#page_intitle">intitle</a></p>
+</li>
+<li>
+<p><a href="#page_inurl">inurl</a></p>
+</li>
+<li>
+<p><a href="#page_Filetype">Filetype</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Advanced_operators">Advanced operators</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<hr />
+<h2 id="page_Alternate_query_types_bei_fen_cha_xun_lei_xing">Alternate query types 備份查詢類型</h2>
+<h3 id="page_cache">cache</h3>
+<p><code>cache:www.csie.fju.edu.tw</code>
+查詢某網頁在google中的cache</p>
+<h3 id="page_link">link</h3>
+<p><code>link:www.csie.fju.edu.tw</code>
+查詢所有和網頁有連結的網頁</p>
+<h3 id="page_related">related</h3>
+<p><code>related:www.csie.fju.edu.tw</code>
+列出所有和查詢網頁類似的網頁</p>
+<h3 id="page_info">info</h3>
+<p><code>info:hoschoc.com</code>
+列出某網站在Google上存有哪些資訊
+<img src="https://i.imgur.com/qlFMcUi.png" alt="" /></p>
+<h2 id="page_Other">Other</h2>
+<h3 id="page_define">define</h3>
+<p><code>define:赫蘿</code>
+尋找某字詞在網路上的定義</p>
+<h2 id="page_Query_modifiers_cha_xun_xiu_shi_fu">Query modifiers 查詢修飾符</h2>
+<h3 id="page_site">site</h3>
+<p><code>Usage:&quot;關鍵字 site:網址&quot;</code>
+查詢指定網站內的網頁
+<code>site:tw</code>
+也可以指定國籍</p>
+<h3 id="page_intext">intext</h3>
+<p><code>Intext:台灣</code>
+只想在網頁內文中尋找資料</p>
+<h3 id="page_intitle">intitle</h3>
+<p>只想在網頁標題中尋找資料</p>
+<h3 id="page_inurl">inurl</h3>
+<p>尋找指定的字串在網址列當中</p>
+<h3 id="page_Filetype">Filetype</h3>
+<p><code>filetype:pdf</code>
+<code>filetype:mp3</code></p>
+<h2 id="page_Advanced_operators">Advanced operators</h2>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Purpose</th>
+<th align="center">Mixes with Other Operators?</th>
+<th align="center">Can be used Alone?</th>
+<th align="center">Web</th>
+<th align="center">Images</th>
+<th align="center">Groups</th>
+<th align="center">News</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>intitle</td>
+<td>Search page Title</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td>allintitle</td>
+<td>Search page title</td>
+<td align="center">no</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td>inurl</td>
+<td>Search URL</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">not really</td>
+<td align="center">like intitle</td>
+</tr>
+<tr>
+<td>allinurl</td>
+<td>Search URL</td>
+<td align="center">no</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">like intitle</td>
+</tr>
+<tr>
+<td>filetype</td>
+<td>specific files</td>
+<td align="center">yes</td>
+<td align="center">no</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">no</td>
+<td align="center">not really</td>
+</tr>
+<tr>
+<td>intext</td>
+<td>Search text of page only</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td>allintext</td>
+<td>Search text of page only</td>
+<td align="center">not really</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td>site</td>
+<td>Search specific site</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">no</td>
+<td align="center">not really</td>
+</tr>
+<tr>
+<td>link</td>
+<td>Search for links to pages</td>
+<td align="center">no</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">no</td>
+<td align="center">no</td>
+<td align="center">not really</td>
+</tr>
+<tr>
+<td>inanchor</td>
+<td>Search link anchor text</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">not really</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td>numrange</td>
+<td>Locate number</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">no</td>
+<td align="center">no</td>
+<td align="center">not really</td>
+</tr>
+<tr>
+<td>daterange</td>
+<td>Search in date range</td>
+<td align="center">yes</td>
+<td align="center">no</td>
+<td align="center">yes</td>
+<td align="center">not really</td>
+<td align="center">not really</td>
+<td align="center">not really</td>
+</tr>
+<tr>
+<td>author</td>
+<td>Group author search</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">no</td>
+<td align="center">no</td>
+<td align="center">yes</td>
+<td align="center">not really</td>
+</tr>
+<tr>
+<td>group</td>
+<td>Group name search</td>
+<td align="center">not really</td>
+<td align="center">yes</td>
+<td align="center">no</td>
+<td align="center">no</td>
+<td align="center">yes</td>
+<td align="center">not really</td>
+</tr>
+<tr>
+<td>insubject</td>
+<td>Group subject search</td>
+<td align="center">yes</td>
+<td align="center">yes</td>
+<td align="center">like intitle</td>
+<td align="center">like intitle</td>
+<td align="center">yes</td>
+<td align="center">like intitle</td>
+</tr>
+<tr>
+<td>msgid</td>
+<td>Group msgid search</td>
+<td align="center">no</td>
+<td align="center">yes</td>
+<td align="center">not really</td>
+<td align="center">not really</td>
+<td align="center">yes</td>
+<td align="center">not really</td>
+</tr>
+</tbody>
+</table>
+    </div>
 
         <nav>
         <ul class="Pager">

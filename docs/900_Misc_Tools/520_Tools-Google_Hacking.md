@@ -1,8 +1,6 @@
 # Google Hacking
-###### tags: `Security` `Tools`
 [TOC]
-
----
+###### tags: `Security` `Tools`
 
 ## Alternate query types 備份查詢類型
 ### cache

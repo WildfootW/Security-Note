@@ -1,9 +1,6 @@
 # Vulnerable Target Machine
-###### tags: `Security`
-
 [TOC]
-
----
+###### tags: `Security`
 
 ## Metasploitable 2
 include Mutillidae, DVWA

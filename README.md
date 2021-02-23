@@ -1,5 +1,5 @@
-# My Cybersecurity / Penetration Testing Note
-[**GitHub Pages**](https://wildfootw.github.io/Security-Note/)
+# WildfootW Cybersecurity / Penetration Testing Note
+[**GitHub Pages Link**](https://wildfootw.github.io/Security-Note/)
 
 ## GitHub Action
 * [Using Docker Containers In Jobs - GitHub Actions](https://dev.to/mihinduranasinghe/using-docker-containers-in-jobs-github-actions-3eof)
